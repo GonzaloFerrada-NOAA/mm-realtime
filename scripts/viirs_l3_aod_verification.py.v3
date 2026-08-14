@@ -1,0 +1,527 @@
+import sys, os
+import re
+import csv
+import warnings
+import numpy as np
+import netCDF4 as nc
+from datetime import datetime, timedelta
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+
+sys.path.insert(0, "/scratch3/BMC/gsd-fv3-dev/Gonzalo.Ferrada/.HOME/PYTHON/shared-packages/pyearthsciences")
+import src as es
+from src.ll2lamb import ll2lamb
+
+# =============================================================================
+# Functions
+# =============================================================================
+
+# Levels:
+lev_aod         = np.concatenate([[0, 0.05, 0.1, 0.15], np.arange(2, 11) / 10.0, [1.2, 1.5, 2.0]])
+lev_bias_pos    = np.concatenate([[0.05], np.arange(1, 7) / 10.0])
+lev_bias        = np.sort(np.concatenate([-lev_bias_pos, lev_bias_pos]))
+
+# Colormaps
+cm1 = es.hue([227,227,227], [136,183,211], 5)
+cm2 = es.hue([85,180,94],[251,232,135],[252,170,95],[242,114,69],[194,27,38],[135,27,87],[255,192,203], len(lev_aod) - 1 - 5)
+cmap_aod = ListedColormap(np.vstack((cm1.colors, cm2.colors)))
+cmap_bias = es.hue('pan', len(lev_bias) - 1)
+
+def crop_model_boundaries(model):
+    """Returns the (west, east, south, north) box in degrees to crop a model/VIIRS pair to."""
+    match model:
+        case "HRRR-Smoke":
+            return -140.0, -50.0, 15.0, 55.0
+
+        case "MPAS-Aerosols":
+            return -160.0, -40.0, 10.0, 90.0
+
+        case "RAP-Smoke":
+            return -180.0, 180.0, -20.0, 90.0
+
+        case _:
+            return -180.0, 180.0, 0.0, 90.0
+
+def crop_slice(coord, lo, hi):
+    """Returns the contiguous slice selecting a monotonic 1D coordinate's values within [lo, hi]."""
+    idx = np.flatnonzero((coord >= lo) & (coord <= hi))
+    if idx.size == 0:
+        raise ValueError(f"No coordinates found within [{lo}, {hi}]")
+    return slice(idx[0], idx[-1] + 1)
+
+def load_map_regions(csv_path):
+    """Reads lambert_map_settings.csv into {region: {'ps': [cen_lat, cen_lon], 'axl': [x1, x2, y1, y2], 'mapres': str}}."""
+    regions = {}
+    with open(csv_path, newline='') as f:
+        for row in csv.DictReader(f):
+            regions[row['region']] = {
+                'ps': [float(row['cen_lat']), float(row['cen_lon'])],
+                'axl': [float(row['x1']), float(row['x2']), float(row['y1']), float(row['y2'])],
+                'mapres': row['MapRes'],
+            }
+    return regions
+
+def region_rows(region, map_regions):
+    """Builds the (label, ps, axl, mapres) row list for a map figure: NA+CONUS (2 rows) for
+    region == "CONUS" to match the existing figure, a single row for every other region."""
+    if region == "CONUS":
+        na, conus = map_regions["North_America"], map_regions["CONUS"]
+        return [("NA", na['ps'], na['axl'], na['mapres']),
+                ("CONUS", conus['ps'], conus['axl'], conus['mapres'])]
+    r = map_regions[region]
+    return [(region, r['ps'], r['axl'], r['mapres'])]
+
+def fractional_hour_to_datetime(t, base_date):
+    """Converts fractional hours to a datetime object."""
+    if not np.isfinite(t) or t < 0:
+        return datetime(1900, 1, 1)
+    return base_date + timedelta(milliseconds=int(round(t * 60 * 60 * 1000)))
+
+def is_valid_file(filepath):
+    """Returns True if filepath points to a real, usable file (i.e. not "None"/empty/missing)."""
+    return bool(filepath) and filepath.lower() != "none" and os.path.isfile(filepath)
+
+def build_viirs_label(viirs_files):
+    """Builds a label like 'VIIRS (NOAA20/NOAA21)' from the products with a valid input file."""
+    viirs_display_names = {'snpp': 'SNPP', 'noaa20': 'NOAA20', 'noaa21': 'NOAA21'}
+    available = [viirs_display_names[name] for name in viirs_display_names if is_valid_file(viirs_files.get(name))]
+    return f"VIIRS ({'/'.join(available)})" if available else 'VIIRS'
+
+def viirs_file_date(filepath, fallback_time):
+    """Extracts the date from the VIIRS filename or falls back to initial time."""
+    filename = os.path.basename(filepath)
+    match = re.search(r'_(\d{8})(?:_[^.]+)?\.nc$', filename)
+    if not match:
+        return fallback_time.replace(hour=0, minute=0, second=0, microsecond=0)
+    return datetime.strptime(match.group(1), "%Y%m%d")
+
+def read_model_data(filepath, bounds):
+    """Reads model data from a NetCDF file, cropped to a (west, east, south, north) box in degrees."""
+    west, east, south, north = bounds
+    with nc.Dataset(filepath, 'r') as ds:
+        time_vals = ds.variables['time'][:]
+        # Convert unix seconds to datetime
+        times = np.array([datetime.fromtimestamp(t) for t in time_vals])
+
+        lon_all = ds.variables['lon'][:]
+        lat_all = ds.variables['lat'][:]
+        lon_sl = crop_slice(lon_all, west, east)
+        lat_sl = crop_slice(lat_all, south, north)
+
+        aod = ds.variables['AOD550'][:, lat_sl, lon_sl]
+
+        # Some models report AOD as exactly zero everywhere at the first
+        # time step (spin-up artifact). Left as-is, this drags the model
+        # mean down and biases it low against VIIRS, so flag it as missing.
+        if aod.shape[0] > 0 and np.nansum(aod[0]) == 0:
+            es.msg("  First model time step has zero AOD everywhere, setting to NaN")
+            aod[0] = np.nan
+
+        return {
+            'lon': lon_all[lon_sl],
+            'lat': lat_all[lat_sl],
+            'time': times,
+            'aod': aod
+        }
+
+def replace_bad_viirs_aod(aod):
+    """Replaces invalid or negative AOD values with NaN."""
+    aod[~np.isfinite(aod) | (aod < 0)] = np.nan
+    return aod
+
+def read_viirs_netcdf(filepath, initial_time, bounds):
+    """Reads VIIRS NetCDF, cropped to a (west, east, south, north) box in degrees."""
+    base_date = viirs_file_date(filepath, initial_time)
+    west, east, south, north = bounds
+
+    with nc.Dataset(filepath, 'r') as ds:
+        lon_all = ds.variables['lon'][:]
+        lat_all = ds.variables['lat'][:]
+        lon_sl = crop_slice(lon_all, west, east)
+        lat_sl = crop_slice(lat_all, south, north)
+
+        aod = ds.variables['AOD550'][lat_sl, lon_sl]
+        aod = replace_bad_viirs_aod(aod)
+
+        # Convert fractional UTC hours manually
+        overpass_time = ds.variables['overpass_time'][lat_sl, lon_sl]
+        v_frac_to_dt = np.vectorize(lambda t: fractional_hour_to_datetime(t, base_date))
+        times = v_frac_to_dt(overpass_time)
+
+        return {
+            'lon': lon_all[lon_sl],
+            'lat': lat_all[lat_sl],
+            'time': times,
+            'aod': aod
+        }
+
+def average_aod(*arrays):
+    """Averages any number of AOD arrays, handling NaNs gracefully."""
+    finite_masks = [np.isfinite(a) for a in arrays]
+    count = sum(m.astype(np.int8) for m in finite_masks)
+    total = sum(np.where(m, a, 0.0) for m, a in zip(finite_masks, arrays))
+    return np.divide(total, count, out=np.full(arrays[0].shape, np.nan, dtype=float), where=count > 0)
+
+def write_output_netcdf(filepath, lon, lat, model_mean, viirs_mean):
+    """Writes the processed time-mean data to a NetCDF4 file."""
+    with nc.Dataset(filepath, "w", format="NETCDF4") as ds:
+        ds.createDimension("lon", len(lon))
+        ds.createDimension("lat", len(lat))
+        
+        var_lon = ds.createVariable("lon", "f4", ("lon",))
+        var_lon.long_name = "longitude"
+        var_lon.units = "degrees_east"
+        var_lon[:] = lon
+        
+        var_lat = ds.createVariable("lat", "f4", ("lat",))
+        var_lat.long_name = "latitude"
+        var_lat.units = "degrees_north"
+        var_lat[:] = lat
+        
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                message="Setting the shape on a NumPy array has been deprecated.*",
+                category=DeprecationWarning,
+            )
+            
+            var_mod = ds.createVariable("aod_model", "f4", ("lat", "lon"), zlib=True, complevel=3, fill_value=np.nan)
+            var_mod.long_name = "time-mean model aerosol optical depth"
+            var_mod[:, :] = np.asarray(model_mean, dtype=np.float32)
+            
+            var_obs = ds.createVariable("aod_viirs", "f4", ("lat", "lon"), zlib=True, complevel=3, fill_value=np.nan)
+            var_obs.long_name = "time-mean VIIRS aerosol optical depth"
+            var_obs[:, :] = np.asarray(viirs_mean, dtype=np.float32)
+
+def read_output_netcdf(filepath):
+    """Reads back a per-model time-mean NetCDF file written by write_output_netcdf.
+    The data was already cropped to the model's domain at save time (see crop_model_boundaries),
+    so no further cropping is needed here."""
+    with nc.Dataset(filepath, 'r') as ds:
+        return {
+            'lon': ds.variables['lon'][:],
+            'lat': ds.variables['lat'][:],
+            'aod_model': ds.variables['aod_model'][:],
+            'aod_viirs': ds.variables['aod_viirs'][:],
+        }
+
+def get_metrics(lon, lat, obs, model, origin, axlims):
+    """Computes metrics over the pixels actually visible in a plot panel.
+    origin: Lambert projection specs for that row (the same Origin passed to es.spatial).
+    axlims: [xmin, xmax, ymin, ymax] in projected km for that row (its axl)."""
+    lon2d, lat2d = np.meshgrid(lon, lat) #, indexing='ij')
+    x, y = ll2lamb(lat2d, lon2d, origin)
+    x_f, y_f, lat_f = x.ravel(), y.ravel(), lat2d.ravel()
+    obs_f, model_f = obs.ravel(), model.ravel()
+
+    mask = (x_f >= axlims[0]) & (x_f <= axlims[1]) & (y_f >= axlims[2]) & (y_f <= axlims[3])
+
+    return es.metrics(obs_f[mask], model_f[mask], np.cos(np.radians(lat_f[mask])), metrics_to_show=["R", "MB", "cRMSE"], num_format='.3f')
+    
+def _finalize_grid(axes, axl, ncols):
+    """Shared axis-limit/tick cleanup and layout pass for a 2-row multi-column figure."""
+    nrows = len(axes)
+    for row in range(nrows):
+        for ax in axes[row]:
+            ax.set_xlim(axl[row][0], axl[row][1])
+            ax.set_ylim(axl[row][2], axl[row][3])
+            ax.set_xticks([])
+            ax.set_yticks([])
+
+    es.reorganizeaxes(nrows, ncols, width=300, height=None, spacing_horiz=10, spacing_vert=10,
+                       remove_tick_labels=True, margin=120)
+
+def _finalize_colorbar(cb, nrows, ncols, rotate_labels=False):
+    """Shared colorbar repositioning/tick cleanup, stretched across the full row width."""
+    cb = es.reorganizecolorbar(cb, nrows, ncols, 'bottom', proportion=0.96, extent_axes=[1, ncols])
+    cb.ax.tick_params(labelsize=9.5)
+
+    x0, y0, w, _ = cb.ax.get_position().bounds
+    cb.ax.set_position([x0, y0, w, 0.02])
+
+    cb_ticks = cb.get_ticks()[1:-1]
+    cb_labels = [t.get_text() for t in cb.ax.get_xticklabels()][1:-1]
+    cb.set_ticks(cb_ticks)
+    cb.set_ticklabels(cb_labels)
+    if rotate_labels:
+        plt.setp(cb.ax.get_xticklabels(), rotation=90)
+    return cb
+
+def make_spatial_figure(columns, rows, lev_aod, cmap_aod, initial_time, end_time, viirs_label):
+    """Spatial AOD comparison. columns: list of (label, lon, lat, field) tuples, column 0 is VIIRS.
+    Each column may have its own lon/lat grid, since models can be cropped to different domains.
+    rows: list of (label, ps, axl, mapres) tuples, one per map row -- e.g. NA+CONUS for the CONUS
+    figure, or a single region for everything else."""
+    ncols = len(columns)
+    nrows = len(rows)
+
+    axes = [[None] * ncols for _ in range(nrows)]
+    ids = []
+    cb = None
+
+    for row, (row_label, row_ps, row_axl, row_mapres) in enumerate(rows):
+        for col, (name, lon, lat, field) in enumerate(columns):
+            es.msg(f"{row_label} {name} AOD")
+            ax = plt.subplot(nrows, ncols, row * ncols + col + 1)
+            axes[row][col] = ax
+
+            if col == 0:
+                es.spatial(lon, lat, field, Projection='lambert', Origin=row_ps, Levels=lev_aod,
+                           MapRes=row_mapres, Colormap=cmap_aod, GeoTicks='off', Colorbar='off', MapWidth=0.3)
+            elif cb is None:
+                cb, _ = es.spatial(lon, lat, field, Projection='lambert', Origin=row_ps, Levels=lev_aod,
+                                    MapRes=row_mapres, Colormap=cmap_aod, GeoTicks='off', MapWidth=0.3)
+            else:
+                es.spatial(lon, lat, field, Projection='lambert', Origin=row_ps, Levels=lev_aod,
+                           MapRes=row_mapres, Colormap=cmap_aod, GeoTicks='off', Colorbar='off', MapWidth=0.3)
+
+            if row == 0:
+                ids.append(es.figid(f'{name}', ax=ax, FontName="Nimbus Sans"))
+
+    _finalize_grid(axes, [r[2] for r in rows], ncols)
+    cb = _finalize_colorbar(cb, nrows, ncols)
+    plt.setp(ids, fontsize=11)
+
+    stime1 = initial_time.strftime("%Y-%m-%d %H")
+    stime2 = end_time.strftime("%Y-%m-%d %H")
+    label_str = f"{viirs_label} AOD 550 nm between {stime1}Z and {stime2}Z"
+    axes[0][0].text(0, 1.2, label_str, fontsize=9, transform=axes[0][0].transAxes, family="Nimbus Sans", color=(0.5, 0.5, 0.5))
+
+def make_bias_figure(columns, M, rows, lev_bias, cmap_bias, initial_time, end_time, viirs_label):
+    """Bias (model - VIIRS) comparison. columns: list of (label, lon, lat, field) tuples, one per model.
+    Each column may have its own lon/lat grid, since models can be cropped to different domains.
+    rows: list of (label, ps, axl, mapres) tuples, one per map row -- e.g. NA+CONUS for the CONUS
+    figure, or a single region for everything else.
+    M[i][row] holds the metrics for model i over the pixels shown in that row's panel (see get_metrics)."""
+    ncols = len(columns)
+    nrows = len(rows)
+
+    axes = [[None] * ncols for _ in range(nrows)]
+    ids = []
+    mms = []
+    cb = None
+
+    for row, (row_label, row_ps, row_axl, row_mapres) in enumerate(rows):
+        for col, (name, lon, lat, field) in enumerate(columns):
+            es.msg(f"{row_label} {name} Bias")
+            ax = plt.subplot(nrows, ncols, row * ncols + col + 1)
+            axes[row][col] = ax
+
+            if cb is None:
+                cb, _ = es.spatial(lon, lat, field, Projection='lambert', Origin=row_ps, Levels=lev_bias,
+                                    MapRes=row_mapres, Colormap=cmap_bias, GeoTicks='off', MapWidth=0.3)
+            else:
+                es.spatial(lon, lat, field, Projection='lambert', Origin=row_ps, Levels=lev_bias,
+                           MapRes=row_mapres, Colormap=cmap_bias, GeoTicks='off', Colorbar='off', MapWidth=0.3)
+
+            if row == 0:
+                # ids.append(es.figid(f'Bias: {name} - VIIRS', ax=ax, FontName="Nimbus Sans"))
+                ids.append(es.figid(f"{name} bias", ax=ax, FontName="Nimbus Sans"))
+            # mms.append(ax.text(0.02, 0.01, '\n'.join(M[col][row].Text[2:]), va='bottom', transform=ax.transAxes))
+            # mms.append(ax.text(0.02, 0.01, '\n'.join(M[col][row].Text), va='bottom', transform=ax.transAxes, family="Nimbus Mono PS"))
+            mms.append(es.figid('\n'.join(M[col][row].Text), Location='outright', FontName="Nimbus Mono PS"))
+            ax.set_facecolor((0.8, 0.8, 0.8))
+
+    _finalize_grid(axes, [r[2] for r in rows], ncols)
+    cb = _finalize_colorbar(cb, nrows, ncols, rotate_labels=False)
+    plt.setp(ids, fontsize=11)
+    plt.setp(mms, fontsize=6)
+
+    stime1 = initial_time.strftime("%Y-%m-%d %H")
+    stime2 = end_time.strftime("%Y-%m-%d %H")
+    label_str = f"AOD 550 nm bias against {viirs_label} between {stime1}Z and {stime2}Z"
+    axes[0][0].text(0, 1.2, label_str, fontsize=9, transform=axes[0][0].transAxes, family="Nimbus Sans", color=(0.5, 0.5, 0.5))
+
+
+# =============================================================================
+# Main Execution
+# =============================================================================
+
+if __name__ == "__main__":
+    
+    # Environment Variables
+    MODEL_NAME = os.environ.get("MODEL_NAME", "None")
+    FILE_MODEL = os.environ.get("FILE_MODEL", "None")
+    FILE_NOAA20 = os.environ.get("FILE_NOAA20", "None")
+    FILE_NOAA21 = os.environ.get("FILE_NOAA21", "None")
+    FILE_SNPP = os.environ.get("FILE_SNPP", "None")
+    FILE_OUT = os.environ.get("FILE_OUT", "aod_mean.nc")
+    PATH_FIG = os.environ.get("PATH_FIG", "./")
+    
+    init_time_str = os.environ.get("INITIAL_TIME", "2026-07-12 00:00:00")
+    initial_time = datetime.strptime(init_time_str, "%Y-%m-%d %H:%M:%S")
+    end_time = initial_time + timedelta(hours=24)
+    ymd = initial_time.strftime('%Y-%m-%d')
+    
+    es.msg(f"MODEL_NAME={MODEL_NAME}")
+    es.msg(f"FILE_MODEL={FILE_MODEL}")
+    es.msg(f"FILE_NOAA20={FILE_NOAA20}")
+    es.msg(f"FILE_NOAA21={FILE_NOAA21}")
+    es.msg(f"FILE_SNPP={FILE_SNPP}")
+    es.msg(f"PATH_FIG={PATH_FIG}")
+    
+    opt_save_netcdf = os.getenv("opt_save_netcdf", "False").lower() == "true"
+    opt_make_figure = os.getenv("opt_make_figure", "False").lower() == "true"
+
+
+    if opt_save_netcdf:
+
+        bounds = crop_model_boundaries(MODEL_NAME)
+        es.msg(f"Cropping to (west, east, south, north)={bounds}")
+
+        # 1) Open model data
+        es.msg("Reading model data...")
+        model = read_model_data(FILE_MODEL, bounds)
+
+        # 2) Open VIIRS data (only the products whose file was actually provided)
+        es.msg("Reading VIIRS data...")
+        viirs_files = {'noaa20': FILE_NOAA20, 'noaa21': FILE_NOAA21, 'snpp': FILE_SNPP}
+        viirs_data = {}
+        for name, path in viirs_files.items():
+            if is_valid_file(path):
+                es.msg(f"  {name}: {path}")
+                viirs_data[name] = read_viirs_netcdf(path, initial_time, bounds)
+            else:
+                es.msg(f"  {name}: not provided, skipping")
+
+        if not viirs_data:
+            raise RuntimeError("No valid VIIRS files were provided (FILE_NOAA20, FILE_NOAA21, FILE_SNPP).")
+
+        # Initialize accumulators
+        shape_viirs = next(iter(viirs_data.values()))['aod'].shape
+        shape_model = model['aod'].shape[1:] # Assuming (time, lat, lon)
+
+        viirs_sum   = np.zeros(shape_viirs, dtype=float)
+        viirs_count = np.zeros(shape_viirs, dtype=int)
+        model_sum   = np.zeros(shape_model, dtype=float)
+        model_count = np.zeros(shape_model, dtype=int)
+
+        es.msg("Hourly merging...")
+        for t in model['time'][:24]:
+            t0 = t - timedelta(minutes=30)
+            t1 = t + timedelta(minutes=29)
+
+            idx_model  = (model['time'] >= t0)  & (model['time'] <= t1)
+
+            # Model hour average
+            with np.errstate(invalid='ignore'):
+                model_aod_hour = np.nanmean(model['aod'][idx_model, :, :], axis=0)
+
+            # VIIRS hour matrices (one per available product)
+            viirs_aod_hours = []
+            for data in viirs_data.values():
+                idx = (data['time'] >= t0) & (data['time'] <= t1)
+                aod_hour = np.full(shape_viirs, np.nan, dtype=np.float32)
+                aod_hour[idx] = data['aod'][idx]
+                viirs_aod_hours.append(aod_hour)
+
+            viirs_aod_hour = average_aod(*viirs_aod_hours)
+
+            # Valid accumulations
+            valid_viirs = np.isfinite(viirs_aod_hour)
+            viirs_sum[valid_viirs] += viirs_aod_hour[valid_viirs]
+            viirs_count[valid_viirs] += 1
+            
+            # Map valid VIIRS spaces to Model spaces
+            model_aod_hour_values = np.copy(model_aod_hour)
+            model_aod_hour_values[~valid_viirs] = np.nan
+            
+            valid_model = np.isfinite(model_aod_hour_values)
+            model_sum[valid_model] += model_aod_hour_values[valid_model]
+            model_count[valid_model] += 1
+            
+        viirs_mean = np.full(shape_viirs, np.nan)
+        model_mean = np.full(shape_model, np.nan)
+        
+        valid_viirs_mean = viirs_count > 0
+        valid_model_mean = model_count > 0
+        
+        es.msg("Computing time-mean and model AOD fields...")
+        viirs_mean[valid_viirs_mean] = viirs_sum[valid_viirs_mean] / viirs_count[valid_viirs_mean]
+        model_mean[valid_model_mean] = model_sum[valid_model_mean] / model_count[valid_model_mean]
+        bias_mean = model_mean - viirs_mean
+    
+        es.msg("Saving NetCDF output...")
+        write_output_netcdf(FILE_OUT, model['lon'], model['lat'], model_mean, viirs_mean)
+        es.msg(f"Saved NetCDF output to {FILE_OUT}")
+
+        
+        
+    if opt_make_figure:
+        es.msg("Plotting...")
+
+        # Read the models in current model_type:
+        model_names_all = os.environ["MODEL_NAMES"].split()
+        model_files_all = os.environ["FILE_OUT"].split()
+        
+        # labels for output figure name
+        stime1 = initial_time.strftime("%Y-%m-%d_%H")
+        stime2 = end_time.strftime("%Y-%m-%d_%H")
+        
+        # Regions to plot:
+        regions = ["CONUS", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10"]
+        # regions = ["R8"]
+        regions_csv_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lambert_map_settings.csv")
+        map_regions = load_map_regions(regions_csv_file)
+
+
+        if len(model_names_all) != len(model_files_all):
+            raise RuntimeError(f"MODEL_NAMES ({len(model_names_all)}) and FILE_OUT ({len(model_files_all)}) counts must match.")
+        
+        
+        # Skip models whose NetCDF output is "None" (e.g. that model wasn't run for this cycle)
+        model_names, model_files = [], []
+        for name, path in zip(model_names_all, model_files_all):
+            if is_valid_file(path):
+                model_names.append(name)
+                model_files.append(path)
+            else:
+                es.msg(f"  {name}: no NetCDF output ({path}), skipping")
+
+        if not model_files:
+            raise RuntimeError("No valid per-model NetCDF outputs were provided (FILE_OUT).")
+
+        viirs_files = {'noaa20': FILE_NOAA20, 'noaa21': FILE_NOAA21, 'snpp': FILE_SNPP}
+        viirs_label = build_viirs_label(viirs_files)
+
+        # Each model's NetCDF was cropped to its own domain at save time (see crop_model_boundaries),
+        # so lon/lat can differ from one model to the next -- keep them paired per column.
+        es.msg("Reading per-model NetCDF output...")
+        outputs = [read_output_netcdf(f) for f in model_files]
+
+        # spatial_columns = [(viirs_label, outputs[0]['lon'], outputs[0]['lat'], outputs[0]['aod_viirs'])]
+        spatial_columns = [(viirs_label, outputs[0]['lon'], outputs[0]['lat'], outputs[0]['aod_viirs'])]
+        spatial_columns += [(name, o['lon'], o['lat'], o['aod_model']) for name, o in zip(model_names, outputs)]
+        
+        # Plot spatial_overlay
+        for region in regions:
+            rows = region_rows(region, map_regions)
+
+            make_spatial_figure(spatial_columns, rows, lev_aod, cmap_aod, initial_time, end_time, viirs_label)
+
+            fig_out = f"{PATH_FIG}/plot_grp2.spatial_overlay.aod_500nm.{stime1}.{stime2}.{region}.VIIRS_{ymd}-12Z.png"
+            plt.gcf().savefig(fig_out, bbox_inches='tight', dpi=200)
+            plt.close('all')
+            es.msg(f"{fig_out} saved!")
+
+
+        # Plot spatial_bias
+        bias_columns = [(name, o['lon'], o['lat'], o['aod_model'] - o['aod_viirs'])
+                         for name, o in zip(model_names, outputs)]
+
+        for region in regions:
+            rows = region_rows(region, map_regions)
+
+            M = [[get_metrics(o['lon'], o['lat'], o['aod_viirs'], o['aod_model'], row_ps, row_axl)
+                  for (_, row_ps, row_axl, _) in rows]
+                 for o in outputs]
+
+            make_bias_figure(bias_columns, M, rows, lev_bias, cmap_bias, initial_time, end_time, viirs_label)
+
+            fig_out = f"{PATH_FIG}/plot_grp3.spatial_bias.aod_500nm.{stime1}.{stime2}.{region}.VIIRS_{ymd}-12Z.png"
+            plt.gcf().savefig(fig_out, bbox_inches='tight', dpi=200)
+            plt.close('all')
+            es.msg(f"{fig_out} saved!")
+

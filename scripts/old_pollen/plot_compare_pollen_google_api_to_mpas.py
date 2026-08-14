@@ -1,0 +1,203 @@
+from netCDF4 import Dataset
+import matplotlib.image as mpimg
+import xarray as xr
+import numpy as np
+import matplotlib as mpl
+mpl.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.cm import get_cmap
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+from cartopy.feature import NaturalEarthFeature
+import matplotlib.colors as mcolors
+from matplotlib.colors import ListedColormap, BoundaryNorm, LinearSegmentedColormap
+import matplotlib.colorbar as colorbar
+import wrf
+import math
+import sys
+from PIL import Image
+#
+# ${YYYY}${MM}${DD} ${model_file} ${model_file_regridded} ${obs_data}
+#
+
+TILE_SIZE = 256
+WEB_MERCATOR_LIMIT = 20037508.342789244
+zoom = 5
+
+def tile_bounds_mercator(x_min ,x_max, y_min, y_max, zoom):
+   scale = 2 ** zoom
+   resolution = ( 2 * WEB_MERCATOR_LIMIT ) / (scale * TILE_SIZE)
+   
+   x0 = x_min * TILE_SIZE * resolution - WEB_MERCATOR_LIMIT
+   x1 = x_max * TILE_SIZE * resolution - WEB_MERCATOR_LIMIT
+   y1 = WEB_MERCATOR_LIMIT - y_min * TILE_SIZE * resolution
+   y0 = WEB_MERCATOR_LIMIT - y_max * TILE_SIZE * resolution
+   return [x0,x1,y0,y1]
+
+
+
+def tile_to_mercator_bounds(x_min, x_max, y_min, y_max, z):
+    def pixel_to_meters(p, z):
+        res = 2 * WEB_MERCATOR_LIMIT / (2 ** z * TILE_SIZE)
+        return p * res - WEB_MERCATOR_LIMIT
+    px_min = x_min * TILE_SIZE
+    px_max = x_max * TILE_SIZE
+    py_min = y_min * TILE_SIZE
+    py_max = y_max * TILE_SIZE
+
+    x0 = pixel_to_meters(px_min, z)
+    x1 = pixel_to_meters(px_max, z)
+    y1 = WEB_MERCATOR_LIMIT - pixel_to_meters(py_min, z)
+    y0 = WEB_MERCATOR_LIMIT - pixel_to_meters(py_max, z)
+    return [x0, x1, y0, y1]
+
+def tile_to_latlon(x,y,zoom):
+   n = 2.0 ** zoom
+   lon = x / n * 360.0 - 180.
+   lat_rad = math.atan(math.sinh(math.pi * ( 1 - 2 * y / n)))
+   lat = math.degrees(lat_rad)
+   return lat,lon
+
+def add_common_features_nostates(ax):
+    ax.set_extent([-140, -50, 20, 60], crs=ccrs.PlateCarree())
+    ax.add_feature(cfeature.COASTLINE)
+
+# Print all arguments, including the script name
+print("All arguments:", sys.argv)
+
+
+fcst_type            = int(sys.argv[1]) # 0 = obs, 1 = one day ahead forecast, 2 = two day ahead...
+obs_path             = sys.argv[2]
+mdl_path             = sys.argv[3]
+yesterday            = sys.argv[4] # Current day of analysis (2 days behind real time)
+today                = sys.argv[5]
+tomorrow             = sys.argv[6]
+cycleHH              = sys.argv[7]
+outdir               = sys.argv[8]
+
+
+rot_proj=wrf.getproj(map_proj='RotatedLatLon',moad_cen_lat=54.,stand_lon=106.,pole_lat=36.,pole_lon=180)
+
+white = plt.get_cmap('Greys', 2)([0])  # Pure white
+blues = plt.get_cmap('Blues', 6)(range(1, 5))  # Middle blues
+green_yellow_red = plt.get_cmap('RdYlGn_r', 18)([1, 3, 5, 9, 12, 13, 14, 16, 17])  # Corrected indices
+purple = np.array([mpl.colors.to_rgba('xkcd:vivid purple')])  # Specific purple color
+dark_red = np.array([mpl.colors.to_rgba('darkred')]) 
+# Concatenate all color segments
+cbar_colors = np.concatenate((white, blues, green_yellow_red, dark_red))
+# Create a custom LinearSegmentedColormap
+newcmp = mpl.colors.LinearSegmentedColormap.from_list("custom_cmap", cbar_colors, N=len(cbar_colors))
+newcmp.set_over(purple)
+#lvls = [0., 10., 25., 50., 100., 250., 500., 750., 1000., 1500., 2000., 2500., 5000., 7500., 10000.] #
+lvls = [0., 10., 25., 50., 100., 250., 500., 750., 1000., 1500., 2000., 2500., 3000., 4000., 5000.] #
+
+norm = mpl.colors.BoundaryNorm(lvls, newcmp.N)
+obs_species_list = ["TRE","GRA","WEE"]
+mdl_species_list = ["polp_tree","polp_grass","polp_weed"]
+titles = ['Tree','Grass','Weed']
+nspecies = len(obs_species_list)
+#
+polp_conv = 1.e9 / ( 4./3. * 3.14 * 25.**3. * 1200.)
+
+mdl_knt=0
+obs_knt=0
+obs_clrs = ['gray','green','limegreen','yellow','orange','red']
+
+for ispec in obs_species_list:
+   fig,axes = plt.subplots(1,2,figsize=(12, 6),subplot_kw={'projection': ccrs.PlateCarree()})
+   #fig,axes = plt.subplots(1,2,figsize=(12, 6))
+   fig.subplots_adjust(bottom=0.5, wspace=0.05)
+   axes = axes.flatten()
+   knt = 0
+   print("wokring on " + ispec)
+   if fcst_type == 0:
+      obs_fname  = obs_path + '/' + today + '12/' + ispec + '_google_' + today + '.png'
+      model_file = mdl_path + '/' + today + cycleHH + '/' + 'aqm_MPAS-Aerosols_' + today + cycleHH + '_pollen_average.nc'
+      model_file_regridded = mdl_path + '/' + today + cycleHH + '/' + 'aqm_MPAS-Aerosols_' + today + cycleHH + '_pollen_average_regridded.nc'
+      figtitle   = 'Google ' + titles[obs_knt] + ' Pollen API for ' + today + ' vs. MPAS-Aerosols 1 day-forecast '
+   elif fcst_type == 1:
+      obs_fname = obs_path + '/' + tomorrow + '12/' + ispec + '_google_' + tomorrow + '.nc'
+      model_file = mdl_path + '/' + tomorrow + cycleHH + '/' + 'aqm_MPAS-Aerosols_' + tomorrow + cycleHH + '_pollen_average.nc'
+      model_file_regridded = mdl_path + '/' + tomorrow + cycleHH + '/' + 'aqm_MPAS-Aerosols_' + tomorrow + cycleHH + '_pollen_average_regridded.nc'
+      figtitle   = 'PollenSense Forecast for ' + tomorrow + ' produced on ' +  tomorrow + ' vs. MPAS-Aerosols 1-day forecast'
+   elif fcst_type == 2:
+      obs_fname = obs_path + '/' + yesterday + '12/' + ispec + '_google_' + today + '.nc'
+      model_file = mdl_path + '/' + today + cycleHH + '/' + 'aqm_MPAS-Aerosols_' + tomorrow + cycleHH + '_pollen_average.nc'
+      model_file_regridded = mdl_path + '/' + today + cycleHH + '/' + 'aqm_MPAS-Aerosols_' + tomorrow + cycleHH + '_pollen_average_regridded.nc'
+      figtitle   = 'PollenSense Forecast for ' + today + ' produced on ' + yesterday + ' vs. MPAS-Aerosols 2-day forecast'
+   else:
+      print("unrecognized forecast type/figure option, quitting")
+      exit()
+
+   #img = mpimg.imread(obs_fname)
+   #img2=np.array(img)
+   img = Image.open(obs_fname)
+   tile_size = 256
+   obs_width = 9*256
+   obs_height = 6*256
+
+   x_start = 3
+   x_end = 11
+   y_start = 9
+   y_end = 14
+
+   lat1,lon1=tile_to_latlon(x_start,y_start,zoom)
+   lat2,lon2=tile_to_latlon(x_end+1,y_end+1,zoom)
+   left_lon = -146.25
+   right_lon = -45.00
+   bottom_lat = 11.178402
+   top_lat = 61.606396
+
+   extent = [lon1,lon2,lat2,lat1]
+
+   extent_M_2 = tile_bounds_mercator(x_start,x_end+1,y_start,y_end+1,zoom)
+   #
+   mdl_fid   = Dataset(model_file)
+   mdl_lons  = np.asarray(mdl_fid.variables['lon'])
+   mdl_lats  = np.asarray(mdl_fid.variables['lat'])
+   mdl_temp  = np.asarray(mdl_fid.variables['T']).squeeze() + 273.15
+   test_fid  = Dataset('/mnt/lfs5/BMC/rtwbl/rap-chem/mpas_rt/input/grids/domain_latlons/mpas_conus12km_init.nc')
+   mdl_cart_proj = wrf.get_basemap(wrfin=test_fid,varname='T')
+   mdl_pres  = np.asarray(mdl_fid.variables['P']).squeeze() + np.asarray(mdl_fid.variables['PB']).squeeze()
+   mdl_dens = ((1./287.)*(mdl_pres[:,:]/mdl_temp[:,:]))
+   mdl_pollen= polp_conv * np.asarray(mdl_fid.variables[mdl_species_list[mdl_knt]]).squeeze() * mdl_dens.squeeze() 
+   mdl_pollen_log = np.log10(mdl_pollen)
+   #
+   # Obs 
+
+   obs_cmap = mcolors.ListedColormap(obs_clrs)
+   obs_bnds = np.arange(7) - 0.5
+   obs_norm = mpl.colors.BoundaryNorm(obs_bnds, obs_cmap.N)
+   np_image = np.array(img)
+   print(np_image.shape)
+   if (len(np_image.shape) == 2):
+      print("Image for " + ispec + " is blank, skipping")
+      continue
+   
+
+   im1 = axes[2*knt].imshow(np.array(img), extent=extent_M_2, origin='upper',norm=obs_norm,cmap=obs_cmap,transform=ccrs.Mercator.GOOGLE)
+   add_common_features_nostates(axes[2*knt])
+
+   expected_width = (x_end - x_start + 1)*TILE_SIZE
+   expected_height = (y_end - y_start + 1)*TILE_SIZE
+   print("Image size: ",img.size,"expected:",(expected_width,expected_height))
+
+   obs_cbar = fig.colorbar(im1,ax=axes[2*knt],boundaries=obs_bnds,ticks=np.arange(6),spacing='proportional',orientation='horizontal', aspect=100, pad=0.025, location='bottom')
+   obs_cbar.set_ticklabels(['None','Very Low','Low','Moderate','High','Very High'])
+   axes[2*knt].set_title('Google API')
+   obs_cbar.set_label(titles[obs_knt] + ' Pollen Index', fontsize=12)
+
+   # Model
+   contour2 = axes[2*knt+1].contourf(mdl_lons, mdl_lats, mdl_pollen, levels=lvls, norm=norm, cmap=newcmp,transform=ccrs.PlateCarree(),projection=ccrs.PlateCarree())
+   add_common_features_nostates(axes[2*knt+1])
+   axes[2*knt+1].set_title("MPAS-Aerosols (experimental)")
+   # Add a shared colorbar
+   cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=newcmp), ax=axes[1], orientation='horizontal', aspect=100, pad=0.025, extend='both', spacing='uniform', ticks=lvls, location='bottom')
+   cbar.set_ticklabels(['0','','25','','100','','500','','1000','','2000','','3000','','5000'])
+   cbar.set_label(titles[obs_knt] + ' Pollen Count (grains m$^{-3}$)', fontsize=12)
+   cbar.ax.tick_params(labelsize=8)
+   fig.suptitle(figtitle, fontsize=14)
+#
+   plt_name = 'plot_grp3.pollen_'+ispec+'_'+today+'_Google_MPAS-Aerosols_CONUS_'+str(fcst_type) + '.png'
+   plt.savefig(outdir + '/' + plt_name, format='png',bbox_inches='tight')
+   obs_knt = obs_knt + 1

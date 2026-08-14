@@ -1,0 +1,4 @@
+# || Model Name || Model Type/monetio reader || Inits || Run Length ||  Relative Day to Obs (e.g., N, N-1) || Color Indicator  || Marker || Species & Mapping
+NCAR-AQ-WATCH,wrfchem,00,48,-1,orange,x,-,co:CO/no2:NO2/PM2_5_DRY:PM2.5/PM10:PM10/o3:OZONE/AOD_550:aod_550nm/T2:TEMP/AOD_550:AOD550_MODIS_AQUA/AOD_550:AOD550_MODIS_TERRA
+UFS-AQM,rrfs,06/12,72/72,-1/-2,lime/lime,x/x,-/--,no2:NO2/PM25_TOT:PM2.5/o3:OZONE
+MPAS-Aerosols,wrfchem,00/00,24/24,-1/0,red/red,x/x,-/--,T2:TEMP/PM2_5:PM2.5/VIS:vsb/WIND10MEAN:ws/PRECIP_1HR:precip_1hr/PM10:PM10

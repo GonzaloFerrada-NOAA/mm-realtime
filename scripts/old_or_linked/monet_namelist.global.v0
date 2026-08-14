@@ -1,0 +1,6 @@
+# || Model Name || Model Type/monetio reader || Inits || Run Length ||  Relative Day to Obs (e.g., N, N-1) || Color Indicator  || Marker || Species & Mapping
+ECMWF-CAMS,hrrr,00,41,-1,gray,x,-,pm2p5:PM2.5/aod550:aod_550nm/pm10:PM10/go3:OZONE/no2:NO2/co:CO/aod55:AOD550_MODIS_AQUA/aod550:AOD550_MODIS_TERRA
+GEOS-CF,hrrr,12,120,-2,cyan,x,-,CO:CO/NO2:NO2/PM25_RH35_GCC:PM2.5/O3:OZONE/AOD_550:aod_550nm/AOD_550:AOD550_MODIS_AQUA/AOD_550:AOD550_MODIS_TERRA
+GEFS-Aerosols,hrrr,00,120,-2,green,x,-,PM2_5_DRY:PM2.5/AOD550:aod_550nm/PM10:PM10/AOD550:AOD550_MODIS_AQUA/AOD550:AOD550_MODIS_TERRA
+RAQMS,raqms,00,48,-1,hotpink,x,-,pm25:PM2.5/pm10:PM10/aod:aod_550nm/tsfc:TEMP/o3vmr:OZONE/ino2:NO2/ico:CO/aod:AOD550_MODIS_AQUA/aod:AOD550_MODIS_TERRA
+NAAPS,hrrr,06/18,78,-1/-2,navy/navy,x/x,-/--,PM2_5_DRY:PM2.5/AOD_550:aod_550nm/AOD_550:AOD550_MODIS_AQUA/AOD_550:AOD550_MODIS_TERRA
