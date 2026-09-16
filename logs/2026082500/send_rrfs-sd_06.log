@@ -1,0 +1,1369 @@
++ FCST_LENGTH_HOURS=48
++ NGROUPS=6
++ GROUP=6
+++ date -d 20260825 +%Y
++ YYYY=2026
+++ date -d 20260825 +%m
++ MM=08
+++ date -d 20260825 +%d
++ DD=25
++ YYYYMMDD=20260825
++ model=RRFS-SD
++ model2=RRFS-A
++ MODEL_DT=1
++ datadir=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00
++ workdir=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500
++ mkdir -p /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500
++ final_fout=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/aqm_RRFS-SD_2026082500.nc
++ final_fout2=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/aqm_RRFS-A_2026082500.nc
++ [[ 0 -eq 1 ]]
++ get_group_leads 48 1 6 6
++ local fcst_length_hours=48
++ local model_dt=1
++ local ngroups=6
++ local group=6
++ local n_times base remainder n_group_times start_idx end_idx
++ n_times=49
++ base=8
++ remainder=1
++ ((  group <= remainder  ))
++ n_group_times=8
++ start_idx=41
++ end_idx=48
++ LEAD_HH_START=41
++ LEAD_HH_END=48
++ (( hh=LEAD_HH_START ))
++ (( hh<=LEAD_HH_END ))
++ printf -v HHH %03d 41
++ fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ fout=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ local file=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ [[ ! -s /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 ]]
++ echo ==============================================================================
+==============================================================================
++ echo 'Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc'
+Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ echo 'Extracting GRIB2 variables...'
+Extracting GRIB2 variables...
++ extract_grib AOTK /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_aod.nc AOTK_entireatmosphere_consideredasasinglelayer_ AOD550
++ local match=AOTK
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_aod.nc
++ local rename_from=AOTK_entireatmosphere_consideredasasinglelayer_
++ local rename_to=AOD550
++ wgrib2 -nc_nlev 1 -match AOTK -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_aod.nc
+netcdf: doesn't support yet grid_template 1
+147:777235157:d=2026082500:AOTK:entire atmosphere (considered as a single layer):41 hour fcst:
++ [[ -n AOTK_entireatmosphere_consideredasasinglelayer_ ]]
++ ncrename -h -v AOTK_entireatmosphere_consideredasasinglelayer_,AOD550 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_aod.nc
++ extract_grib DSWRF /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dswrf.nc '' ''
++ local match=DSWRF
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dswrf.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match DSWRF -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dswrf.nc
+netcdf: doesn't support yet grid_template 1
+173:1012521721:d=2026082500:DSWRF:surface:40-41 hour ave fcst:
+180:1069474850:d=2026082500:DSWRF:surface:41 hour fcst:
++ [[ -n '' ]]
++ extract_grib VIS /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_vis.nc '' ''
++ local match=VIS
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_vis.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match VIS -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_vis.nc
+netcdf: doesn't support yet grid_template 1
+5:26463754:d=2026082500:VIS:surface:41 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'HGT:cloud ceiling' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_ceil.nc '' ''
++ local 'match=HGT:cloud ceiling'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_ceil.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match 'HGT:cloud ceiling' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_ceil.nc
+netcdf: doesn't support yet grid_template 1
+165:906193487:d=2026082500:HGT:cloud ceiling:41 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'Dust dry:aerosol_size <2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_fine.nc MASSDEN_8maboveground dust_fine
++ local 'match=Dust dry:aerosol_size <2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_fine.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_fine
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size <2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_fine.nc
+netcdf: doesn't support yet grid_template 1
+84:513175119:d=2026082500:MASSDEN:8 m above ground:41 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
+149:798241897:d=2026082500:COLMD:entire atmosphere (considered as a single layer):41 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_fine.nc
++ extract_grib 'Dust dry:aerosol_size >=2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_coarse.nc MASSDEN_8maboveground dust_coarse
++ local 'match=Dust dry:aerosol_size >=2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_coarse
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size >=2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_coarse.nc
+netcdf: doesn't support yet grid_template 1
+87:523223916:d=2026082500:MASSDEN:8 m above ground:41 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
+150:802471892:d=2026082500:COLMD:entire atmosphere (considered as a single layer):41 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ extract_grib organic /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_smoke.nc MASSDEN_8maboveground smoke
++ local match=organic
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_smoke.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=smoke
++ wgrib2 -nc_nlev 1 -match organic -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_smoke.nc
+netcdf: doesn't support yet grid_template 1
+83:508910171:d=2026082500:MASSDEN:8 m above ground:41 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+148:791395587:d=2026082500:COLMD:entire atmosphere (considered as a single layer):41 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+153:816424354:d=2026082500:AEMFLX:entire atmosphere (considered as a single layer):41 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_smoke.nc
++ extract_grib ':(UGRD|VGRD):10 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_wind.nc '' ''
++ local 'match=:(UGRD|VGRD):10 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_wind.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(UGRD|VGRD):10 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_wind.nc
+netcdf: doesn't support yet grid_template 1
+88:525210977:d=2026082500:UGRD:10 m above ground:41 hour fcst:
+89:536815085:d=2026082500:VGRD:10 m above ground:41 hour fcst:
++ [[ -n '' ]]
++ extract_grib ':(DPT|TMP):2 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_temp.nc '' ''
++ local 'match=:(DPT|TMP):2 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_temp.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(DPT|TMP):2 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_temp.nc
+netcdf: doesn't support yet grid_template 1
+74:424281084:d=2026082500:TMP:2 m above ground:41 hour fcst:
+76:444697855:d=2026082500:DPT:2 m above ground:41 hour fcst:
++ [[ -n '' ]]
++ extract_grib APCP /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_precip.nc '' ''
++ local match=APCP
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_precip.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match APCP -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f041.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_precip.nc
+netcdf: doesn't support yet grid_template 1
+97:588492244:d=2026082500:APCP:surface:40-41 hour acc fcst:
+98:592068933:d=2026082500:APCP:surface:0-41 hour acc fcst:
++ [[ -n '' ]]
++ echo 'Calculations (ncap2)...'
+Calculations (ncap2)...
++ ncap2 -O -h -s 'WIND_10maboveground=float(sqrt(UGRD_10maboveground^2 + VGRD_10maboveground^2))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'WDIR_10maboveground=float(180.+(180./3.14159)*atan2(UGRD_10maboveground,VGRD_10maboveground))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'TMP_2maboveground=float(TMP_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'DPT_2maboveground=float(DPT_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'dust_fine=float(1.e9*dust_fine)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_fine.nc
++ ncap2 -O -h -s 'dust_coarse=float(1.e9*dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ ncap2 -O -h -s 'smoke=float(1.e9*smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_smoke.nc
++ ncap2 -O -h -s 'VIS_surface=float(0.000621371*VIS_surface)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_vis.nc
++ ncap2 -O -h -s 'where(VIS_surface>10.0) VIS_surface=10.0' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_vis.nc
++ echo 'Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc...'
+Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc...
++ ncks -A -h /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v DSWRF_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v VIS_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v HGT_cloudceiling /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v WIND_10maboveground,WDIR_10maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v TMP_2maboveground,DPT_2maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v APCP_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ echo 'Deleting intermediate files...'
+Deleting intermediate files...
++ rm -f /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500_wind.nc
++ echo 'Final calculations...'
+Final calculations...
++ ncap2 -h -O -s 'pm25=float(dust_fine+smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s 'pm10=float(pm25+dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s lat=latitude -s lon=longitude /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ ncks -h -O -x -v hlevel /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ echo Compressing...
+Compressing...
++ ncks -O -4 -L 3 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ local file=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc
++ [[ ! -s /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc ]]
++ echo '/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc created!'
+/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_041_aqm_RRFS-SD_2026082500.nc created!
++ (( hh+=MODEL_DT  ))
++ (( hh<=LEAD_HH_END ))
++ printf -v HHH %03d 42
++ fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ fout=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ local file=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ [[ ! -s /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 ]]
++ echo ==============================================================================
+==============================================================================
++ echo 'Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc'
+Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ echo 'Extracting GRIB2 variables...'
+Extracting GRIB2 variables...
++ extract_grib AOTK /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_aod.nc AOTK_entireatmosphere_consideredasasinglelayer_ AOD550
++ local match=AOTK
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_aod.nc
++ local rename_from=AOTK_entireatmosphere_consideredasasinglelayer_
++ local rename_to=AOD550
++ wgrib2 -nc_nlev 1 -match AOTK -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_aod.nc
+netcdf: doesn't support yet grid_template 1
+147:766355063:d=2026082500:AOTK:entire atmosphere (considered as a single layer):42 hour fcst:
++ [[ -n AOTK_entireatmosphere_consideredasasinglelayer_ ]]
++ ncrename -h -v AOTK_entireatmosphere_consideredasasinglelayer_,AOD550 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_aod.nc
++ extract_grib DSWRF /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dswrf.nc '' ''
++ local match=DSWRF
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dswrf.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match DSWRF -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dswrf.nc
+netcdf: doesn't support yet grid_template 1
+173:1005507746:d=2026082500:DSWRF:surface:41-42 hour ave fcst:
+180:1064211729:d=2026082500:DSWRF:surface:42 hour fcst:
++ [[ -n '' ]]
++ extract_grib VIS /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_vis.nc '' ''
++ local match=VIS
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_vis.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match VIS -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_vis.nc
+netcdf: doesn't support yet grid_template 1
+5:27006037:d=2026082500:VIS:surface:42 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'HGT:cloud ceiling' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_ceil.nc '' ''
++ local 'match=HGT:cloud ceiling'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_ceil.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match 'HGT:cloud ceiling' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_ceil.nc
+netcdf: doesn't support yet grid_template 1
+165:896717211:d=2026082500:HGT:cloud ceiling:42 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'Dust dry:aerosol_size <2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_fine.nc MASSDEN_8maboveground dust_fine
++ local 'match=Dust dry:aerosol_size <2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_fine.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_fine
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size <2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_fine.nc
+netcdf: doesn't support yet grid_template 1
+84:502531719:d=2026082500:MASSDEN:8 m above ground:42 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
+149:787486765:d=2026082500:COLMD:entire atmosphere (considered as a single layer):42 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_fine.nc
++ extract_grib 'Dust dry:aerosol_size >=2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_coarse.nc MASSDEN_8maboveground dust_coarse
++ local 'match=Dust dry:aerosol_size >=2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_coarse
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size >=2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_coarse.nc
+netcdf: doesn't support yet grid_template 1
+87:513824116:d=2026082500:MASSDEN:8 m above ground:42 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
+150:791804423:d=2026082500:COLMD:entire atmosphere (considered as a single layer):42 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ extract_grib organic /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_smoke.nc MASSDEN_8maboveground smoke
++ local match=organic
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_smoke.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=smoke
++ wgrib2 -nc_nlev 1 -match organic -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_smoke.nc
+netcdf: doesn't support yet grid_template 1
+83:497527762:d=2026082500:MASSDEN:8 m above ground:42 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+148:780625325:d=2026082500:COLMD:entire atmosphere (considered as a single layer):42 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+153:806565422:d=2026082500:AEMFLX:entire atmosphere (considered as a single layer):42 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_smoke.nc
++ extract_grib ':(UGRD|VGRD):10 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_wind.nc '' ''
++ local 'match=:(UGRD|VGRD):10 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_wind.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(UGRD|VGRD):10 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_wind.nc
+netcdf: doesn't support yet grid_template 1
+88:515811558:d=2026082500:UGRD:10 m above ground:42 hour fcst:
+89:527435400:d=2026082500:VGRD:10 m above ground:42 hour fcst:
++ [[ -n '' ]]
++ extract_grib ':(DPT|TMP):2 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_temp.nc '' ''
++ local 'match=:(DPT|TMP):2 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_temp.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(DPT|TMP):2 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_temp.nc
+netcdf: doesn't support yet grid_template 1
+74:412753551:d=2026082500:TMP:2 m above ground:42 hour fcst:
+76:433266913:d=2026082500:DPT:2 m above ground:42 hour fcst:
++ [[ -n '' ]]
++ extract_grib APCP /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_precip.nc '' ''
++ local match=APCP
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_precip.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match APCP -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f042.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_precip.nc
+netcdf: doesn't support yet grid_template 1
+97:578443486:d=2026082500:APCP:surface:41-42 hour acc fcst:
+98:581988317:d=2026082500:APCP:surface:0-42 hour acc fcst:
++ [[ -n '' ]]
++ echo 'Calculations (ncap2)...'
+Calculations (ncap2)...
++ ncap2 -O -h -s 'WIND_10maboveground=float(sqrt(UGRD_10maboveground^2 + VGRD_10maboveground^2))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'WDIR_10maboveground=float(180.+(180./3.14159)*atan2(UGRD_10maboveground,VGRD_10maboveground))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'TMP_2maboveground=float(TMP_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'DPT_2maboveground=float(DPT_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'dust_fine=float(1.e9*dust_fine)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_fine.nc
++ ncap2 -O -h -s 'dust_coarse=float(1.e9*dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ ncap2 -O -h -s 'smoke=float(1.e9*smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_smoke.nc
++ ncap2 -O -h -s 'VIS_surface=float(0.000621371*VIS_surface)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_vis.nc
++ ncap2 -O -h -s 'where(VIS_surface>10.0) VIS_surface=10.0' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_vis.nc
++ echo 'Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc...'
+Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc...
++ ncks -A -h /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v DSWRF_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v VIS_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v HGT_cloudceiling /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v WIND_10maboveground,WDIR_10maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v TMP_2maboveground,DPT_2maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v APCP_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ echo 'Deleting intermediate files...'
+Deleting intermediate files...
++ rm -f /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500_wind.nc
++ echo 'Final calculations...'
+Final calculations...
++ ncap2 -h -O -s 'pm25=float(dust_fine+smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s 'pm10=float(pm25+dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s lat=latitude -s lon=longitude /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ ncks -h -O -x -v hlevel /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ echo Compressing...
+Compressing...
++ ncks -O -4 -L 3 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ local file=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc
++ [[ ! -s /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc ]]
++ echo '/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc created!'
+/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_042_aqm_RRFS-SD_2026082500.nc created!
++ (( hh+=MODEL_DT  ))
++ (( hh<=LEAD_HH_END ))
++ printf -v HHH %03d 43
++ fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ fout=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ local file=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ [[ ! -s /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 ]]
++ echo ==============================================================================
+==============================================================================
++ echo 'Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc'
+Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ echo 'Extracting GRIB2 variables...'
+Extracting GRIB2 variables...
++ extract_grib AOTK /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_aod.nc AOTK_entireatmosphere_consideredasasinglelayer_ AOD550
++ local match=AOTK
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_aod.nc
++ local rename_from=AOTK_entireatmosphere_consideredasasinglelayer_
++ local rename_to=AOD550
++ wgrib2 -nc_nlev 1 -match AOTK -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_aod.nc
+netcdf: doesn't support yet grid_template 1
+147:768412413:d=2026082500:AOTK:entire atmosphere (considered as a single layer):43 hour fcst:
++ [[ -n AOTK_entireatmosphere_consideredasasinglelayer_ ]]
++ ncrename -h -v AOTK_entireatmosphere_consideredasasinglelayer_,AOD550 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_aod.nc
++ extract_grib DSWRF /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dswrf.nc '' ''
++ local match=DSWRF
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dswrf.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match DSWRF -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dswrf.nc
+netcdf: doesn't support yet grid_template 1
+173:1005885270:d=2026082500:DSWRF:surface:42-43 hour ave fcst:
+180:1065515184:d=2026082500:DSWRF:surface:43 hour fcst:
++ [[ -n '' ]]
++ extract_grib VIS /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_vis.nc '' ''
++ local match=VIS
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_vis.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match VIS -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_vis.nc
+netcdf: doesn't support yet grid_template 1
+5:26195975:d=2026082500:VIS:surface:43 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'HGT:cloud ceiling' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_ceil.nc '' ''
++ local 'match=HGT:cloud ceiling'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_ceil.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match 'HGT:cloud ceiling' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_ceil.nc
+netcdf: doesn't support yet grid_template 1
+165:898853730:d=2026082500:HGT:cloud ceiling:43 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'Dust dry:aerosol_size <2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_fine.nc MASSDEN_8maboveground dust_fine
++ local 'match=Dust dry:aerosol_size <2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_fine.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_fine
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size <2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_fine.nc
+netcdf: doesn't support yet grid_template 1
+84:505379750:d=2026082500:MASSDEN:8 m above ground:43 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
+149:788949199:d=2026082500:COLMD:entire atmosphere (considered as a single layer):43 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_fine.nc
++ extract_grib 'Dust dry:aerosol_size >=2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_coarse.nc MASSDEN_8maboveground dust_coarse
++ local 'match=Dust dry:aerosol_size >=2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_coarse
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size >=2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_coarse.nc
+netcdf: doesn't support yet grid_template 1
+87:516837163:d=2026082500:MASSDEN:8 m above ground:43 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
+150:793282007:d=2026082500:COLMD:entire atmosphere (considered as a single layer):43 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ extract_grib organic /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_smoke.nc MASSDEN_8maboveground smoke
++ local match=organic
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_smoke.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=smoke
++ wgrib2 -nc_nlev 1 -match organic -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_smoke.nc
+netcdf: doesn't support yet grid_template 1
+83:500326336:d=2026082500:MASSDEN:8 m above ground:43 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+148:782800009:d=2026082500:COLMD:entire atmosphere (considered as a single layer):43 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+153:808133466:d=2026082500:AEMFLX:entire atmosphere (considered as a single layer):43 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_smoke.nc
++ extract_grib ':(UGRD|VGRD):10 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_wind.nc '' ''
++ local 'match=:(UGRD|VGRD):10 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_wind.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(UGRD|VGRD):10 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_wind.nc
+netcdf: doesn't support yet grid_template 1
+88:518818891:d=2026082500:UGRD:10 m above ground:43 hour fcst:
+89:530451437:d=2026082500:VGRD:10 m above ground:43 hour fcst:
++ [[ -n '' ]]
++ extract_grib ':(DPT|TMP):2 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_temp.nc '' ''
++ local 'match=:(DPT|TMP):2 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_temp.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(DPT|TMP):2 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_temp.nc
+netcdf: doesn't support yet grid_template 1
+74:415663051:d=2026082500:TMP:2 m above ground:43 hour fcst:
+76:436151873:d=2026082500:DPT:2 m above ground:43 hour fcst:
++ [[ -n '' ]]
++ extract_grib APCP /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_precip.nc '' ''
++ local match=APCP
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_precip.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match APCP -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f043.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_precip.nc
+netcdf: doesn't support yet grid_template 1
+97:581494781:d=2026082500:APCP:surface:42-43 hour acc fcst:
+98:585050234:d=2026082500:APCP:surface:0-43 hour acc fcst:
++ [[ -n '' ]]
++ echo 'Calculations (ncap2)...'
+Calculations (ncap2)...
++ ncap2 -O -h -s 'WIND_10maboveground=float(sqrt(UGRD_10maboveground^2 + VGRD_10maboveground^2))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'WDIR_10maboveground=float(180.+(180./3.14159)*atan2(UGRD_10maboveground,VGRD_10maboveground))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'TMP_2maboveground=float(TMP_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'DPT_2maboveground=float(DPT_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'dust_fine=float(1.e9*dust_fine)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_fine.nc
++ ncap2 -O -h -s 'dust_coarse=float(1.e9*dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ ncap2 -O -h -s 'smoke=float(1.e9*smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_smoke.nc
++ ncap2 -O -h -s 'VIS_surface=float(0.000621371*VIS_surface)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_vis.nc
++ ncap2 -O -h -s 'where(VIS_surface>10.0) VIS_surface=10.0' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_vis.nc
++ echo 'Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc...'
+Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc...
++ ncks -A -h /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v DSWRF_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v VIS_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v HGT_cloudceiling /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v WIND_10maboveground,WDIR_10maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v TMP_2maboveground,DPT_2maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v APCP_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ echo 'Deleting intermediate files...'
+Deleting intermediate files...
++ rm -f /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500_wind.nc
++ echo 'Final calculations...'
+Final calculations...
++ ncap2 -h -O -s 'pm25=float(dust_fine+smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s 'pm10=float(pm25+dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s lat=latitude -s lon=longitude /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ ncks -h -O -x -v hlevel /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ echo Compressing...
+Compressing...
++ ncks -O -4 -L 3 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ local file=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc
++ [[ ! -s /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc ]]
++ echo '/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc created!'
+/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_043_aqm_RRFS-SD_2026082500.nc created!
++ (( hh+=MODEL_DT  ))
++ (( hh<=LEAD_HH_END ))
++ printf -v HHH %03d 44
++ fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ fout=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ local file=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ [[ ! -s /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 ]]
++ echo ==============================================================================
+==============================================================================
++ echo 'Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc'
+Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ echo 'Extracting GRIB2 variables...'
+Extracting GRIB2 variables...
++ extract_grib AOTK /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_aod.nc AOTK_entireatmosphere_consideredasasinglelayer_ AOD550
++ local match=AOTK
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_aod.nc
++ local rename_from=AOTK_entireatmosphere_consideredasasinglelayer_
++ local rename_to=AOD550
++ wgrib2 -nc_nlev 1 -match AOTK -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_aod.nc
+netcdf: doesn't support yet grid_template 1
+147:761982046:d=2026082500:AOTK:entire atmosphere (considered as a single layer):44 hour fcst:
++ [[ -n AOTK_entireatmosphere_consideredasasinglelayer_ ]]
++ ncrename -h -v AOTK_entireatmosphere_consideredasasinglelayer_,AOD550 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_aod.nc
++ extract_grib DSWRF /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dswrf.nc '' ''
++ local match=DSWRF
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dswrf.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match DSWRF -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dswrf.nc
+netcdf: doesn't support yet grid_template 1
+173:997262071:d=2026082500:DSWRF:surface:43-44 hour ave fcst:
+180:1057132759:d=2026082500:DSWRF:surface:44 hour fcst:
++ [[ -n '' ]]
++ extract_grib VIS /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_vis.nc '' ''
++ local match=VIS
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_vis.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match VIS -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_vis.nc
+netcdf: doesn't support yet grid_template 1
+5:26058023:d=2026082500:VIS:surface:44 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'HGT:cloud ceiling' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_ceil.nc '' ''
++ local 'match=HGT:cloud ceiling'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_ceil.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match 'HGT:cloud ceiling' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_ceil.nc
+netcdf: doesn't support yet grid_template 1
+165:889865194:d=2026082500:HGT:cloud ceiling:44 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'Dust dry:aerosol_size <2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_fine.nc MASSDEN_8maboveground dust_fine
++ local 'match=Dust dry:aerosol_size <2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_fine.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_fine
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size <2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_fine.nc
+netcdf: doesn't support yet grid_template 1
+84:505837222:d=2026082500:MASSDEN:8 m above ground:44 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
+149:782360030:d=2026082500:COLMD:entire atmosphere (considered as a single layer):44 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_fine.nc
++ extract_grib 'Dust dry:aerosol_size >=2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_coarse.nc MASSDEN_8maboveground dust_coarse
++ local 'match=Dust dry:aerosol_size >=2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_coarse
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size >=2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_coarse.nc
+netcdf: doesn't support yet grid_template 1
+87:517289870:d=2026082500:MASSDEN:8 m above ground:44 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
+150:786243342:d=2026082500:COLMD:entire atmosphere (considered as a single layer):44 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ extract_grib organic /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_smoke.nc MASSDEN_8maboveground smoke
++ local match=organic
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_smoke.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=smoke
++ wgrib2 -nc_nlev 1 -match organic -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_smoke.nc
+netcdf: doesn't support yet grid_template 1
+83:500788550:d=2026082500:MASSDEN:8 m above ground:44 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+148:776261120:d=2026082500:COLMD:entire atmosphere (considered as a single layer):44 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+153:798876679:d=2026082500:AEMFLX:entire atmosphere (considered as a single layer):44 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_smoke.nc
++ extract_grib ':(UGRD|VGRD):10 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_wind.nc '' ''
++ local 'match=:(UGRD|VGRD):10 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_wind.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(UGRD|VGRD):10 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_wind.nc
+netcdf: doesn't support yet grid_template 1
+88:519268883:d=2026082500:UGRD:10 m above ground:44 hour fcst:
+89:530902839:d=2026082500:VGRD:10 m above ground:44 hour fcst:
++ [[ -n '' ]]
++ extract_grib ':(DPT|TMP):2 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_temp.nc '' ''
++ local 'match=:(DPT|TMP):2 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_temp.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(DPT|TMP):2 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_temp.nc
+netcdf: doesn't support yet grid_template 1
+74:416221581:d=2026082500:TMP:2 m above ground:44 hour fcst:
+76:436695256:d=2026082500:DPT:2 m above ground:44 hour fcst:
++ [[ -n '' ]]
++ extract_grib APCP /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_precip.nc '' ''
++ local match=APCP
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_precip.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match APCP -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f044.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_precip.nc
+netcdf: doesn't support yet grid_template 1
+97:581990666:d=2026082500:APCP:surface:43-44 hour acc fcst:
+98:585526045:d=2026082500:APCP:surface:0-44 hour acc fcst:
++ [[ -n '' ]]
++ echo 'Calculations (ncap2)...'
+Calculations (ncap2)...
++ ncap2 -O -h -s 'WIND_10maboveground=float(sqrt(UGRD_10maboveground^2 + VGRD_10maboveground^2))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'WDIR_10maboveground=float(180.+(180./3.14159)*atan2(UGRD_10maboveground,VGRD_10maboveground))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'TMP_2maboveground=float(TMP_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'DPT_2maboveground=float(DPT_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'dust_fine=float(1.e9*dust_fine)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_fine.nc
++ ncap2 -O -h -s 'dust_coarse=float(1.e9*dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ ncap2 -O -h -s 'smoke=float(1.e9*smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_smoke.nc
++ ncap2 -O -h -s 'VIS_surface=float(0.000621371*VIS_surface)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_vis.nc
++ ncap2 -O -h -s 'where(VIS_surface>10.0) VIS_surface=10.0' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_vis.nc
++ echo 'Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc...'
+Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc...
++ ncks -A -h /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v DSWRF_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v VIS_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v HGT_cloudceiling /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v WIND_10maboveground,WDIR_10maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v TMP_2maboveground,DPT_2maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v APCP_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ echo 'Deleting intermediate files...'
+Deleting intermediate files...
++ rm -f /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500_wind.nc
++ echo 'Final calculations...'
+Final calculations...
++ ncap2 -h -O -s 'pm25=float(dust_fine+smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s 'pm10=float(pm25+dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s lat=latitude -s lon=longitude /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ ncks -h -O -x -v hlevel /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ echo Compressing...
+Compressing...
++ ncks -O -4 -L 3 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ local file=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc
++ [[ ! -s /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc ]]
++ echo '/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc created!'
+/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_044_aqm_RRFS-SD_2026082500.nc created!
++ (( hh+=MODEL_DT  ))
++ (( hh<=LEAD_HH_END ))
++ printf -v HHH %03d 45
++ fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ fout=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ local file=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ [[ ! -s /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 ]]
++ echo ==============================================================================
+==============================================================================
++ echo 'Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc'
+Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ echo 'Extracting GRIB2 variables...'
+Extracting GRIB2 variables...
++ extract_grib AOTK /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_aod.nc AOTK_entireatmosphere_consideredasasinglelayer_ AOD550
++ local match=AOTK
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_aod.nc
++ local rename_from=AOTK_entireatmosphere_consideredasasinglelayer_
++ local rename_to=AOD550
++ wgrib2 -nc_nlev 1 -match AOTK -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_aod.nc
+netcdf: doesn't support yet grid_template 1
+147:772795607:d=2026082500:AOTK:entire atmosphere (considered as a single layer):45 hour fcst:
++ [[ -n AOTK_entireatmosphere_consideredasasinglelayer_ ]]
++ ncrename -h -v AOTK_entireatmosphere_consideredasasinglelayer_,AOD550 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_aod.nc
++ extract_grib DSWRF /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dswrf.nc '' ''
++ local match=DSWRF
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dswrf.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match DSWRF -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dswrf.nc
+netcdf: doesn't support yet grid_template 1
+173:1007819242:d=2026082500:DSWRF:surface:44-45 hour ave fcst:
+180:1067526375:d=2026082500:DSWRF:surface:45 hour fcst:
++ [[ -n '' ]]
++ extract_grib VIS /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_vis.nc '' ''
++ local match=VIS
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_vis.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match VIS -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_vis.nc
+netcdf: doesn't support yet grid_template 1
+5:26027692:d=2026082500:VIS:surface:45 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'HGT:cloud ceiling' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_ceil.nc '' ''
++ local 'match=HGT:cloud ceiling'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_ceil.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match 'HGT:cloud ceiling' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_ceil.nc
+netcdf: doesn't support yet grid_template 1
+165:900000709:d=2026082500:HGT:cloud ceiling:45 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'Dust dry:aerosol_size <2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_fine.nc MASSDEN_8maboveground dust_fine
++ local 'match=Dust dry:aerosol_size <2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_fine.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_fine
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size <2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_fine.nc
+netcdf: doesn't support yet grid_template 1
+84:513119911:d=2026082500:MASSDEN:8 m above ground:45 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
+149:793177839:d=2026082500:COLMD:entire atmosphere (considered as a single layer):45 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_fine.nc
++ extract_grib 'Dust dry:aerosol_size >=2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_coarse.nc MASSDEN_8maboveground dust_coarse
++ local 'match=Dust dry:aerosol_size >=2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_coarse
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size >=2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_coarse.nc
+netcdf: doesn't support yet grid_template 1
+87:524152873:d=2026082500:MASSDEN:8 m above ground:45 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
+150:796196291:d=2026082500:COLMD:entire atmosphere (considered as a single layer):45 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ extract_grib organic /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_smoke.nc MASSDEN_8maboveground smoke
++ local match=organic
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_smoke.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=smoke
++ wgrib2 -nc_nlev 1 -match organic -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_smoke.nc
+netcdf: doesn't support yet grid_template 1
+83:508877080:d=2026082500:MASSDEN:8 m above ground:45 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+148:787071345:d=2026082500:COLMD:entire atmosphere (considered as a single layer):45 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+153:808829336:d=2026082500:AEMFLX:entire atmosphere (considered as a single layer):45 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_smoke.nc
++ extract_grib ':(UGRD|VGRD):10 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_wind.nc '' ''
++ local 'match=:(UGRD|VGRD):10 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_wind.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(UGRD|VGRD):10 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_wind.nc
+netcdf: doesn't support yet grid_template 1
+88:526134640:d=2026082500:UGRD:10 m above ground:45 hour fcst:
+89:537768115:d=2026082500:VGRD:10 m above ground:45 hour fcst:
++ [[ -n '' ]]
++ extract_grib ':(DPT|TMP):2 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_temp.nc '' ''
++ local 'match=:(DPT|TMP):2 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_temp.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(DPT|TMP):2 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_temp.nc
+netcdf: doesn't support yet grid_template 1
+74:424495816:d=2026082500:TMP:2 m above ground:45 hour fcst:
+76:444939477:d=2026082500:DPT:2 m above ground:45 hour fcst:
++ [[ -n '' ]]
++ extract_grib APCP /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_precip.nc '' ''
++ local match=APCP
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_precip.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match APCP -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f045.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_precip.nc
+netcdf: doesn't support yet grid_template 1
+97:588827388:d=2026082500:APCP:surface:44-45 hour acc fcst:
+98:592316432:d=2026082500:APCP:surface:0-45 hour acc fcst:
++ [[ -n '' ]]
++ echo 'Calculations (ncap2)...'
+Calculations (ncap2)...
++ ncap2 -O -h -s 'WIND_10maboveground=float(sqrt(UGRD_10maboveground^2 + VGRD_10maboveground^2))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'WDIR_10maboveground=float(180.+(180./3.14159)*atan2(UGRD_10maboveground,VGRD_10maboveground))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'TMP_2maboveground=float(TMP_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'DPT_2maboveground=float(DPT_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'dust_fine=float(1.e9*dust_fine)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_fine.nc
++ ncap2 -O -h -s 'dust_coarse=float(1.e9*dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ ncap2 -O -h -s 'smoke=float(1.e9*smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_smoke.nc
++ ncap2 -O -h -s 'VIS_surface=float(0.000621371*VIS_surface)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_vis.nc
++ ncap2 -O -h -s 'where(VIS_surface>10.0) VIS_surface=10.0' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_vis.nc
++ echo 'Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc...'
+Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc...
++ ncks -A -h /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v DSWRF_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v VIS_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v HGT_cloudceiling /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v WIND_10maboveground,WDIR_10maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v TMP_2maboveground,DPT_2maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v APCP_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ echo 'Deleting intermediate files...'
+Deleting intermediate files...
++ rm -f /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500_wind.nc
++ echo 'Final calculations...'
+Final calculations...
++ ncap2 -h -O -s 'pm25=float(dust_fine+smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s 'pm10=float(pm25+dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s lat=latitude -s lon=longitude /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ ncks -h -O -x -v hlevel /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ echo Compressing...
+Compressing...
++ ncks -O -4 -L 3 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ local file=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc
++ [[ ! -s /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc ]]
++ echo '/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc created!'
+/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_045_aqm_RRFS-SD_2026082500.nc created!
++ (( hh+=MODEL_DT  ))
++ (( hh<=LEAD_HH_END ))
++ printf -v HHH %03d 46
++ fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ fout=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ local file=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ [[ ! -s /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 ]]
++ echo ==============================================================================
+==============================================================================
++ echo 'Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc'
+Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ echo 'Extracting GRIB2 variables...'
+Extracting GRIB2 variables...
++ extract_grib AOTK /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_aod.nc AOTK_entireatmosphere_consideredasasinglelayer_ AOD550
++ local match=AOTK
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_aod.nc
++ local rename_from=AOTK_entireatmosphere_consideredasasinglelayer_
++ local rename_to=AOD550
++ wgrib2 -nc_nlev 1 -match AOTK -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_aod.nc
+netcdf: doesn't support yet grid_template 1
+147:763649592:d=2026082500:AOTK:entire atmosphere (considered as a single layer):46 hour fcst:
++ [[ -n AOTK_entireatmosphere_consideredasasinglelayer_ ]]
++ ncrename -h -v AOTK_entireatmosphere_consideredasasinglelayer_,AOD550 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_aod.nc
++ extract_grib DSWRF /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dswrf.nc '' ''
++ local match=DSWRF
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dswrf.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match DSWRF -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dswrf.nc
+netcdf: doesn't support yet grid_template 1
+173:998625803:d=2026082500:DSWRF:surface:45-46 hour ave fcst:
+180:1057330101:d=2026082500:DSWRF:surface:46 hour fcst:
++ [[ -n '' ]]
++ extract_grib VIS /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_vis.nc '' ''
++ local match=VIS
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_vis.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match VIS -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_vis.nc
+netcdf: doesn't support yet grid_template 1
+5:26038340:d=2026082500:VIS:surface:46 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'HGT:cloud ceiling' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_ceil.nc '' ''
++ local 'match=HGT:cloud ceiling'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_ceil.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match 'HGT:cloud ceiling' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_ceil.nc
+netcdf: doesn't support yet grid_template 1
+165:890520422:d=2026082500:HGT:cloud ceiling:46 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'Dust dry:aerosol_size <2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_fine.nc MASSDEN_8maboveground dust_fine
++ local 'match=Dust dry:aerosol_size <2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_fine.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_fine
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size <2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_fine.nc
+netcdf: doesn't support yet grid_template 1
+84:506454608:d=2026082500:MASSDEN:8 m above ground:46 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
+149:783834744:d=2026082500:COLMD:entire atmosphere (considered as a single layer):46 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_fine.nc
++ extract_grib 'Dust dry:aerosol_size >=2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_coarse.nc MASSDEN_8maboveground dust_coarse
++ local 'match=Dust dry:aerosol_size >=2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_coarse
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size >=2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_coarse.nc
+netcdf: doesn't support yet grid_template 1
+87:517484180:d=2026082500:MASSDEN:8 m above ground:46 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
+150:786837803:d=2026082500:COLMD:entire atmosphere (considered as a single layer):46 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ extract_grib organic /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_smoke.nc MASSDEN_8maboveground smoke
++ local match=organic
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_smoke.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=smoke
++ wgrib2 -nc_nlev 1 -match organic -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_smoke.nc
+netcdf: doesn't support yet grid_template 1
+83:501423050:d=2026082500:MASSDEN:8 m above ground:46 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+148:777798177:d=2026082500:COLMD:entire atmosphere (considered as a single layer):46 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+153:799491243:d=2026082500:AEMFLX:entire atmosphere (considered as a single layer):46 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_smoke.nc
++ extract_grib ':(UGRD|VGRD):10 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_wind.nc '' ''
++ local 'match=:(UGRD|VGRD):10 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_wind.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(UGRD|VGRD):10 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_wind.nc
+netcdf: doesn't support yet grid_template 1
+88:519466853:d=2026082500:UGRD:10 m above ground:46 hour fcst:
+89:531081671:d=2026082500:VGRD:10 m above ground:46 hour fcst:
++ [[ -n '' ]]
++ extract_grib ':(DPT|TMP):2 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_temp.nc '' ''
++ local 'match=:(DPT|TMP):2 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_temp.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(DPT|TMP):2 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_temp.nc
+netcdf: doesn't support yet grid_template 1
+74:417181988:d=2026082500:TMP:2 m above ground:46 hour fcst:
+76:437599468:d=2026082500:DPT:2 m above ground:46 hour fcst:
++ [[ -n '' ]]
++ extract_grib APCP /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_precip.nc '' ''
++ local match=APCP
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_precip.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match APCP -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f046.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_precip.nc
+netcdf: doesn't support yet grid_template 1
+97:581424516:d=2026082500:APCP:surface:45-46 hour acc fcst:
+98:584952019:d=2026082500:APCP:surface:0-46 hour acc fcst:
++ [[ -n '' ]]
++ echo 'Calculations (ncap2)...'
+Calculations (ncap2)...
++ ncap2 -O -h -s 'WIND_10maboveground=float(sqrt(UGRD_10maboveground^2 + VGRD_10maboveground^2))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'WDIR_10maboveground=float(180.+(180./3.14159)*atan2(UGRD_10maboveground,VGRD_10maboveground))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'TMP_2maboveground=float(TMP_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'DPT_2maboveground=float(DPT_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'dust_fine=float(1.e9*dust_fine)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_fine.nc
++ ncap2 -O -h -s 'dust_coarse=float(1.e9*dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ ncap2 -O -h -s 'smoke=float(1.e9*smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_smoke.nc
++ ncap2 -O -h -s 'VIS_surface=float(0.000621371*VIS_surface)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_vis.nc
++ ncap2 -O -h -s 'where(VIS_surface>10.0) VIS_surface=10.0' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_vis.nc
++ echo 'Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc...'
+Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc...
++ ncks -A -h /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v DSWRF_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v VIS_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v HGT_cloudceiling /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v WIND_10maboveground,WDIR_10maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v TMP_2maboveground,DPT_2maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v APCP_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ echo 'Deleting intermediate files...'
+Deleting intermediate files...
++ rm -f /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500_wind.nc
++ echo 'Final calculations...'
+Final calculations...
++ ncap2 -h -O -s 'pm25=float(dust_fine+smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s 'pm10=float(pm25+dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s lat=latitude -s lon=longitude /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ ncks -h -O -x -v hlevel /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ echo Compressing...
+Compressing...
++ ncks -O -4 -L 3 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ local file=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc
++ [[ ! -s /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc ]]
++ echo '/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc created!'
+/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_046_aqm_RRFS-SD_2026082500.nc created!
++ (( hh+=MODEL_DT  ))
++ (( hh<=LEAD_HH_END ))
++ printf -v HHH %03d 47
++ fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ fout=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ local file=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ [[ ! -s /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 ]]
++ echo ==============================================================================
+==============================================================================
++ echo 'Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc'
+Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ echo 'Extracting GRIB2 variables...'
+Extracting GRIB2 variables...
++ extract_grib AOTK /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_aod.nc AOTK_entireatmosphere_consideredasasinglelayer_ AOD550
++ local match=AOTK
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_aod.nc
++ local rename_from=AOTK_entireatmosphere_consideredasasinglelayer_
++ local rename_to=AOD550
++ wgrib2 -nc_nlev 1 -match AOTK -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_aod.nc
+netcdf: doesn't support yet grid_template 1
+147:758796368:d=2026082500:AOTK:entire atmosphere (considered as a single layer):47 hour fcst:
++ [[ -n AOTK_entireatmosphere_consideredasasinglelayer_ ]]
++ ncrename -h -v AOTK_entireatmosphere_consideredasasinglelayer_,AOD550 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_aod.nc
++ extract_grib DSWRF /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dswrf.nc '' ''
++ local match=DSWRF
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dswrf.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match DSWRF -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dswrf.nc
+netcdf: doesn't support yet grid_template 1
+173:993480051:d=2026082500:DSWRF:surface:46-47 hour ave fcst:
+180:1050547520:d=2026082500:DSWRF:surface:47 hour fcst:
++ [[ -n '' ]]
++ extract_grib VIS /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_vis.nc '' ''
++ local match=VIS
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_vis.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match VIS -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_vis.nc
+netcdf: doesn't support yet grid_template 1
+5:26046401:d=2026082500:VIS:surface:47 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'HGT:cloud ceiling' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_ceil.nc '' ''
++ local 'match=HGT:cloud ceiling'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_ceil.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match 'HGT:cloud ceiling' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_ceil.nc
+netcdf: doesn't support yet grid_template 1
+165:885689057:d=2026082500:HGT:cloud ceiling:47 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'Dust dry:aerosol_size <2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_fine.nc MASSDEN_8maboveground dust_fine
++ local 'match=Dust dry:aerosol_size <2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_fine.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_fine
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size <2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_fine.nc
+netcdf: doesn't support yet grid_template 1
+84:505568277:d=2026082500:MASSDEN:8 m above ground:47 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
+149:779124362:d=2026082500:COLMD:entire atmosphere (considered as a single layer):47 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_fine.nc
++ extract_grib 'Dust dry:aerosol_size >=2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_coarse.nc MASSDEN_8maboveground dust_coarse
++ local 'match=Dust dry:aerosol_size >=2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_coarse
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size >=2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_coarse.nc
+netcdf: doesn't support yet grid_template 1
+87:516027681:d=2026082500:MASSDEN:8 m above ground:47 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
+150:782129403:d=2026082500:COLMD:entire atmosphere (considered as a single layer):47 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ extract_grib organic /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_smoke.nc MASSDEN_8maboveground smoke
++ local match=organic
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_smoke.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=smoke
++ wgrib2 -nc_nlev 1 -match organic -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_smoke.nc
+netcdf: doesn't support yet grid_template 1
+83:501297709:d=2026082500:MASSDEN:8 m above ground:47 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+148:773035384:d=2026082500:COLMD:entire atmosphere (considered as a single layer):47 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+153:794777276:d=2026082500:AEMFLX:entire atmosphere (considered as a single layer):47 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_smoke.nc
++ extract_grib ':(UGRD|VGRD):10 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_wind.nc '' ''
++ local 'match=:(UGRD|VGRD):10 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_wind.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(UGRD|VGRD):10 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_wind.nc
+netcdf: doesn't support yet grid_template 1
+88:518010861:d=2026082500:UGRD:10 m above ground:47 hour fcst:
+89:529598013:d=2026082500:VGRD:10 m above ground:47 hour fcst:
++ [[ -n '' ]]
++ extract_grib ':(DPT|TMP):2 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_temp.nc '' ''
++ local 'match=:(DPT|TMP):2 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_temp.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(DPT|TMP):2 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_temp.nc
+netcdf: doesn't support yet grid_template 1
+74:417212972:d=2026082500:TMP:2 m above ground:47 hour fcst:
+76:437597548:d=2026082500:DPT:2 m above ground:47 hour fcst:
++ [[ -n '' ]]
++ extract_grib APCP /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_precip.nc '' ''
++ local match=APCP
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_precip.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match APCP -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f047.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_precip.nc
+netcdf: doesn't support yet grid_template 1
+97:580542833:d=2026082500:APCP:surface:46-47 hour acc fcst:
+98:584039145:d=2026082500:APCP:surface:0-47 hour acc fcst:
++ [[ -n '' ]]
++ echo 'Calculations (ncap2)...'
+Calculations (ncap2)...
++ ncap2 -O -h -s 'WIND_10maboveground=float(sqrt(UGRD_10maboveground^2 + VGRD_10maboveground^2))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'WDIR_10maboveground=float(180.+(180./3.14159)*atan2(UGRD_10maboveground,VGRD_10maboveground))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'TMP_2maboveground=float(TMP_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'DPT_2maboveground=float(DPT_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'dust_fine=float(1.e9*dust_fine)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_fine.nc
++ ncap2 -O -h -s 'dust_coarse=float(1.e9*dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ ncap2 -O -h -s 'smoke=float(1.e9*smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_smoke.nc
++ ncap2 -O -h -s 'VIS_surface=float(0.000621371*VIS_surface)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_vis.nc
++ ncap2 -O -h -s 'where(VIS_surface>10.0) VIS_surface=10.0' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_vis.nc
++ echo 'Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc...'
+Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc...
++ ncks -A -h /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v DSWRF_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v VIS_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v HGT_cloudceiling /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v WIND_10maboveground,WDIR_10maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v TMP_2maboveground,DPT_2maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v APCP_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ echo 'Deleting intermediate files...'
+Deleting intermediate files...
++ rm -f /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500_wind.nc
++ echo 'Final calculations...'
+Final calculations...
++ ncap2 -h -O -s 'pm25=float(dust_fine+smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s 'pm10=float(pm25+dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s lat=latitude -s lon=longitude /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ ncks -h -O -x -v hlevel /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ echo Compressing...
+Compressing...
++ ncks -O -4 -L 3 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ local file=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc
++ [[ ! -s /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc ]]
++ echo '/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc created!'
+/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_047_aqm_RRFS-SD_2026082500.nc created!
++ (( hh+=MODEL_DT  ))
++ (( hh<=LEAD_HH_END ))
++ printf -v HHH %03d 48
++ fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ fout=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ local file=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ [[ ! -s /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 ]]
++ echo ==============================================================================
+==============================================================================
++ echo 'Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc'
+Working on /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ echo 'Extracting GRIB2 variables...'
+Extracting GRIB2 variables...
++ extract_grib AOTK /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_aod.nc AOTK_entireatmosphere_consideredasasinglelayer_ AOD550
++ local match=AOTK
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_aod.nc
++ local rename_from=AOTK_entireatmosphere_consideredasasinglelayer_
++ local rename_to=AOD550
++ wgrib2 -nc_nlev 1 -match AOTK -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_aod.nc
+netcdf: doesn't support yet grid_template 1
+147:751914666:d=2026082500:AOTK:entire atmosphere (considered as a single layer):48 hour fcst:
++ [[ -n AOTK_entireatmosphere_consideredasasinglelayer_ ]]
++ ncrename -h -v AOTK_entireatmosphere_consideredasasinglelayer_,AOD550 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_aod.nc
++ extract_grib DSWRF /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dswrf.nc '' ''
++ local match=DSWRF
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dswrf.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match DSWRF -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dswrf.nc
+netcdf: doesn't support yet grid_template 1
+173:986721183:d=2026082500:DSWRF:surface:47-48 hour ave fcst:
+180:1041883446:d=2026082500:DSWRF:surface:48 hour fcst:
++ [[ -n '' ]]
++ extract_grib VIS /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_vis.nc '' ''
++ local match=VIS
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_vis.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match VIS -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_vis.nc
+netcdf: doesn't support yet grid_template 1
+5:26034042:d=2026082500:VIS:surface:48 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'HGT:cloud ceiling' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_ceil.nc '' ''
++ local 'match=HGT:cloud ceiling'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_ceil.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match 'HGT:cloud ceiling' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_ceil.nc
+netcdf: doesn't support yet grid_template 1
+165:879257568:d=2026082500:HGT:cloud ceiling:48 hour fcst:
++ [[ -n '' ]]
++ extract_grib 'Dust dry:aerosol_size <2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_fine.nc MASSDEN_8maboveground dust_fine
++ local 'match=Dust dry:aerosol_size <2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_fine.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_fine
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size <2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_fine.nc
+netcdf: doesn't support yet grid_template 1
+84:502813874:d=2026082500:MASSDEN:8 m above ground:48 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
+149:772974988:d=2026082500:COLMD:entire atmosphere (considered as a single layer):48 hour fcst:aerosol=Dust dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_fine.nc
++ extract_grib 'Dust dry:aerosol_size >=2.5e-06' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_coarse.nc MASSDEN_8maboveground dust_coarse
++ local 'match=Dust dry:aerosol_size >=2.5e-06'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=dust_coarse
++ wgrib2 -nc_nlev 1 -match 'Dust dry:aerosol_size >=2.5e-06' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_coarse.nc
+netcdf: doesn't support yet grid_template 1
+87:513280989:d=2026082500:MASSDEN:8 m above ground:48 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
+150:775946860:d=2026082500:COLMD:entire atmosphere (considered as a single layer):48 hour fcst:aerosol=Dust dry:aerosol_size >=2.5e-06,<1e-05:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ extract_grib organic /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_smoke.nc MASSDEN_8maboveground smoke
++ local match=organic
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_smoke.nc
++ local rename_from=MASSDEN_8maboveground
++ local rename_to=smoke
++ wgrib2 -nc_nlev 1 -match organic -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_smoke.nc
+netcdf: doesn't support yet grid_template 1
+83:498600543:d=2026082500:MASSDEN:8 m above ground:48 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+148:766122793:d=2026082500:COLMD:entire atmosphere (considered as a single layer):48 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
+153:788564572:d=2026082500:AEMFLX:entire atmosphere (considered as a single layer):48 hour fcst:aerosol=Particulate organic matter dry:aerosol_size <2.5e-06:
++ [[ -n MASSDEN_8maboveground ]]
++ ncrename -h -v MASSDEN_8maboveground,smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_smoke.nc
++ extract_grib ':(UGRD|VGRD):10 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_wind.nc '' ''
++ local 'match=:(UGRD|VGRD):10 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_wind.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(UGRD|VGRD):10 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_wind.nc
+netcdf: doesn't support yet grid_template 1
+88:515262401:d=2026082500:UGRD:10 m above ground:48 hour fcst:
+89:526815918:d=2026082500:VGRD:10 m above ground:48 hour fcst:
++ [[ -n '' ]]
++ extract_grib ':(DPT|TMP):2 m above ground:' /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_temp.nc '' ''
++ local 'match=:(DPT|TMP):2 m above ground:'
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_temp.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match ':(DPT|TMP):2 m above ground:' -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_temp.nc
+netcdf: doesn't support yet grid_template 1
+74:414929103:d=2026082500:TMP:2 m above ground:48 hour fcst:
+76:435163200:d=2026082500:DPT:2 m above ground:48 hour fcst:
++ [[ -n '' ]]
++ extract_grib APCP /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_precip.nc '' ''
++ local match=APCP
++ local fin=/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2
++ local outfile=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_precip.nc
++ local rename_from=
++ local rename_to=
++ wgrib2 -nc_nlev 1 -match APCP -set center 7 /scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/rrfs.20260825/00/rrfs.t00z.2dfld.3km.f048.na.grib2 -netcdf /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_precip.nc
+netcdf: doesn't support yet grid_template 1
+97:577908512:d=2026082500:APCP:surface:47-48 hour acc fcst:
+98:581393807:d=2026082500:APCP:surface:0-2 day acc fcst:
++ [[ -n '' ]]
++ echo 'Calculations (ncap2)...'
+Calculations (ncap2)...
++ ncap2 -O -h -s 'WIND_10maboveground=float(sqrt(UGRD_10maboveground^2 + VGRD_10maboveground^2))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'WDIR_10maboveground=float(180.+(180./3.14159)*atan2(UGRD_10maboveground,VGRD_10maboveground))' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_wind.nc
++ ncap2 -O -h -s 'TMP_2maboveground=float(TMP_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'DPT_2maboveground=float(DPT_2maboveground-273.15)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_temp.nc
++ ncap2 -O -h -s 'dust_fine=float(1.e9*dust_fine)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_fine.nc
++ ncap2 -O -h -s 'dust_coarse=float(1.e9*dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_coarse.nc
++ ncap2 -O -h -s 'smoke=float(1.e9*smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_smoke.nc
++ ncap2 -O -h -s 'VIS_surface=float(0.000621371*VIS_surface)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_vis.nc
++ ncap2 -O -h -s 'where(VIS_surface>10.0) VIS_surface=10.0' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_vis.nc
++ echo 'Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc...'
+Merging to /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc...
++ ncks -A -h /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v DSWRF_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v VIS_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v HGT_cloudceiling /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_fine /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v dust_coarse /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v smoke /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v WIND_10maboveground,WDIR_10maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_wind.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v TMP_2maboveground,DPT_2maboveground /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncks -A -h -v APCP_surface /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ echo 'Deleting intermediate files...'
+Deleting intermediate files...
++ rm -f /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_aod.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_ceil.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dswrf.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_coarse.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_dust_fine.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_precip.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_smoke.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_temp.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_vis.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500_wind.nc
++ echo 'Final calculations...'
+Final calculations...
++ ncap2 -h -O -s 'pm25=float(dust_fine+smoke)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s 'pm10=float(pm25+dust_coarse)' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncap2 -h -O -s lat=latitude -s lon=longitude /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ ncks -h -O -x -v hlevel /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ echo Compressing...
+Compressing...
++ ncks -O -4 -L 3 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ isfile /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ local file=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc
++ [[ ! -s /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc ]]
++ echo '/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc created!'
+/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/RRFS-SD/2026082500/frame_048_aqm_RRFS-SD_2026082500.nc created!
++ (( hh+=MODEL_DT  ))
++ (( hh<=LEAD_HH_END ))
++ ne
+/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/scripts//prep_rrfs-sd.sh: line 158: ne: command not found
++ echo 'prep_rrfs-sd completed for current group 6'
+prep_rrfs-sd completed for current group 6
++ exit 0

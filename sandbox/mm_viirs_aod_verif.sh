@@ -1,25 +1,28 @@
 #!/bin/bash
-#### sbatch --partition=u1-service --account=gsd-fv3-test --nodes=1 --time=1:00:00 --qos=batch --mem=50G mm_viiirs_aod_verif.sh
+#### sbatch --partition=u1-compute --account=acomp --nodes=1 --time=1:00:00 --qos=batch --mem=20G mm_viiirs_aod_verif.sh
 module load cdo eccodes/2.34.0
 module load nco
+
+# PYTHON=/scratch4/BMC/acomp/cheMPAS-Fire/envs/melodies-monet-nrt-vx/bin/python
+# $PYTHON -c "import matplotlib.font_manager as fm; print('\n'.join(sorted(set(f.name for f in fm.fontManager.ttflist))))"
 
 set -e
 export PS4='+ [$(date "+%Y-%m-%d %H:%M:%S")] ${LINENO}: '
 set -x
 
-# MODEL_TYPE=regional_smoke
-# PATH_IN=model_output
-# PATH_OUT=model_output
-# START_TIME=20260804
-# START_TIME_STR=2026-08-04
-# cycleHH=00
-# PATH_VIIRS_NOAA20=/public/data/sat/nesdis/viirs_level3/aod/eps/noaa20
-# PATH_VIIRS_NOAA21=/public/data/sat/nesdis/viirs_level3/aod/eps/noaa21
-# PATH_VIIRS_SNPP=/public/data/sat/nesdis/viirs_level3/aod/eps/npp
-# SCRIPTS_DIR=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/melodies-monet-verification
-# MELODIES_MONET_DIR=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/melodies-monet-verification
-# CONDA_ENV=/scratch4/BMC/acomp/cheMPAS-Fire/envs/melodies-monet-nrt-vx
-# namelist=/scratch4/BMC/acomp/cheMPAS-Fire/realtime/melodies-monet/scripts/monet_namelist.${MODEL_TYPE}
+MODEL_TYPE=regional_chemistry
+PATH_IN=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output
+PATH_OUT=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output
+START_TIME=20260812
+START_TIME_STR=2026-08-12
+cycleHH=00
+PATH_VIIRS_NOAA20=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/obs/noaa20
+PATH_VIIRS_NOAA21=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/obs/noaa21
+PATH_VIIRS_SNPP=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/obs/npp
+SCRIPTS_DIR=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/scripts
+MELODIES_MONET_DIR=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime
+CONDA_ENV=/scratch4/BMC/acomp/cheMPAS-Fire/envs/melodies-monet-nrt-vx
+namelist=/scratch4/BMC/acomp/cheMPAS-Fire/realtime/melodies-monet/scripts/monet_namelist.${MODEL_TYPE}
 
 # env variables  to process and plot the VIIRS AOD verification
 export INITIAL_TIME="${START_TIME_STR} 00:00:00"
@@ -69,6 +72,13 @@ for MODEL_NAME in "${MODEL_LIST[@]}"; do
             ncks -O -v "AOD_550" "${FILE_MODEL_IN}" "${TMP_NC}"
             ncrename -v AOD_550,AOD550 "${TMP_NC}"
             ;;
+        MPAS-Aerosols)
+            ncks -O -v "AOD550,AOD550_SIMPLE" "${FILE_MODEL_IN}" "${TMP_NC}"
+            ncap2 -O -s 'XTIME=-XTIME' "${TMP_NC}" "${TMP_NC}"
+            # ncap2 -O -s 'XTIME=-XTIME/60.0; XTIME@units="hours since 2026-08-12_00:00:00"' "${TMP_NC}" "${TMP_NC}"
+            # ncrename -v XTIME,time "${TMP_NC}"
+            # ncrename -d Time,time "${TMP_NC}"
+            ;;
         *)
             ncks -O -v "AOD550" "${FILE_MODEL_IN}" "${TMP_NC}"
             ;;
@@ -93,12 +103,14 @@ for MODEL_NAME in "${MODEL_LIST[@]}"; do
     fi
 done
 
+
+
 # Overwrite to make figures:
 export opt_save_netcdf=False
 export opt_make_figure=True
 export MODEL_NAMES="${MODEL_LIST[*]}"
 export FILE_OUT="${FILES_AVAILABLE[*]}"
-export PATH_FIG="${MELODIES_MONET_DIR}/plot_output/${YMD}12/regional_smoke/aod_550nm/VIIRS"
+export PATH_FIG="${MELODIES_MONET_DIR}/plot_output/${YMD}12/${MODEL_TYPE}/aod_550nm/VIIRS"
 mkdir -p ${PATH_FIG}
 
 # Run python code:

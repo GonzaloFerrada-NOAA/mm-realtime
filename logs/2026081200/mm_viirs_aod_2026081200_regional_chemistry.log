@@ -1,0 +1,88 @@
++ [2026-09-01 23:44:23] 25: export 'INITIAL_TIME=2026-08-12 00:00:00'
++ [2026-09-01 23:44:23] 25: INITIAL_TIME='2026-08-12 00:00:00'
+++ [2026-09-01 23:44:23] 26: date -d '2026-08-12 00:00:00' +%Y%m%d
++ [2026-09-01 23:44:23] 26: YMD=20260812
+++ [2026-09-01 23:44:23] 27: date -d '2026-08-12 00:00:00' +%H
++ [2026-09-01 23:44:23] 27: HH=00
++ [2026-09-01 23:44:23] 30: CDO_REGRID_FILE=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/scripts//cdo_regrid_0p05.txt
++ [2026-09-01 23:44:23] 31: SCRIPT=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/scripts//viirs_l3_aod_verification.py
++ [2026-09-01 23:44:23] 34: export FILE_SNPP=/public/data/sat/nesdis/viirs_level3/aod/eps/npp/viirs_eps_npp_aod_0.050_deg_20260812_nrt.nc
++ [2026-09-01 23:44:23] 34: FILE_SNPP=/public/data/sat/nesdis/viirs_level3/aod/eps/npp/viirs_eps_npp_aod_0.050_deg_20260812_nrt.nc
++ [2026-09-01 23:44:23] 35: export FILE_NOAA20=/public/data/sat/nesdis/viirs_level3/aod/eps/noaa20/viirs_eps_noaa20_aod_0.050_deg_20260812_nrt.nc
++ [2026-09-01 23:44:23] 35: FILE_NOAA20=/public/data/sat/nesdis/viirs_level3/aod/eps/noaa20/viirs_eps_noaa20_aod_0.050_deg_20260812_nrt.nc
++ [2026-09-01 23:44:23] 36: export FILE_NOAA21=/public/data/sat/nesdis/viirs_level3/aod/eps/noaa21/viirs_eps_noaa21_aod_0.050_deg_20260812_nrt.nc
++ [2026-09-01 23:44:23] 36: FILE_NOAA21=/public/data/sat/nesdis/viirs_level3/aod/eps/noaa21/viirs_eps_noaa21_aod_0.050_deg_20260812_nrt.nc
++ [2026-09-01 23:44:23] 39: for f in FILE_NOAA20 FILE_NOAA21 FILE_SNPP
++ [2026-09-01 23:44:23] 40: [[ -s /public/data/sat/nesdis/viirs_level3/aod/eps/noaa20/viirs_eps_noaa20_aod_0.050_deg_20260812_nrt.nc ]]
++ [2026-09-01 23:44:23] 40: printf -v FILE_NOAA20 %s None
++ [2026-09-01 23:44:23] 39: for f in FILE_NOAA20 FILE_NOAA21 FILE_SNPP
++ [2026-09-01 23:44:23] 40: [[ -s /public/data/sat/nesdis/viirs_level3/aod/eps/noaa21/viirs_eps_noaa21_aod_0.050_deg_20260812_nrt.nc ]]
++ [2026-09-01 23:44:23] 40: printf -v FILE_NOAA21 %s None
++ [2026-09-01 23:44:23] 39: for f in FILE_NOAA20 FILE_NOAA21 FILE_SNPP
++ [2026-09-01 23:44:23] 40: [[ -s /public/data/sat/nesdis/viirs_level3/aod/eps/npp/viirs_eps_npp_aod_0.050_deg_20260812_nrt.nc ]]
++ [2026-09-01 23:44:23] 40: printf -v FILE_SNPP %s None
++ [2026-09-01 23:44:23] 44: mapfile -t MODEL_LIST
+++ [2026-09-01 23:44:23] 44: awk -F, '!/^#/ {print $1}' /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/scripts//monet_namelist.regional_chemistry
++ [2026-09-01 23:44:23] 46: export opt_save_netcdf=True
++ [2026-09-01 23:44:23] 46: opt_save_netcdf=True
++ [2026-09-01 23:44:23] 47: export opt_make_figure=False
++ [2026-09-01 23:44:23] 47: opt_make_figure=False
++ [2026-09-01 23:44:23] 50: FILES_AVAILABLE=()
++ [2026-09-01 23:44:23] 51: for MODEL_NAME in "${MODEL_LIST[@]}"
++ [2026-09-01 23:44:23] 53: export WORKDIR=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/NCAR-AQ-WATCH/2026081200
++ [2026-09-01 23:44:23] 53: WORKDIR=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/NCAR-AQ-WATCH/2026081200
++ [2026-09-01 23:44:23] 54: export FILE_MODEL_IN=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/NCAR-AQ-WATCH/2026081200/aqm_NCAR-AQ-WATCH_2026081200.nc
++ [2026-09-01 23:44:23] 54: FILE_MODEL_IN=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/NCAR-AQ-WATCH/2026081200/aqm_NCAR-AQ-WATCH_2026081200.nc
++ [2026-09-01 23:44:23] 56: [[ -s /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/NCAR-AQ-WATCH/2026081200/aqm_NCAR-AQ-WATCH_2026081200.nc ]]
++ [2026-09-01 23:44:23] 92: FILES_AVAILABLE+=("None")
++ [2026-09-01 23:44:23] 51: for MODEL_NAME in "${MODEL_LIST[@]}"
++ [2026-09-01 23:44:23] 53: export WORKDIR=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/UFS-AQM/2026081200
++ [2026-09-01 23:44:23] 53: WORKDIR=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/UFS-AQM/2026081200
++ [2026-09-01 23:44:23] 54: export FILE_MODEL_IN=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/UFS-AQM/2026081200/aqm_UFS-AQM_2026081200.nc
++ [2026-09-01 23:44:23] 54: FILE_MODEL_IN=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/UFS-AQM/2026081200/aqm_UFS-AQM_2026081200.nc
++ [2026-09-01 23:44:23] 56: [[ -s /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/UFS-AQM/2026081200/aqm_UFS-AQM_2026081200.nc ]]
++ [2026-09-01 23:44:23] 92: FILES_AVAILABLE+=("None")
++ [2026-09-01 23:44:23] 51: for MODEL_NAME in "${MODEL_LIST[@]}"
++ [2026-09-01 23:44:23] 53: export WORKDIR=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200
++ [2026-09-01 23:44:23] 53: WORKDIR=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200
++ [2026-09-01 23:44:23] 54: export FILE_MODEL_IN=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/aqm_MPAS-Aerosols_2026081200.nc
++ [2026-09-01 23:44:23] 54: FILE_MODEL_IN=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/aqm_MPAS-Aerosols_2026081200.nc
++ [2026-09-01 23:44:23] 56: [[ -s /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/aqm_MPAS-Aerosols_2026081200.nc ]]
++ [2026-09-01 23:44:23] 58: echo 'Regridding MPAS-Aerosols'
+Regridding MPAS-Aerosols
++ [2026-09-01 23:44:23] 60: export FILE_MODEL=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/aod550_MPAS-Aerosols_2026081200.0p05.nc
++ [2026-09-01 23:44:23] 60: FILE_MODEL=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/aod550_MPAS-Aerosols_2026081200.0p05.nc
++ [2026-09-01 23:44:23] 61: export FILE_OUT=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/viirs_MPAS-Aerosols_verification_2026081200.nc
++ [2026-09-01 23:44:23] 61: FILE_OUT=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/viirs_MPAS-Aerosols_verification_2026081200.nc
++ [2026-09-01 23:44:23] 62: FILES_AVAILABLE+=("${FILE_OUT}")
++ [2026-09-01 23:44:23] 65: TMP_NC=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/tmp_MPAS-Aerosols_2026081200.nc
++ [2026-09-01 23:44:23] 67: case "${MODEL_NAME}" in
++ [2026-09-01 23:44:23] 73: ncks -O -v AOD550 /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/aqm_MPAS-Aerosols_2026081200.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/tmp_MPAS-Aerosols_2026081200.nc
++ [2026-09-01 23:45:02] 78: cdo remapbil,/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/scripts//cdo_regrid_0p05.txt /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/tmp_MPAS-Aerosols_2026081200.nc /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/aod550_MPAS-Aerosols_2026081200.0p05.nc
+cdi  warning (cdf_set_var): Inconsistent variable definition for XLAT!
+cdi  warning (cdf_set_var): Inconsistent variable definition for XLONG!
+cdi  warning (cdfInqContents): Coordinates variable XTIME can't be assigned!
+cdi  warning (cdf_read_coordinates): Time varying grids unsupported, using grid at time step 1!
+cdo    remapbil: Bilinear weights from curvilinear (1499x1499) to lonlat (7200x3600) grid, with source mask (2070363)
++ [2026-09-01 23:45:37] 79: rm -f /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/tmp_MPAS-Aerosols_2026081200.nc
++ [2026-09-01 23:45:37] 82: export MODEL_NAME
++ [2026-09-01 23:45:37] 83: srun --export=ALL --ntasks=1 --cpus-per-task=1 --mem=0 /scratch4/BMC/acomp/cheMPAS-Fire/envs/melodies-monet-nrt-vx/bin/python -u /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/scripts//viirs_l3_aod_verification.py
+2026-09-01 23:46:16    MODEL_NAME=MPAS-Aerosols
+2026-09-01 23:46:16    FILE_MODEL=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/MPAS-Aerosols/2026081200/aod550_MPAS-Aerosols_2026081200.0p05.nc
+2026-09-01 23:46:16    FILE_NOAA20=None
+2026-09-01 23:46:16    FILE_NOAA21=None
+2026-09-01 23:46:16    FILE_SNPP=None
+2026-09-01 23:46:16    PATH_FIG=./
+2026-09-01 23:46:16    Cropping to (west, east, south, north)=(-160.0, -40.0, 10.0, 90.0)
+2026-09-01 23:46:16    Reading model data...
+2026-09-01 23:46:18      First model time step has zero AOD everywhere, setting to NaN
+2026-09-01 23:46:18    Reading VIIRS data...
+2026-09-01 23:46:18      noaa20: not provided, skipping
+2026-09-01 23:46:18      noaa21: not provided, skipping
+2026-09-01 23:46:18      snpp: not provided, skipping
+Traceback (most recent call last):
+  File "/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/scripts//viirs_l3_aod_verification.py", line 493, in <module>
+    raise RuntimeError("No valid VIIRS files were provided (FILE_NOAA20, FILE_NOAA21, FILE_SNPP).")
+RuntimeError: No valid VIIRS files were provided (FILE_NOAA20, FILE_NOAA21, FILE_SNPP).
+srun: error: u02c06: task 0: Exited with exit code 1
+srun: Terminating StepId=20545759.0

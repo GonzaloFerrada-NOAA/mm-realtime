@@ -176,9 +176,9 @@ if [[ "${species}" == "CO" ]]; then
   R1=0; R2=0; R4=0;  R6=0; R7=0; R8=0; R10=0; np=4
 fi
 #----------------------------------------------
-if [[ ${platform} == "aeronet" ]] || \
-   [[ ${platform} == "airnow" ]] || \
-   [[ ${platform} == "ish" ]] || \
+if [[ ${platform} == "aeronet" ]] ||  \
+   [[ ${platform} == "airnow" ]] ||   \
+   [[ ${platform} == "ish" ]] ||      \
    [[ ${platform} == "ish-lite" ]] || \
    [[ ${platform} == "openaq" ]]; then
    ts_select_time="'time'"
@@ -222,11 +222,11 @@ fi
 # Get the list of sites for this species
 if [[ ${site} -eq 1 ]]; then
   rm -f sitefile.txt
-  if [[ "${platform}" == "aeronet" ]]; then
+  if   [[  "${platform}" == "aeronet" ]]; then
     python ${scriptsdir}/site_analysis_aeronet.py ${species} > sitefile.txt
-  elif [[ "${platform}" == "airnow" ]]; then
+  elif [[ "${platform}" == "airnow"   ]]; then
     python ${scriptsdir}/site_analysis_airnow.py ${species} > sitefile.txt
-  elif [[ "${platform}" == "ish" ]] ||  [[ "${platform}" == "ish-lite" ]]; then
+  elif [[ "${platform}" == "ish" ]] || [[ "${platform}" == "ish-lite" ]]; then
     python ${scriptsdir}/site_analysis_ish.py ${species} > sitefile.txt
   elif [[ "${platform}" == "openaq" ]]; then
     python ${scriptsdir}/site_analysis_openaq.py ${species} > sitefile.txt

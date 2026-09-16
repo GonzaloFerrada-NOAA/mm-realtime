@@ -204,26 +204,7 @@
       </dependency>
      </task>
 
-<!-- PARA6D no longer running - replaced by online-CMAQ
 
-    <task name="mm_naqfc_para6d" cycledefs="06hr,12hr" maxtries="1">
-      &JOIN_RESOURCES;
-      &RESERVATION_SEND;
-      <command>/misc/whome/role.rap-chem/scripts/melodies-monet/cut_and_send_para6d.sh</command>
-      <cores>&JOIN_PROC;</cores>
-      <jobname><cyclestr>mm_para6d_@Y@m@d@H</cyclestr></jobname>
-      <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_para6d.log</cyclestr></join>
-      <envar>
-        <name>START_TIME</name>
-        <value><cyclestr offset="-24:00:00">@Y@m@d</cyclestr></value>
-      </envar>
-      <envar>
-        <name>cycleHH</name>
-        <value><cyclestr>@H</cyclestr></value>
-      </envar>
-    </task>
-
--->
 
     <task name="mm_online-cmaq" cycledefs="06hr,12hr" maxtries="1">
       &JOIN_RESOURCES;
@@ -232,18 +213,10 @@
       <cores>&JOIN_PROC;</cores>
       <jobname><cyclestr>mm_online-cmaq_@Y@m@d@H</cyclestr></jobname>
       <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_online_cmaq_@Y@m@d@H.log</cyclestr></join>
-      <envar>
-        <name>START_TIME</name>
-        <value><cyclestr offset="-24:00:00">@Y@m@d</cyclestr></value>
-      </envar>
-      <envar>
-        <name>MELODIES_MONET_DIR</name>
-        <value>&MELODIES_MONET_DIR;</value>
-      </envar>
-      <envar>
-        <name>cycleHH</name>
-        <value><cyclestr>@H</cyclestr></value>
-      </envar>
+      
+      <envar><name>START_TIME</name><value><cyclestr offset="-24:00:00">@Y@m@d</cyclestr></value></envar>
+      <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
+      <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
     </task>
 
     <task name="mm_geos-cf" cycledefs="12hr" maxtries="1">
@@ -335,26 +308,6 @@
       </envar>
     </task>
 
-<!-- FIREX-AQ NO LONGER RUNNING, ONLY AQ-WATCH
-
-    <task name="mm_ncar-firex-aq" cycledefs="00hr" maxtries="1">
-      &JOIN_RESOURCES_SHORT;
-      &RESERVATION_SEND;
-      <command>&SCRIPTS_DIR;/get_ncar-firex-aq.sh</command>
-      <cores>&JOIN_PROC;</cores>
-      <jobname><cyclestr>mm_ncar-firex-aq_@Y@m@d@H</cyclestr></jobname>
-      <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_ncar-firex-aq_@Y@m@d@H.log</cyclestr></join>
-      <envar>
-        <name>START_TIME</name>
-        <value><cyclestr offset="-24:00:00">@Y@m@d</cyclestr></value>
-      </envar>
-      <envar>
-        <name>cycleHH</name>
-        <value><cyclestr>@H</cyclestr></value>
-      </envar>
-    </task>
-
--->
 
     <task name="mm_ncar-aq-watch" cycledefs="00hr" maxtries="1">
       &JOIN_RESOURCES_SHORT;

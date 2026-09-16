@@ -9,17 +9,19 @@
 module load hpss
 module load wgrib2
 module load nco
-module load parallel
+# module load parallel
+
+source ${SCRIPTS_DIR}/tools/workflow_tools.sh
 
 set -e
 export PS4='+ [$(date "+%Y-%m-%d %H:%M:%S")] ${LINENO}: '
 set -x
 
 # TEST:
-source tools/workflow_tools.sh
-MELODIES_MONET_DIR="/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime"
-START_TIME="20260901"
-cycleHH=00
+# source tools/workflow_tools.sh
+# MELODIES_MONET_DIR="/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime"
+# START_TIME="20260901"
+# cycleHH=00
 
 
 YYYY=$(date +%Y -d "${START_TIME}")

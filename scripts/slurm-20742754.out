@@ -1,0 +1,667 @@
+Lmod has detected the following error: The following module(s) are unknown:
+"hpss"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "hpss"
+
+Also make sure that all modulefiles written in TCL start with the string
+#%Module
+
+
+
+Lmod has detected the following error: The following module(s) are unknown:
+"parallel"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "parallel"
+
+Also make sure that all modulefiles written in TCL start with the string
+#%Module
+
+
+
++ [2026-09-04 20:58:08] 19: source tools/workflow_tools.sh
++ [2026-09-04 20:58:08] 20: MELODIES_MONET_DIR=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime
++ [2026-09-04 20:58:08] 21: START_TIME=20260901
++ [2026-09-04 20:58:08] 22: cycleHH=00
+++ [2026-09-04 20:58:08] 25: date +%Y -d 20260901
++ [2026-09-04 20:58:08] 25: YYYY=2026
+++ [2026-09-04 20:58:08] 26: date +%y -d 20260901
++ [2026-09-04 20:58:08] 26: YY=26
+++ [2026-09-04 20:58:08] 27: date +%m -d 20260901
++ [2026-09-04 20:58:08] 27: MM=09
+++ [2026-09-04 20:58:08] 28: date +%d -d 20260901
++ [2026-09-04 20:58:08] 28: DD=01
++ [2026-09-04 20:58:08] 29: YYYYMMDD=20260901
++ [2026-09-04 20:58:08] 31: model=HRRR-Smoke
++ [2026-09-04 20:58:08] 32: final_filename=aqm_HRRR-Smoke_2026090100.nc
++ [2026-09-04 20:58:08] 34: echo 'Getting HRRR-Smoke operational forecast data for the 00z cycle on 20260901'
+Getting HRRR-Smoke operational forecast data for the 00z cycle on 20260901
++ [2026-09-04 20:58:08] 36: datadir=/BMC/fdr/Permanent/2026/09/01/grib/hrrr_wrfsfc/7/0/83/0_1905141_30
++ [2026-09-04 20:58:08] 37: workdir_base=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/HRRR-Smoke
++ [2026-09-04 20:58:08] 38: workdir=/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/HRRR-Smoke/2026090100
++ [2026-09-04 20:58:08] 39: filename=202609010000.zip
++ [2026-09-04 20:58:08] 41: mkdir -p /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/HRRR-Smoke/2026090100
++ [2026-09-04 20:58:08] 42: cd /scratch3/BMC/acomp/Gonzalo.Ferrada/verif/realtime/model_output/HRRR-Smoke/2026090100
++ [2026-09-04 20:58:08] 44: echo 'Attempting to retrieve file: /BMC/fdr/Permanent/2026/09/01/grib/hrrr_wrfsfc/7/0/83/0_1905141_30/202609010000.zip'
+Attempting to retrieve file: /BMC/fdr/Permanent/2026/09/01/grib/hrrr_wrfsfc/7/0/83/0_1905141_30/202609010000.zip
++ [2026-09-04 20:58:08] 46: hsi get -N /BMC/fdr/Permanent/2026/09/01/grib/hrrr_wrfsfc/7/0/83/0_1905141_30/202609010000.zip
+[connecting to hpsscore1.fairmont.rdhpcs.noaa.gov/1217]
+******************************************************************
+*   Welcome to the NESCC High Performance Storage System         *
+*                                                                *
+*   Current HPSS version: 9.3.10                                 * 
+*                                                                * 
+*       Please Submit Helpdesk Request to                        *
+*        rdhpcs.hpss.help@noaa.gov                               *
+*                                                                *
+******************************************************************
+Username: Gonzalo.Ferrada  UID: 21452  Acct: 21452(21452) Copies: 1 COS: 0 Firewall: off [hsi.9.3.0.p0 Fri Mar 14 16:51:16 UTC 2025] 
+/BMC/fdr/Permanent/2026/09/01/grib/hrrr_wrfsfc/7/0/83/0_1905141_30/202609010000.zip: (md5) OK
+get  '202609010000.zip' : '/BMC/fdr/Permanent/2026/09/01/grib/hrrr_wrfsfc/7/0/83/0_1905141_30/202609010000.zip' (2026/09/01 22:12:24 8060528911 bytes, 440039.2 KBS )
++ [2026-09-04 20:58:32] 48: unzip 202609010000.zip
+Archive:  202609010000.zip
+ extracting: 2624400000000           
+ extracting: 2624400000001           
+ extracting: 2624400000002           
+ extracting: 2624400000003           
+ extracting: 2624400000004           
+ extracting: 2624400000005           
+ extracting: 2624400000006           
+ extracting: 2624400000007           
+ extracting: 2624400000008           
+ extracting: 2624400000009           
+ extracting: 2624400000010           
+ extracting: 2624400000011           
+ extracting: 2624400000012           
+ extracting: 2624400000013           
+ extracting: 2624400000014           
+ extracting: 2624400000015           
+ extracting: 2624400000016           
+ extracting: 2624400000017           
+ extracting: 2624400000018           
+ extracting: 2624400000019           
+ extracting: 2624400000020           
+ extracting: 2624400000021           
+ extracting: 2624400000022           
+ extracting: 2624400000023           
+ extracting: 2624400000024           
+ extracting: 2624400000025           
+ extracting: 2624400000026           
+ extracting: 2624400000027           
+ extracting: 2624400000028           
+ extracting: 2624400000029           
+ extracting: 2624400000030           
+ extracting: 2624400000031           
+ extracting: 2624400000032           
+ extracting: 2624400000033           
+ extracting: 2624400000034           
+ extracting: 2624400000035           
+ extracting: 2624400000036           
+ extracting: 2624400000037           
+ extracting: 2624400000038           
+ extracting: 2624400000039           
+ extracting: 2624400000040           
+ extracting: 2624400000041           
+ extracting: 2624400000042           
+ extracting: 2624400000043           
+ extracting: 2624400000044           
+ extracting: 2624400000045           
+ extracting: 2624400000046           
+ extracting: 2624400000047           
+ extracting: 2624400000048           
++ [2026-09-04 20:59:11] 49: checkstatus
++ [2026-09-04 20:59:11] 10: local status=0
++ [2026-09-04 20:59:11] 11: ((  status != 0  ))
++ [2026-09-04 20:59:11] 51: rm 202609010000.zip
++ [2026-09-04 20:59:12] 89: export -f process_file
++ [2026-09-04 20:59:12] 91: parallel --jobs 12 process_file ::: 2624400000000 2624400000001 2624400000002 2624400000003 2624400000004 2624400000005 2624400000006 2624400000007 2624400000008 2624400000009 2624400000010 2624400000011 2624400000012 2624400000013 2624400000014 2624400000015 2624400000016 2624400000017 2624400000018 2624400000019 2624400000020 2624400000021 2624400000022 2624400000023 2624400000024 2624400000025 2624400000026 2624400000027 2624400000028 2624400000029 2624400000030 2624400000031 2624400000032 2624400000033 2624400000034 2624400000035 2624400000036 2624400000037 2624400000038 2624400000039 2624400000040 2624400000041 2624400000042 2624400000043 2624400000044 2624400000045 2624400000046 2624400000047 2624400000048
+5:1159264:d=2026090100:VIS:surface:anl:
+71:35663695:d=2026090100:TMP:2 m above ground:anl:
+74:39752091:d=2026090100:DPT:2 m above ground:anl:
+76:42540490:d=2026090100:MASSDEN:8 m above ground:anl:
+77:43117186:d=2026090100:UGRD:10 m above ground:anl:
+78:45498801:d=2026090100:VGRD:10 m above ground:anl:
+84:51251066:d=2026090100:APCP:surface:0-0 day acc fcst:
+108:65522876:d=2026090100:AOTK:entire atmosphere (considered as a single layer):anl:
+117:70915091:d=2026090100:HGT:cloud ceiling:anl:
+123:77651446:d=2026090100:DSWRF:surface:anl:
+5:970125:d=2026090100:VIS:surface:1 hour fcst:
+71:43161853:d=2026090100:TMP:2 m above ground:1 hour fcst:
+74:47164900:d=2026090100:DPT:2 m above ground:1 hour fcst:
+76:49881951:d=2026090100:MASSDEN:8 m above ground:1 hour fcst:
+77:50456168:d=2026090100:UGRD:10 m above ground:1 hour fcst:
+78:52837783:d=2026090100:VGRD:10 m above ground:1 hour fcst:
+84:59084152:d=2026090100:APCP:surface:0-1 hour acc fcst:
+108:73413600:d=2026090100:AOTK:entire atmosphere (considered as a single layer):1 hour fcst:
+117:79163060:d=2026090100:HGT:cloud ceiling:1 hour fcst:
+123:85969055:d=2026090100:DSWRF:surface:1 hour fcst:
+5:1184010:d=2026090100:VIS:surface:3 hour fcst:
+71:43238947:d=2026090100:TMP:2 m above ground:3 hour fcst:
+74:47245275:d=2026090100:DPT:2 m above ground:3 hour fcst:
+76:49988681:d=2026090100:MASSDEN:8 m above ground:3 hour fcst:
+77:50675722:d=2026090100:UGRD:10 m above ground:3 hour fcst:
+78:53057337:d=2026090100:VGRD:10 m above ground:3 hour fcst:
+84:59425095:d=2026090100:APCP:surface:0-3 hour acc fcst:
+90:59886162:d=2026090100:APCP:surface:2-3 hour acc fcst:
+111:74733540:d=2026090100:AOTK:entire atmosphere (considered as a single layer):3 hour fcst:
+120:80851662:d=2026090100:HGT:cloud ceiling:3 hour fcst:
+126:88660733:d=2026090100:DSWRF:surface:3 hour fcst:
+5:1130089:d=2026090100:VIS:surface:2 hour fcst:
+71:43060104:d=2026090100:TMP:2 m above ground:2 hour fcst:
+74:47044378:d=2026090100:DPT:2 m above ground:2 hour fcst:
+76:49743692:d=2026090100:MASSDEN:8 m above ground:2 hour fcst:
+77:50309903:d=2026090100:UGRD:10 m above ground:2 hour fcst:
+78:52691518:d=2026090100:VGRD:10 m above ground:2 hour fcst:
+84:58949115:d=2026090100:APCP:surface:0-2 hour acc fcst:
+90:59337185:d=2026090100:APCP:surface:1-2 hour acc fcst:
+111:74088596:d=2026090100:AOTK:entire atmosphere (considered as a single layer):2 hour fcst:
+120:80115650:d=2026090100:HGT:cloud ceiling:2 hour fcst:
+126:87460880:d=2026090100:DSWRF:surface:2 hour fcst:
+5:1476138:d=2026090100:VIS:surface:8 hour fcst:
+71:44212690:d=2026090100:TMP:2 m above ground:8 hour fcst:
+74:48342170:d=2026090100:DPT:2 m above ground:8 hour fcst:
+76:51153223:d=2026090100:MASSDEN:8 m above ground:8 hour fcst:
+77:52061663:d=2026090100:UGRD:10 m above ground:8 hour fcst:
+78:54443278:d=2026090100:VGRD:10 m above ground:8 hour fcst:
+84:61150975:d=2026090100:APCP:surface:0-8 hour acc fcst:
+90:61668843:d=2026090100:APCP:surface:7-8 hour acc fcst:
+111:76600655:d=2026090100:AOTK:entire atmosphere (considered as a single layer):8 hour fcst:
+120:83982062:d=2026090100:HGT:cloud ceiling:8 hour fcst:
+126:93041362:d=2026090100:DSWRF:surface:8 hour fcst:
+5:1288361:d=2026090100:VIS:surface:6 hour fcst:
+71:43538077:d=2026090100:TMP:2 m above ground:6 hour fcst:
+74:47623518:d=2026090100:DPT:2 m above ground:6 hour fcst:
+76:50402339:d=2026090100:MASSDEN:8 m above ground:6 hour fcst:
+77:51311591:d=2026090100:UGRD:10 m above ground:6 hour fcst:
+78:53693206:d=2026090100:VGRD:10 m above ground:6 hour fcst:
+84:60282697:d=2026090100:APCP:surface:0-6 hour acc fcst:
+90:60705777:d=2026090100:APCP:surface:5-6 hour acc fcst:
+111:75684886:d=2026090100:AOTK:entire atmosphere (considered as a single layer):6 hour fcst:
+120:82726018:d=2026090100:HGT:cloud ceiling:6 hour fcst:
+126:91453422:d=2026090100:DSWRF:surface:6 hour fcst:
+5:1220973:d=2026090100:VIS:surface:4 hour fcst:
+71:42913307:d=2026090100:TMP:2 m above ground:4 hour fcst:
+74:46950322:d=2026090100:DPT:2 m above ground:4 hour fcst:
+76:49712989:d=2026090100:MASSDEN:8 m above ground:4 hour fcst:
+77:50409906:d=2026090100:UGRD:10 m above ground:4 hour fcst:
+78:52791521:d=2026090100:VGRD:10 m above ground:4 hour fcst:
+84:59025345:d=2026090100:APCP:surface:0-4 hour acc fcst:
+90:59361555:d=2026090100:APCP:surface:3-4 hour acc fcst:
+111:74258938:d=2026090100:AOTK:entire atmosphere (considered as a single layer):4 hour fcst:
+120:81053785:d=2026090100:HGT:cloud ceiling:4 hour fcst:
+126:89192165:d=2026090100:DSWRF:surface:4 hour fcst:
+5:1428014:d=2026090100:VIS:surface:7 hour fcst:
+71:43650114:d=2026090100:TMP:2 m above ground:7 hour fcst:
+74:47757102:d=2026090100:DPT:2 m above ground:7 hour fcst:
+76:50566076:d=2026090100:MASSDEN:8 m above ground:7 hour fcst:
+77:51469286:d=2026090100:UGRD:10 m above ground:7 hour fcst:
+78:53850901:d=2026090100:VGRD:10 m above ground:7 hour fcst:
+84:60490600:d=2026090100:APCP:surface:0-7 hour acc fcst:
+90:60957865:d=2026090100:APCP:surface:6-7 hour acc fcst:
+111:75845524:d=2026090100:AOTK:entire atmosphere (considered as a single layer):7 hour fcst:
+120:83145112:d=2026090100:HGT:cloud ceiling:7 hour fcst:
+126:92037471:d=2026090100:DSWRF:surface:7 hour fcst:
+5:1352666:d=2026090100:VIS:surface:5 hour fcst:
+71:43377187:d=2026090100:TMP:2 m above ground:5 hour fcst:
+74:47438512:d=2026090100:DPT:2 m above ground:5 hour fcst:
+76:50201274:d=2026090100:MASSDEN:8 m above ground:5 hour fcst:
+77:51042720:d=2026090100:UGRD:10 m above ground:5 hour fcst:
+78:53424335:d=2026090100:VGRD:10 m above ground:5 hour fcst:
+84:59725807:d=2026090100:APCP:surface:0-5 hour acc fcst:
+90:60102251:d=2026090100:APCP:surface:4-5 hour acc fcst:
+111:75007072:d=2026090100:AOTK:entire atmosphere (considered as a single layer):5 hour fcst:
+120:81932963:d=2026090100:HGT:cloud ceiling:5 hour fcst:
+126:90389693:d=2026090100:DSWRF:surface:5 hour fcst:
+5:1626154:d=2026090100:VIS:surface:9 hour fcst:
+71:45009464:d=2026090100:TMP:2 m above ground:9 hour fcst:
+74:49164714:d=2026090100:DPT:2 m above ground:9 hour fcst:
+76:51995503:d=2026090100:MASSDEN:8 m above ground:9 hour fcst:
+77:52906195:d=2026090100:UGRD:10 m above ground:9 hour fcst:
+78:55287810:d=2026090100:VGRD:10 m above ground:9 hour fcst:
+84:61818414:d=2026090100:APCP:surface:0-9 hour acc fcst:
+90:62391969:d=2026090100:APCP:surface:8-9 hour acc fcst:
+111:77543586:d=2026090100:AOTK:entire atmosphere (considered as a single layer):9 hour fcst:
+120:85065768:d=2026090100:HGT:cloud ceiling:9 hour fcst:
+126:94352139:d=2026090100:DSWRF:surface:9 hour fcst:
+5:1677103:d=2026090100:VIS:surface:11 hour fcst:
+71:45059862:d=2026090100:TMP:2 m above ground:11 hour fcst:
+74:49237263:d=2026090100:DPT:2 m above ground:11 hour fcst:
+76:52086846:d=2026090100:MASSDEN:8 m above ground:11 hour fcst:
+77:53155144:d=2026090100:UGRD:10 m above ground:11 hour fcst:
+78:55536759:d=2026090100:VGRD:10 m above ground:11 hour fcst:
+84:62393683:d=2026090100:APCP:surface:0-11 hour acc fcst:
+90:63064487:d=2026090100:APCP:surface:10-11 hour acc fcst:
+111:77488900:d=2026090100:AOTK:entire atmosphere (considered as a single layer):11 hour fcst:
+120:85224512:d=2026090100:HGT:cloud ceiling:11 hour fcst:
+126:94734043:d=2026090100:DSWRF:surface:11 hour fcst:
+5:1630423:d=2026090100:VIS:surface:10 hour fcst:
+71:45047050:d=2026090100:TMP:2 m above ground:10 hour fcst:
+74:49218693:d=2026090100:DPT:2 m above ground:10 hour fcst:
+76:52063275:d=2026090100:MASSDEN:8 m above ground:10 hour fcst:
+77:53128797:d=2026090100:UGRD:10 m above ground:10 hour fcst:
+78:55510412:d=2026090100:VGRD:10 m above ground:10 hour fcst:
+84:62319993:d=2026090100:APCP:surface:0-10 hour acc fcst:
+90:62944292:d=2026090100:APCP:surface:9-10 hour acc fcst:
+111:77958538:d=2026090100:AOTK:entire atmosphere (considered as a single layer):10 hour fcst:
+120:85566112:d=2026090100:HGT:cloud ceiling:10 hour fcst:
+126:94994143:d=2026090100:DSWRF:surface:10 hour fcst:
+5:1675147:d=2026090100:VIS:surface:13 hour fcst:
+71:45059355:d=2026090100:TMP:2 m above ground:13 hour fcst:
+74:49176434:d=2026090100:DPT:2 m above ground:13 hour fcst:
+76:52044739:d=2026090100:MASSDEN:8 m above ground:13 hour fcst:
+77:53108679:d=2026090100:UGRD:10 m above ground:13 hour fcst:
+78:55490294:d=2026090100:VGRD:10 m above ground:13 hour fcst:
+84:62323185:d=2026090100:APCP:surface:0-13 hour acc fcst:
+90:63079532:d=2026090100:APCP:surface:12-13 hour acc fcst:
+111:77707099:d=2026090100:AOTK:entire atmosphere (considered as a single layer):13 hour fcst:
+120:86041810:d=2026090100:HGT:cloud ceiling:13 hour fcst:
+126:95644973:d=2026090100:DSWRF:surface:13 hour fcst:
+5:1605691:d=2026090100:VIS:surface:14 hour fcst:
+71:45043836:d=2026090100:TMP:2 m above ground:14 hour fcst:
+74:49171535:d=2026090100:DPT:2 m above ground:14 hour fcst:
+76:52070275:d=2026090100:MASSDEN:8 m above ground:14 hour fcst:
+77:53280513:d=2026090100:UGRD:10 m above ground:14 hour fcst:
+78:55662128:d=2026090100:VGRD:10 m above ground:14 hour fcst:
+84:62381767:d=2026090100:APCP:surface:0-14 hour acc fcst:
+90:63177391:d=2026090100:APCP:surface:13-14 hour acc fcst:
+111:77564033:d=2026090100:AOTK:entire atmosphere (considered as a single layer):14 hour fcst:
+120:85925212:d=2026090100:HGT:cloud ceiling:14 hour fcst:
+126:95585402:d=2026090100:DSWRF:surface:14 hour fcst:
+5:1821663:d=2026090100:VIS:surface:19 hour fcst:
+71:46910873:d=2026090100:TMP:2 m above ground:19 hour fcst:
+74:51137454:d=2026090100:DPT:2 m above ground:19 hour fcst:
+76:54006949:d=2026090100:MASSDEN:8 m above ground:19 hour fcst:
+77:54993885:d=2026090100:UGRD:10 m above ground:19 hour fcst:
+78:57375500:d=2026090100:VGRD:10 m above ground:19 hour fcst:
+84:63892787:d=2026090100:APCP:surface:0-19 hour acc fcst:
+90:64885498:d=2026090100:APCP:surface:18-19 hour acc fcst:
+111:80636260:d=2026090100:AOTK:entire atmosphere (considered as a single layer):19 hour fcst:
+120:89855388:d=2026090100:HGT:cloud ceiling:19 hour fcst:
+126:99991665:d=2026090100:DSWRF:surface:19 hour fcst:
+5:1647281:d=2026090100:VIS:surface:15 hour fcst:
+71:44965257:d=2026090100:TMP:2 m above ground:15 hour fcst:
+74:49106944:d=2026090100:DPT:2 m above ground:15 hour fcst:
+76:52018330:d=2026090100:MASSDEN:8 m above ground:15 hour fcst:
+77:53193967:d=2026090100:UGRD:10 m above ground:15 hour fcst:
+78:55575582:d=2026090100:VGRD:10 m above ground:15 hour fcst:
+84:62165659:d=2026090100:APCP:surface:0-15 hour acc fcst:
+90:62997977:d=2026090100:APCP:surface:14-15 hour acc fcst:
+111:77639442:d=2026090100:AOTK:entire atmosphere (considered as a single layer):15 hour fcst:
+120:86459679:d=2026090100:HGT:cloud ceiling:15 hour fcst:
+126:96209697:d=2026090100:DSWRF:surface:15 hour fcst:
+5:1704027:d=2026090100:VIS:surface:18 hour fcst:
+71:45878763:d=2026090100:TMP:2 m above ground:18 hour fcst:
+74:50094857:d=2026090100:DPT:2 m above ground:18 hour fcst:
+76:52969041:d=2026090100:MASSDEN:8 m above ground:18 hour fcst:
+77:53939104:d=2026090100:UGRD:10 m above ground:18 hour fcst:
+78:56320719:d=2026090100:VGRD:10 m above ground:18 hour fcst:
+84:62777643:d=2026090100:APCP:surface:0-18 hour acc fcst:
+90:63725256:d=2026090100:APCP:surface:17-18 hour acc fcst:
+111:79345937:d=2026090100:AOTK:entire atmosphere (considered as a single layer):18 hour fcst:
+120:88771529:d=2026090100:HGT:cloud ceiling:18 hour fcst:
+126:98746315:d=2026090100:DSWRF:surface:18 hour fcst:
+5:1984068:d=2026090100:VIS:surface:20 hour fcst:
+71:48312859:d=2026090100:TMP:2 m above ground:20 hour fcst:
+74:52543970:d=2026090100:DPT:2 m above ground:20 hour fcst:
+76:55412283:d=2026090100:MASSDEN:8 m above ground:20 hour fcst:
+77:56249753:d=2026090100:UGRD:10 m above ground:20 hour fcst:
+78:58631368:d=2026090100:VGRD:10 m above ground:20 hour fcst:
+84:65226564:d=2026090100:APCP:surface:0-20 hour acc fcst:
+90:66270280:d=2026090100:APCP:surface:19-20 hour acc fcst:
+111:81395293:d=2026090100:AOTK:entire atmosphere (considered as a single layer):20 hour fcst:
+120:90838180:d=2026090100:HGT:cloud ceiling:20 hour fcst:
+126:101266981:d=2026090100:DSWRF:surface:20 hour fcst:
+5:1690390:d=2026090100:VIS:surface:12 hour fcst:
+71:44951706:d=2026090100:TMP:2 m above ground:12 hour fcst:
+74:49074109:d=2026090100:DPT:2 m above ground:12 hour fcst:
+76:51894064:d=2026090100:MASSDEN:8 m above ground:12 hour fcst:
+77:52979795:d=2026090100:UGRD:10 m above ground:12 hour fcst:
+78:55361410:d=2026090100:VGRD:10 m above ground:12 hour fcst:
+84:62227916:d=2026090100:APCP:surface:0-12 hour acc fcst:
+90:62942769:d=2026090100:APCP:surface:11-12 hour acc fcst:
+111:77398588:d=2026090100:AOTK:entire atmosphere (considered as a single layer):12 hour fcst:
+120:85245612:d=2026090100:HGT:cloud ceiling:12 hour fcst:
+126:94827244:d=2026090100:DSWRF:surface:12 hour fcst:
+5:2124542:d=2026090100:VIS:surface:21 hour fcst:
+71:48339888:d=2026090100:TMP:2 m above ground:21 hour fcst:
+74:52572487:d=2026090100:DPT:2 m above ground:21 hour fcst:
+76:55442038:d=2026090100:MASSDEN:8 m above ground:21 hour fcst:
+77:56231152:d=2026090100:UGRD:10 m above ground:21 hour fcst:
+78:58612767:d=2026090100:VGRD:10 m above ground:21 hour fcst:
+84:65238053:d=2026090100:APCP:surface:0-21 hour acc fcst:
+90:66335868:d=2026090100:APCP:surface:20-21 hour acc fcst:
+111:81471708:d=2026090100:AOTK:entire atmosphere (considered as a single layer):21 hour fcst:
+120:90430177:d=2026090100:HGT:cloud ceiling:21 hour fcst:
+126:101097309:d=2026090100:DSWRF:surface:21 hour fcst:
+5:1661663:d=2026090100:VIS:surface:17 hour fcst:
+71:45731577:d=2026090100:TMP:2 m above ground:17 hour fcst:
+74:49908251:d=2026090100:DPT:2 m above ground:17 hour fcst:
+76:52796274:d=2026090100:MASSDEN:8 m above ground:17 hour fcst:
+77:53940588:d=2026090100:UGRD:10 m above ground:17 hour fcst:
+78:56322203:d=2026090100:VGRD:10 m above ground:17 hour fcst:
+84:62753632:d=2026090100:APCP:surface:0-17 hour acc fcst:
+90:63664604:d=2026090100:APCP:surface:16-17 hour acc fcst:
+111:79867741:d=2026090100:AOTK:entire atmosphere (considered as a single layer):17 hour fcst:
+120:89249302:d=2026090100:HGT:cloud ceiling:17 hour fcst:
+126:99096462:d=2026090100:DSWRF:surface:17 hour fcst:
+5:1690887:d=2026090100:VIS:surface:16 hour fcst:
+71:45217327:d=2026090100:TMP:2 m above ground:16 hour fcst:
+74:49368366:d=2026090100:DPT:2 m above ground:16 hour fcst:
+76:52271057:d=2026090100:MASSDEN:8 m above ground:16 hour fcst:
+77:53438888:d=2026090100:UGRD:10 m above ground:16 hour fcst:
+78:55820503:d=2026090100:VGRD:10 m above ground:16 hour fcst:
+84:62288334:d=2026090100:APCP:surface:0-16 hour acc fcst:
+90:63160245:d=2026090100:APCP:surface:15-16 hour acc fcst:
+111:78525718:d=2026090100:AOTK:entire atmosphere (considered as a single layer):16 hour fcst:
+120:87572781:d=2026090100:HGT:cloud ceiling:16 hour fcst:
+126:97373008:d=2026090100:DSWRF:surface:16 hour fcst:
+5:2196861:d=2026090100:VIS:surface:22 hour fcst:
+71:49184456:d=2026090100:TMP:2 m above ground:22 hour fcst:
+74:53412460:d=2026090100:DPT:2 m above ground:22 hour fcst:
+76:56287522:d=2026090100:MASSDEN:8 m above ground:22 hour fcst:
+77:56950578:d=2026090100:UGRD:10 m above ground:22 hour fcst:
+78:59332193:d=2026090100:VGRD:10 m above ground:22 hour fcst:
+84:65974036:d=2026090100:APCP:surface:0-22 hour acc fcst:
+90:67115569:d=2026090100:APCP:surface:21-22 hour acc fcst:
+111:82816371:d=2026090100:AOTK:entire atmosphere (considered as a single layer):22 hour fcst:
+120:91266762:d=2026090100:HGT:cloud ceiling:22 hour fcst:
+126:102002725:d=2026090100:DSWRF:surface:22 hour fcst:
+5:2225926:d=2026090100:VIS:surface:23 hour fcst:
+71:48205761:d=2026090100:TMP:2 m above ground:23 hour fcst:
+74:52429791:d=2026090100:DPT:2 m above ground:23 hour fcst:
+76:55317272:d=2026090100:MASSDEN:8 m above ground:23 hour fcst:
+77:55977991:d=2026090100:UGRD:10 m above ground:23 hour fcst:
+78:58359606:d=2026090100:VGRD:10 m above ground:23 hour fcst:
+84:64997119:d=2026090100:APCP:surface:0-23 hour acc fcst:
+90:66185331:d=2026090100:APCP:surface:22-23 hour acc fcst:
+111:81709308:d=2026090100:AOTK:entire atmosphere (considered as a single layer):23 hour fcst:
+120:89842042:d=2026090100:HGT:cloud ceiling:23 hour fcst:
+126:100590201:d=2026090100:DSWRF:surface:23 hour fcst:
+5:2194505:d=2026090100:VIS:surface:24 hour fcst:
+71:48630525:d=2026090100:TMP:2 m above ground:24 hour fcst:
+74:52815500:d=2026090100:DPT:2 m above ground:24 hour fcst:
+76:55689771:d=2026090100:MASSDEN:8 m above ground:24 hour fcst:
+77:56349596:d=2026090100:UGRD:10 m above ground:24 hour fcst:
+78:58731211:d=2026090100:VGRD:10 m above ground:24 hour fcst:
+84:65369158:d=2026090100:APCP:surface:0-1 day acc fcst:
+90:66595759:d=2026090100:APCP:surface:23-24 hour acc fcst:
+111:81837509:d=2026090100:AOTK:entire atmosphere (considered as a single layer):24 hour fcst:
+120:89487176:d=2026090100:HGT:cloud ceiling:24 hour fcst:
+126:100154999:d=2026090100:DSWRF:surface:24 hour fcst:
+5:1961238:d=2026090100:VIS:surface:27 hour fcst:
+71:46598317:d=2026090100:TMP:2 m above ground:27 hour fcst:
+74:50707087:d=2026090100:DPT:2 m above ground:27 hour fcst:
+76:53533836:d=2026090100:MASSDEN:8 m above ground:27 hour fcst:
+77:54318453:d=2026090100:UGRD:10 m above ground:27 hour fcst:
+78:56700068:d=2026090100:VGRD:10 m above ground:27 hour fcst:
+84:63409786:d=2026090100:APCP:surface:0-27 hour acc fcst:
+90:64718517:d=2026090100:APCP:surface:26-27 hour acc fcst:
+111:79007107:d=2026090100:AOTK:entire atmosphere (considered as a single layer):27 hour fcst:
+120:87050112:d=2026090100:HGT:cloud ceiling:27 hour fcst:
+126:97383872:d=2026090100:DSWRF:surface:27 hour fcst:
+5:1814855:d=2026090100:VIS:surface:28 hour fcst:
+71:45640852:d=2026090100:TMP:2 m above ground:28 hour fcst:
+74:49758314:d=2026090100:DPT:2 m above ground:28 hour fcst:
+76:52586233:d=2026090100:MASSDEN:8 m above ground:28 hour fcst:
+77:53409764:d=2026090100:UGRD:10 m above ground:28 hour fcst:
+78:55791379:d=2026090100:VGRD:10 m above ground:28 hour fcst:
+84:62557693:d=2026090100:APCP:surface:0-28 hour acc fcst:
+90:63887875:d=2026090100:APCP:surface:27-28 hour acc fcst:
+111:78139718:d=2026090100:AOTK:entire atmosphere (considered as a single layer):28 hour fcst:
+120:86068334:d=2026090100:HGT:cloud ceiling:28 hour fcst:
+126:96280385:d=2026090100:DSWRF:surface:28 hour fcst:
+5:2152203:d=2026090100:VIS:surface:25 hour fcst:
+71:48119194:d=2026090100:TMP:2 m above ground:25 hour fcst:
+74:52261187:d=2026090100:DPT:2 m above ground:25 hour fcst:
+76:55102405:d=2026090100:MASSDEN:8 m above ground:25 hour fcst:
+77:55749734:d=2026090100:UGRD:10 m above ground:25 hour fcst:
+78:58131349:d=2026090100:VGRD:10 m above ground:25 hour fcst:
+84:64757406:d=2026090100:APCP:surface:0-25 hour acc fcst:
+90:66016926:d=2026090100:APCP:surface:24-25 hour acc fcst:
+111:80527056:d=2026090100:AOTK:entire atmosphere (considered as a single layer):25 hour fcst:
+120:88415841:d=2026090100:HGT:cloud ceiling:25 hour fcst:
+126:98941297:d=2026090100:DSWRF:surface:25 hour fcst:
+5:2058475:d=2026090100:VIS:surface:26 hour fcst:
+71:46571174:d=2026090100:TMP:2 m above ground:26 hour fcst:
+74:50672123:d=2026090100:DPT:2 m above ground:26 hour fcst:
+76:53490681:d=2026090100:MASSDEN:8 m above ground:26 hour fcst:
+77:54140062:d=2026090100:UGRD:10 m above ground:26 hour fcst:
+78:56521677:d=2026090100:VGRD:10 m above ground:26 hour fcst:
+84:63150777:d=2026090100:APCP:surface:0-26 hour acc fcst:
+90:64435940:d=2026090100:APCP:surface:25-26 hour acc fcst:
+111:78585194:d=2026090100:AOTK:entire atmosphere (considered as a single layer):26 hour fcst:
+120:86290737:d=2026090100:HGT:cloud ceiling:26 hour fcst:
+126:96713712:d=2026090100:DSWRF:surface:26 hour fcst:
+5:1696129:d=2026090100:VIS:surface:30 hour fcst:
+71:46533452:d=2026090100:TMP:2 m above ground:30 hour fcst:
+74:50639518:d=2026090100:DPT:2 m above ground:30 hour fcst:
+76:53449108:d=2026090100:MASSDEN:8 m above ground:30 hour fcst:
+77:54279839:d=2026090100:UGRD:10 m above ground:30 hour fcst:
+78:56661454:d=2026090100:VGRD:10 m above ground:30 hour fcst:
+84:63474064:d=2026090100:APCP:surface:0-30 hour acc fcst:
+90:64844917:d=2026090100:APCP:surface:29-30 hour acc fcst:
+111:79988434:d=2026090100:AOTK:entire atmosphere (considered as a single layer):30 hour fcst:
+120:88095176:d=2026090100:HGT:cloud ceiling:30 hour fcst:
+126:98262427:d=2026090100:DSWRF:surface:30 hour fcst:
+5:1769343:d=2026090100:VIS:surface:29 hour fcst:
+71:45527766:d=2026090100:TMP:2 m above ground:29 hour fcst:
+74:49650852:d=2026090100:DPT:2 m above ground:29 hour fcst:
+76:52478734:d=2026090100:MASSDEN:8 m above ground:29 hour fcst:
+77:53308530:d=2026090100:UGRD:10 m above ground:29 hour fcst:
+78:55690145:d=2026090100:VGRD:10 m above ground:29 hour fcst:
+84:62499726:d=2026090100:APCP:surface:0-29 hour acc fcst:
+90:63851164:d=2026090100:APCP:surface:28-29 hour acc fcst:
+111:78419631:d=2026090100:AOTK:entire atmosphere (considered as a single layer):29 hour fcst:
+120:86504178:d=2026090100:HGT:cloud ceiling:29 hour fcst:
+126:96670941:d=2026090100:DSWRF:surface:29 hour fcst:
+5:1629024:d=2026090100:VIS:surface:31 hour fcst:
+71:45900776:d=2026090100:TMP:2 m above ground:31 hour fcst:
+74:49988264:d=2026090100:DPT:2 m above ground:31 hour fcst:
+76:52797452:d=2026090100:MASSDEN:8 m above ground:31 hour fcst:
+77:53782252:d=2026090100:UGRD:10 m above ground:31 hour fcst:
+78:56163867:d=2026090100:VGRD:10 m above ground:31 hour fcst:
+84:62986303:d=2026090100:APCP:surface:0-31 hour acc fcst:
+90:64375836:d=2026090100:APCP:surface:30-31 hour acc fcst:
+111:78326954:d=2026090100:AOTK:entire atmosphere (considered as a single layer):31 hour fcst:
+120:86449118:d=2026090100:HGT:cloud ceiling:31 hour fcst:
+126:96558650:d=2026090100:DSWRF:surface:31 hour fcst:
+5:1697401:d=2026090100:VIS:surface:32 hour fcst:
+71:46231869:d=2026090100:TMP:2 m above ground:32 hour fcst:
+74:50323879:d=2026090100:DPT:2 m above ground:32 hour fcst:
+76:53134658:d=2026090100:MASSDEN:8 m above ground:32 hour fcst:
+77:54118083:d=2026090100:UGRD:10 m above ground:32 hour fcst:
+78:56499698:d=2026090100:VGRD:10 m above ground:32 hour fcst:
+84:63330079:d=2026090100:APCP:surface:0-32 hour acc fcst:
+90:64738895:d=2026090100:APCP:surface:31-32 hour acc fcst:
+111:79383033:d=2026090100:AOTK:entire atmosphere (considered as a single layer):32 hour fcst:
+120:87326640:d=2026090100:HGT:cloud ceiling:32 hour fcst:
+126:97386659:d=2026090100:DSWRF:surface:32 hour fcst:
+5:1619437:d=2026090100:VIS:surface:34 hour fcst:
+71:45739490:d=2026090100:TMP:2 m above ground:34 hour fcst:
+74:49834542:d=2026090100:DPT:2 m above ground:34 hour fcst:
+76:52645088:d=2026090100:MASSDEN:8 m above ground:34 hour fcst:
+77:53615661:d=2026090100:UGRD:10 m above ground:34 hour fcst:
+78:55997276:d=2026090100:VGRD:10 m above ground:34 hour fcst:
+84:62824016:d=2026090100:APCP:surface:0-34 hour acc fcst:
+90:64266246:d=2026090100:APCP:surface:33-34 hour acc fcst:
+111:78133397:d=2026090100:AOTK:entire atmosphere (considered as a single layer):34 hour fcst:
+120:86268526:d=2026090100:HGT:cloud ceiling:34 hour fcst:
+126:96322232:d=2026090100:DSWRF:surface:34 hour fcst:
+5:1631867:d=2026090100:VIS:surface:33 hour fcst:
+71:45848440:d=2026090100:TMP:2 m above ground:33 hour fcst:
+74:49943897:d=2026090100:DPT:2 m above ground:33 hour fcst:
+76:52756355:d=2026090100:MASSDEN:8 m above ground:33 hour fcst:
+77:53931586:d=2026090100:UGRD:10 m above ground:33 hour fcst:
+78:56313201:d=2026090100:VGRD:10 m above ground:33 hour fcst:
+84:63165975:d=2026090100:APCP:surface:0-33 hour acc fcst:
+90:64591248:d=2026090100:APCP:surface:32-33 hour acc fcst:
+111:79015399:d=2026090100:AOTK:entire atmosphere (considered as a single layer):33 hour fcst:
+120:87134983:d=2026090100:HGT:cloud ceiling:33 hour fcst:
+126:97221696:d=2026090100:DSWRF:surface:33 hour fcst:
+5:1657551:d=2026090100:VIS:surface:35 hour fcst:
+71:45743272:d=2026090100:TMP:2 m above ground:35 hour fcst:
+74:49843203:d=2026090100:DPT:2 m above ground:35 hour fcst:
+76:52627254:d=2026090100:MASSDEN:8 m above ground:35 hour fcst:
+77:53596729:d=2026090100:UGRD:10 m above ground:35 hour fcst:
+78:55978344:d=2026090100:VGRD:10 m above ground:35 hour fcst:
+84:62819171:d=2026090100:APCP:surface:0-35 hour acc fcst:
+90:64278487:d=2026090100:APCP:surface:34-35 hour acc fcst:
+111:79253962:d=2026090100:AOTK:entire atmosphere (considered as a single layer):35 hour fcst:
+120:87409957:d=2026090100:HGT:cloud ceiling:35 hour fcst:
+126:97423409:d=2026090100:DSWRF:surface:35 hour fcst:
+5:1702571:d=2026090100:VIS:surface:36 hour fcst:
+71:46002807:d=2026090100:TMP:2 m above ground:36 hour fcst:
+74:50068012:d=2026090100:DPT:2 m above ground:36 hour fcst:
+76:52857347:d=2026090100:MASSDEN:8 m above ground:36 hour fcst:
+77:53836318:d=2026090100:UGRD:10 m above ground:36 hour fcst:
+78:56217933:d=2026090100:VGRD:10 m above ground:36 hour fcst:
+84:63059175:d=2026090100:APCP:surface:0-36 hour acc fcst:
+90:64535195:d=2026090100:APCP:surface:35-36 hour acc fcst:
+111:79012914:d=2026090100:AOTK:entire atmosphere (considered as a single layer):36 hour fcst:
+120:87683259:d=2026090100:HGT:cloud ceiling:36 hour fcst:
+126:97664506:d=2026090100:DSWRF:surface:36 hour fcst:
+5:1754067:d=2026090100:VIS:surface:37 hour fcst:
+71:46181819:d=2026090100:TMP:2 m above ground:37 hour fcst:
+74:50222675:d=2026090100:DPT:2 m above ground:37 hour fcst:
+76:53035293:d=2026090100:MASSDEN:8 m above ground:37 hour fcst:
+77:54185669:d=2026090100:UGRD:10 m above ground:37 hour fcst:
+78:56567284:d=2026090100:VGRD:10 m above ground:37 hour fcst:
+84:63362743:d=2026090100:APCP:surface:0-37 hour acc fcst:
+90:64855657:d=2026090100:APCP:surface:36-37 hour acc fcst:
+111:80058370:d=2026090100:AOTK:entire atmosphere (considered as a single layer):37 hour fcst:
+120:88706301:d=2026090100:HGT:cloud ceiling:37 hour fcst:
+126:98629679:d=2026090100:DSWRF:surface:37 hour fcst:
+5:1804970:d=2026090100:VIS:surface:38 hour fcst:
+71:45107211:d=2026090100:TMP:2 m above ground:38 hour fcst:
+74:49162133:d=2026090100:DPT:2 m above ground:38 hour fcst:
+76:52003596:d=2026090100:MASSDEN:8 m above ground:38 hour fcst:
+77:53127134:d=2026090100:UGRD:10 m above ground:38 hour fcst:
+78:55508749:d=2026090100:VGRD:10 m above ground:38 hour fcst:
+84:62181708:d=2026090100:APCP:surface:0-38 hour acc fcst:
+90:63692928:d=2026090100:APCP:surface:37-38 hour acc fcst:
+111:79231033:d=2026090100:AOTK:entire atmosphere (considered as a single layer):38 hour fcst:
+120:87897638:d=2026090100:HGT:cloud ceiling:38 hour fcst:
+126:97811075:d=2026090100:DSWRF:surface:38 hour fcst:
+5:1962188:d=2026090100:VIS:surface:40 hour fcst:
+71:46265817:d=2026090100:TMP:2 m above ground:40 hour fcst:
+74:50350145:d=2026090100:DPT:2 m above ground:40 hour fcst:
+76:53207082:d=2026090100:MASSDEN:8 m above ground:40 hour fcst:
+77:54255518:d=2026090100:UGRD:10 m above ground:40 hour fcst:
+78:56637133:d=2026090100:VGRD:10 m above ground:40 hour fcst:
+84:63127862:d=2026090100:APCP:surface:0-40 hour acc fcst:
+90:64677472:d=2026090100:APCP:surface:39-40 hour acc fcst:
+111:80786242:d=2026090100:AOTK:entire atmosphere (considered as a single layer):40 hour fcst:
+120:89699549:d=2026090100:HGT:cloud ceiling:40 hour fcst:
+126:99740105:d=2026090100:DSWRF:surface:40 hour fcst:
+5:2187778:d=2026090100:VIS:surface:43 hour fcst:
+71:48000946:d=2026090100:TMP:2 m above ground:43 hour fcst:
+74:52137712:d=2026090100:DPT:2 m above ground:43 hour fcst:
+76:54961863:d=2026090100:MASSDEN:8 m above ground:43 hour fcst:
+77:55861117:d=2026090100:UGRD:10 m above ground:43 hour fcst:
+78:58242732:d=2026090100:VGRD:10 m above ground:43 hour fcst:
+84:64824510:d=2026090100:APCP:surface:0-43 hour acc fcst:
+90:66441171:d=2026090100:APCP:surface:42-43 hour acc fcst:
+111:82258021:d=2026090100:AOTK:entire atmosphere (considered as a single layer):43 hour fcst:
+120:91766095:d=2026090100:HGT:cloud ceiling:43 hour fcst:
+126:102548032:d=2026090100:DSWRF:surface:43 hour fcst:
+5:2424335:d=2026090100:VIS:surface:47 hour fcst:
+71:48598711:d=2026090100:TMP:2 m above ground:47 hour fcst:
+74:52738937:d=2026090100:DPT:2 m above ground:47 hour fcst:
+76:55588723:d=2026090100:MASSDEN:8 m above ground:47 hour fcst:
+77:56298084:d=2026090100:UGRD:10 m above ground:47 hour fcst:
+78:58679699:d=2026090100:VGRD:10 m above ground:47 hour fcst:
+84:65461553:d=2026090100:APCP:surface:0-47 hour acc fcst:
+90:67250240:d=2026090100:APCP:surface:46-47 hour acc fcst:
+111:83072380:d=2026090100:AOTK:entire atmosphere (considered as a single layer):47 hour fcst:
+120:91923353:d=2026090100:HGT:cloud ceiling:47 hour fcst:
+126:102674470:d=2026090100:DSWRF:surface:47 hour fcst:
+5:1968943:d=2026090100:VIS:surface:41 hour fcst:
+71:47221647:d=2026090100:TMP:2 m above ground:41 hour fcst:
+74:51333861:d=2026090100:DPT:2 m above ground:41 hour fcst:
+76:54176926:d=2026090100:MASSDEN:8 m above ground:41 hour fcst:
+77:55225991:d=2026090100:UGRD:10 m above ground:41 hour fcst:
+78:57607606:d=2026090100:VGRD:10 m above ground:41 hour fcst:
+84:64091921:d=2026090100:APCP:surface:0-41 hour acc fcst:
+90:65659546:d=2026090100:APCP:surface:40-41 hour acc fcst:
+111:81438780:d=2026090100:AOTK:entire atmosphere (considered as a single layer):41 hour fcst:
+120:91130261:d=2026090100:HGT:cloud ceiling:41 hour fcst:
+126:101338131:d=2026090100:DSWRF:surface:41 hour fcst:
+5:2528208:d=2026090100:VIS:surface:46 hour fcst:
+71:48836058:d=2026090100:TMP:2 m above ground:46 hour fcst:
+74:52995894:d=2026090100:DPT:2 m above ground:46 hour fcst:
+76:55839157:d=2026090100:MASSDEN:8 m above ground:46 hour fcst:
+77:56595568:d=2026090100:UGRD:10 m above ground:46 hour fcst:
+78:58977183:d=2026090100:VGRD:10 m above ground:46 hour fcst:
+84:65771547:d=2026090100:APCP:surface:0-46 hour acc fcst:
+90:67508011:d=2026090100:APCP:surface:45-46 hour acc fcst:
+111:82621830:d=2026090100:AOTK:entire atmosphere (considered as a single layer):46 hour fcst:
+120:91783322:d=2026090100:HGT:cloud ceiling:46 hour fcst:
+126:102653293:d=2026090100:DSWRF:surface:46 hour fcst:
+5:2503103:d=2026090100:VIS:surface:45 hour fcst:
+71:48386271:d=2026090100:TMP:2 m above ground:45 hour fcst:
+74:52557750:d=2026090100:DPT:2 m above ground:45 hour fcst:
+76:55396889:d=2026090100:MASSDEN:8 m above ground:45 hour fcst:
+77:56155724:d=2026090100:UGRD:10 m above ground:45 hour fcst:
+78:58537339:d=2026090100:VGRD:10 m above ground:45 hour fcst:
+84:65316618:d=2026090100:APCP:surface:0-45 hour acc fcst:
+90:67013297:d=2026090100:APCP:surface:44-45 hour acc fcst:
+111:83170320:d=2026090100:AOTK:entire atmosphere (considered as a single layer):45 hour fcst:
+120:92836166:d=2026090100:HGT:cloud ceiling:45 hour fcst:
+126:103799369:d=2026090100:DSWRF:surface:45 hour fcst:
+5:2331839:d=2026090100:VIS:surface:44 hour fcst:
+71:47699090:d=2026090100:TMP:2 m above ground:44 hour fcst:
+74:51866491:d=2026090100:DPT:2 m above ground:44 hour fcst:
+76:54695956:d=2026090100:MASSDEN:8 m above ground:44 hour fcst:
+77:55442340:d=2026090100:UGRD:10 m above ground:44 hour fcst:
+78:57823955:d=2026090100:VGRD:10 m above ground:44 hour fcst:
+84:64509945:d=2026090100:APCP:surface:0-44 hour acc fcst:
+90:66162630:d=2026090100:APCP:surface:43-44 hour acc fcst:
+111:82052570:d=2026090100:AOTK:entire atmosphere (considered as a single layer):44 hour fcst:
+120:91663957:d=2026090100:HGT:cloud ceiling:44 hour fcst:
+126:102574084:d=2026090100:DSWRF:surface:44 hour fcst:
+5:1912749:d=2026090100:VIS:surface:39 hour fcst:
+71:45976161:d=2026090100:TMP:2 m above ground:39 hour fcst:
+74:50058013:d=2026090100:DPT:2 m above ground:39 hour fcst:
+76:52919230:d=2026090100:MASSDEN:8 m above ground:39 hour fcst:
+77:54007672:d=2026090100:UGRD:10 m above ground:39 hour fcst:
+78:56389287:d=2026090100:VGRD:10 m above ground:39 hour fcst:
+84:62958755:d=2026090100:APCP:surface:0-39 hour acc fcst:
+90:64488329:d=2026090100:APCP:surface:38-39 hour acc fcst:
+111:80351755:d=2026090100:AOTK:entire atmosphere (considered as a single layer):39 hour fcst:
+120:89032851:d=2026090100:HGT:cloud ceiling:39 hour fcst:
+126:99017376:d=2026090100:DSWRF:surface:39 hour fcst:
+5:2077396:d=2026090100:VIS:surface:42 hour fcst:
+71:47307211:d=2026090100:TMP:2 m above ground:42 hour fcst:
+74:51430359:d=2026090100:DPT:2 m above ground:42 hour fcst:
+76:54260198:d=2026090100:MASSDEN:8 m above ground:42 hour fcst:
+77:55319671:d=2026090100:UGRD:10 m above ground:42 hour fcst:
+78:57701286:d=2026090100:VGRD:10 m above ground:42 hour fcst:
+84:64225733:d=2026090100:APCP:surface:0-42 hour acc fcst:
+90:65813884:d=2026090100:APCP:surface:41-42 hour acc fcst:
+111:81523737:d=2026090100:AOTK:entire atmosphere (considered as a single layer):42 hour fcst:
+120:91164959:d=2026090100:HGT:cloud ceiling:42 hour fcst:
+126:101682224:d=2026090100:DSWRF:surface:42 hour fcst:
+5:2430174:d=2026090100:VIS:surface:48 hour fcst:
+71:48577006:d=2026090100:TMP:2 m above ground:48 hour fcst:
+74:52690187:d=2026090100:DPT:2 m above ground:48 hour fcst:
+76:55527438:d=2026090100:MASSDEN:8 m above ground:48 hour fcst:
+77:56230733:d=2026090100:UGRD:10 m above ground:48 hour fcst:
+78:58612348:d=2026090100:VGRD:10 m above ground:48 hour fcst:
+84:65347885:d=2026090100:APCP:surface:0-2 day acc fcst:
+90:67165161:d=2026090100:APCP:surface:47-48 hour acc fcst:
+111:82642238:d=2026090100:AOTK:entire atmosphere (considered as a single layer):48 hour fcst:
+120:91234516:d=2026090100:HGT:cloud ceiling:48 hour fcst:
+126:101829276:d=2026090100:DSWRF:surface:48 hour fcst:
++ [2026-09-04 20:59:50] 93: ncrcat -O -h --hdr_pad=16384 2624400000000.nc 2624400000001.nc 2624400000002.nc 2624400000003.nc 2624400000004.nc 2624400000005.nc 2624400000006.nc 2624400000007.nc 2624400000008.nc 2624400000009.nc 2624400000010.nc 2624400000011.nc 2624400000012.nc 2624400000013.nc 2624400000014.nc 2624400000015.nc 2624400000016.nc 2624400000017.nc 2624400000018.nc 2624400000019.nc 2624400000020.nc 2624400000021.nc 2624400000022.nc 2624400000023.nc 2624400000024.nc 2624400000025.nc 2624400000026.nc 2624400000027.nc 2624400000028.nc 2624400000029.nc 2624400000030.nc 2624400000031.nc 2624400000032.nc 2624400000033.nc 2624400000034.nc 2624400000035.nc 2624400000036.nc 2624400000037.nc 2624400000038.nc 2624400000039.nc 2624400000040.nc 2624400000041.nc 2624400000042.nc 2624400000043.nc 2624400000044.nc 2624400000045.nc 2624400000046.nc 2624400000047.nc 2624400000048.nc aqm_HRRR-Smoke_2026090100.nc
++ [2026-09-04 21:00:38] 95: echo 'Getting rid of non-saved files...'
+Getting rid of non-saved files...
++ [2026-09-04 21:00:38] 96: rm -f 2624400000000.nc 2624400000001.nc 2624400000002.nc 2624400000003.nc 2624400000004.nc 2624400000005.nc 2624400000006.nc 2624400000007.nc 2624400000008.nc 2624400000009.nc 2624400000010.nc 2624400000011.nc 2624400000012.nc 2624400000013.nc 2624400000014.nc 2624400000015.nc 2624400000016.nc 2624400000017.nc 2624400000018.nc 2624400000019.nc 2624400000020.nc 2624400000021.nc 2624400000022.nc 2624400000023.nc 2624400000024.nc 2624400000025.nc 2624400000026.nc 2624400000027.nc 2624400000028.nc 2624400000029.nc 2624400000030.nc 2624400000031.nc 2624400000032.nc 2624400000033.nc 2624400000034.nc 2624400000035.nc 2624400000036.nc 2624400000037.nc 2624400000038.nc 2624400000039.nc 2624400000040.nc 2624400000041.nc 2624400000042.nc 2624400000043.nc 2624400000044.nc 2624400000045.nc 2624400000046.nc 2624400000047.nc 2624400000048.nc
++ [2026-09-04 21:00:38] 98: isfile aqm_HRRR-Smoke_2026090100.nc
++ [2026-09-04 21:00:38] 22: local file=aqm_HRRR-Smoke_2026090100.nc
++ [2026-09-04 21:00:38] 23: [[ ! -s aqm_HRRR-Smoke_2026090100.nc ]]
++ [2026-09-04 21:00:38] 99: echo 'Finished processing cycle 2026090100'
+Finished processing cycle 2026090100
++ [2026-09-04 21:00:38] 100: exit 0
