@@ -1,0 +1,21 @@
+# NOTE: model_name_list/data are hardcoded (copied from the original mm_run.sh).
+#       Replace with @MODEL_NAMES@ / @DATA@ to make them follow the cycle.
+plots:
+  plot_grp6:
+    type: 'scorecard'
+    fig_kwargs:
+      figsize: [15, 10]
+    text_kwargs:
+      fontsize: 20.
+    domain_type: ['all']
+    domain_name: ['CONUS']
+    region_name: ['epa_region']
+    region_list: ["R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "CA", "USEPA", "DSBR", "DSBH", "DSBN", "DSCD","DSGH", "DSGV", "DSMA", "DSMY","DSAG","DSBK","MX","DSPK","DSQA","DSRW","DSSG","DSTI","DSNI","DSTO","DSCH","DSET","DSAE","DSUB","DSIN","DSUG","DSKU","DSNP","DSMX","DSVN","DSCH","DSKV","DSUZ","DSAJ","DSIV","DSKZ","DSML","DSLA","DSEG","DSBG"]
+    urban_rural_name: ['msa_name']
+    urban_rural_differentiate_value: ''
+    better_or_worse_method: 'RMSE'
+    model_name_list: ['AirNow', 'RRFS-A_20241123-00Z','RRFS-B_20241123-00Z']
+    data:  ['airnow_RRFS-A_20241123-00Z','airnow_RRFS-B_20241123-00Z']
+    data_proc:
+      rem_obs_nan: True
+      set_axis: False

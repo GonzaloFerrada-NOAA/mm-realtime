@@ -107,26 +107,10 @@ def read_model_data(filepath, bounds):
     """Reads model data from a NetCDF file, cropped to a (west, east, south, north) box in degrees."""
     west, east, south, north = bounds
     with nc.Dataset(filepath, 'r') as ds:
-        if 'time' in ds.variables:
-            time_var = ds.variables['time']
-        elif 'XTIME' in ds.variables:
-            time_var = ds.variables['XTIME']
-        else:
-            raise KeyError(f"Could not find either 'time' or 'XTIME' in {filepath}")
+        time_vals = ds.variables['time'][:]
+        # Convert unix seconds to datetime
+        times = np.array([datetime.fromtimestamp(t) for t in time_vals])
 
-        if not hasattr(time_var, 'units'):
-            raise ValueError(f"Time variable '{time_var.name}' has no 'units' attribute")
-
-        times = np.array(
-            nc.num2date(
-                time_var[:],
-                units=time_var.units,
-                calendar=getattr(time_var, 'calendar', 'standard'),
-                only_use_cftime_datetimes=False,
-                only_use_python_datetimes=True
-            )
-        )
-        
         lon_all = ds.variables['lon'][:]
         lat_all = ds.variables['lat'][:]
         lon_sl = crop_slice(lon_all, west, east)
@@ -141,23 +125,12 @@ def read_model_data(filepath, bounds):
             es.msg("  First model time step has zero AOD everywhere, setting to NaN")
             aod[0] = np.nan
 
-        result = {
+        return {
             'lon': lon_all[lon_sl],
             'lat': lat_all[lat_sl],
             'time': times,
             'aod': aod
         }
-        
-        # Optional simple AOD field
-        if 'AOD550_SIMPLE' in ds.variables:
-            aod_simple = ds.variables['AOD550_SIMPLE'][:, lat_sl, lon_sl]
-            # Apply the same first-step spin-up handling
-            if (aod_simple.shape[0] > 0 and np.nansum(aod_simple[0]) == 0):
-                es.msg("  First model time step has zero AOD550_SIMPLE everywhere, setting to NaN")
-                aod_simple[0] = np.nan
-            result['aod_simple'] = aod_simple
-
-        return result
 
 def replace_bad_viirs_aod(aod):
     """Replaces invalid or negative AOD values with NaN."""
@@ -197,67 +170,7 @@ def average_aod(*arrays):
     total = sum(np.where(m, a, 0.0) for m, a in zip(finite_masks, arrays))
     return np.divide(total, count, out=np.full(arrays[0].shape, np.nan, dtype=float), where=count > 0)
 
-def compute_viirs_time_mean(model_time, viirs_data, shape_viirs):
-    """Computes the hourly-merged, time-mean VIIRS AOD over the first 24 model hours.
-    Also returns the per-hour valid-VIIRS masks, needed to mask the model's own time mean
-    to the same pixels/hours VIIRS actually observed."""
-    viirs_sum   = np.zeros(shape_viirs, dtype=float)
-    viirs_count = np.zeros(shape_viirs, dtype=int)
-    valid_viirs_hours = []
-
-    for t in model_time[:24]:
-        t0 = t - timedelta(minutes=30)
-        t1 = t + timedelta(minutes=29)
-
-        # VIIRS hour matrices (one per available product)
-        viirs_aod_hours = []
-        for data in viirs_data.values():
-            idx = (data['time'] >= t0) & (data['time'] <= t1)
-            aod_hour = np.full(shape_viirs, np.nan, dtype=np.float32)
-            aod_hour[idx] = data['aod'][idx]
-            viirs_aod_hours.append(aod_hour)
-
-        viirs_aod_hour = average_aod(*viirs_aod_hours)
-        valid_viirs = np.isfinite(viirs_aod_hour)
-        valid_viirs_hours.append(valid_viirs)
-
-        viirs_sum[valid_viirs] += viirs_aod_hour[valid_viirs]
-        viirs_count[valid_viirs] += 1
-
-    viirs_mean = np.full(shape_viirs, np.nan)
-    valid_viirs_mean = viirs_count > 0
-    viirs_mean[valid_viirs_mean] = viirs_sum[valid_viirs_mean] / viirs_count[valid_viirs_mean]
-    return viirs_mean, valid_viirs_hours
-
-def compute_model_time_mean(model_time, model_aod, valid_viirs_hours, shape_model):
-    """Computes the hourly-merged, time-mean model AOD, restricted to the hours/pixels where
-    VIIRS was valid (valid_viirs_hours, from compute_viirs_time_mean)."""
-    model_sum   = np.zeros(shape_model, dtype=float)
-    model_count = np.zeros(shape_model, dtype=int)
-
-    for t, valid_viirs in zip(model_time[:24], valid_viirs_hours):
-        t0 = t - timedelta(minutes=30)
-        t1 = t + timedelta(minutes=29)
-        idx_model = (model_time >= t0) & (model_time <= t1)
-
-        # Model hour average
-        with np.errstate(invalid='ignore'):
-            model_aod_hour = np.nanmean(model_aod[idx_model, :, :], axis=0)
-
-        # Map valid VIIRS spaces to Model spaces
-        model_aod_hour_values = np.copy(model_aod_hour)
-        model_aod_hour_values[~valid_viirs] = np.nan
-
-        valid_model = np.isfinite(model_aod_hour_values)
-        model_sum[valid_model] += model_aod_hour_values[valid_model]
-        model_count[valid_model] += 1
-
-    model_mean = np.full(shape_model, np.nan)
-    valid_model_mean = model_count > 0
-    model_mean[valid_model_mean] = model_sum[valid_model_mean] / model_count[valid_model_mean]
-    return model_mean
-
-def write_output_netcdf(filepath, lon, lat, model_mean, viirs_mean, model_simple_mean=None):
+def write_output_netcdf(filepath, lon, lat, model_mean, viirs_mean):
     """Writes the processed time-mean data to a NetCDF4 file."""
     with nc.Dataset(filepath, "w", format="NETCDF4") as ds:
         ds.createDimension("lon", len(lon))
@@ -288,25 +201,17 @@ def write_output_netcdf(filepath, lon, lat, model_mean, viirs_mean, model_simple
             var_obs.long_name = "time-mean VIIRS aerosol optical depth"
             var_obs[:, :] = np.asarray(viirs_mean, dtype=np.float32)
 
-            if model_simple_mean is not None:
-                var_mod_simple = ds.createVariable("aod_model_simple", "f4", ("lat", "lon"), zlib=True, complevel=3, fill_value=np.nan)
-                var_mod_simple.long_name = "time-mean model aerosol optical depth (AOD550_SIMPLE)"
-                var_mod_simple[:, :] = np.asarray(model_simple_mean, dtype=np.float32)
-
 def read_output_netcdf(filepath):
     """Reads back a per-model time-mean NetCDF file written by write_output_netcdf.
     The data was already cropped to the model's domain at save time (see crop_model_boundaries),
     so no further cropping is needed here."""
     with nc.Dataset(filepath, 'r') as ds:
-        result = {
+        return {
             'lon': ds.variables['lon'][:],
             'lat': ds.variables['lat'][:],
             'aod_model': ds.variables['aod_model'][:],
             'aod_viirs': ds.variables['aod_viirs'][:],
         }
-        if 'aod_model_simple' in ds.variables:
-            result['aod_model_simple'] = ds.variables['aod_model_simple'][:]
-        return result
 
 def get_metrics(lon, lat, obs, model, origin, axlims):
     """Computes metrics over the pixels actually visible in a plot panel.
@@ -330,7 +235,7 @@ def _finalize_grid(axes, axl, ncols, hasMetrics):
             ax.set_ylim(axl[row][2], axl[row][3])
             ax.set_xticks([])
             ax.set_yticks([])
-    
+
     vertical_spacement=10
     if nrows > 1 and hasMetrics:
         vertical_spacement=35
@@ -423,7 +328,7 @@ def make_bias_figure(columns, M, rows, lev_bias, cmap_bias, initial_time, end_ti
 
             if row == 0:
                 ids.append(es.figid(f"{name} bias", ax=ax))
-                
+
             mms.append(es.figid('\n'.join(M[col][row].Text), Location='outright'))
             ax.set_facecolor((0.8, 0.8, 0.8))
 
@@ -496,19 +401,58 @@ if __name__ == "__main__":
         shape_viirs = next(iter(viirs_data.values()))['aod'].shape
         shape_model = model['aod'].shape[1:] # Assuming (time, lat, lon)
 
+        viirs_sum   = np.zeros(shape_viirs, dtype=float)
+        viirs_count = np.zeros(shape_viirs, dtype=int)
+        model_sum   = np.zeros(shape_model, dtype=float)
+        model_count = np.zeros(shape_model, dtype=int)
+
         es.msg("Hourly merging...")
-        viirs_mean, valid_viirs_hours = compute_viirs_time_mean(model['time'], viirs_data, shape_viirs)
+        for t in model['time'][:24]:
+            t0 = t - timedelta(minutes=30)
+            t1 = t + timedelta(minutes=29)
 
-        es.msg("Computing time-mean model AOD field...")
-        model_mean = compute_model_time_mean(model['time'], model['aod'], valid_viirs_hours, shape_model)
+            idx_model  = (model['time'] >= t0)  & (model['time'] <= t1)
 
-        model_simple_mean = None
-        if 'aod_simple' in model:
-            es.msg("Computing time-mean model AOD550_SIMPLE field...")
-            model_simple_mean = compute_model_time_mean(model['time'], model['aod_simple'], valid_viirs_hours, shape_model)
+            # Model hour average
+            with np.errstate(invalid='ignore'):
+                model_aod_hour = np.nanmean(model['aod'][idx_model, :, :], axis=0)
 
+            # VIIRS hour matrices (one per available product)
+            viirs_aod_hours = []
+            for data in viirs_data.values():
+                idx = (data['time'] >= t0) & (data['time'] <= t1)
+                aod_hour = np.full(shape_viirs, np.nan, dtype=np.float32)
+                aod_hour[idx] = data['aod'][idx]
+                viirs_aod_hours.append(aod_hour)
+
+            viirs_aod_hour = average_aod(*viirs_aod_hours)
+
+            # Valid accumulations
+            valid_viirs = np.isfinite(viirs_aod_hour)
+            viirs_sum[valid_viirs] += viirs_aod_hour[valid_viirs]
+            viirs_count[valid_viirs] += 1
+            
+            # Map valid VIIRS spaces to Model spaces
+            model_aod_hour_values = np.copy(model_aod_hour)
+            model_aod_hour_values[~valid_viirs] = np.nan
+            
+            valid_model = np.isfinite(model_aod_hour_values)
+            model_sum[valid_model] += model_aod_hour_values[valid_model]
+            model_count[valid_model] += 1
+            
+        viirs_mean = np.full(shape_viirs, np.nan)
+        model_mean = np.full(shape_model, np.nan)
+        
+        valid_viirs_mean = viirs_count > 0
+        valid_model_mean = model_count > 0
+        
+        es.msg("Computing time-mean and model AOD fields...")
+        viirs_mean[valid_viirs_mean] = viirs_sum[valid_viirs_mean] / viirs_count[valid_viirs_mean]
+        model_mean[valid_model_mean] = model_sum[valid_model_mean] / model_count[valid_model_mean]
+        bias_mean = model_mean - viirs_mean
+    
         es.msg("Saving NetCDF output...")
-        write_output_netcdf(FILE_OUT, model['lon'], model['lat'], model_mean, viirs_mean, model_simple_mean)
+        write_output_netcdf(FILE_OUT, model['lon'], model['lat'], model_mean, viirs_mean)
         es.msg(f"Saved NetCDF output to {FILE_OUT}")
 
         
@@ -526,10 +470,11 @@ if __name__ == "__main__":
         
         # Regions to plot:
         regions = ["CONUS", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10"]
-        # regions = ["CONUS"]
-        regions_csv_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lambert_map_settings.csv")
+        # regions = ["R8"]
+        regions_csv_file = os.environ.get("LAMBERT_CSV_FILE", "None")
+        if not is_valid_file(regions_csv_file):
+            raise RuntimeError(f"LAMBERT_CSV_FILE is not set to a valid file (got {regions_csv_file!r}).")
         map_regions = load_map_regions(regions_csv_file)
-
 
         if len(model_names_all) != len(model_files_all):
             raise RuntimeError(f"MODEL_NAMES ({len(model_names_all)}) and FILE_OUT ({len(model_files_all)}) counts must match.")
@@ -555,17 +500,9 @@ if __name__ == "__main__":
         es.msg("Reading per-model NetCDF output...")
         outputs = [read_output_netcdf(f) for f in model_files]
 
-        # Models with an AOD550_SIMPLE field get a second column labeled "(SIMPLE)" right
-        # after their regular AOD550 column, so specs are built as a flat (label, output, field) list.
-        model_specs = []
-        for name, o in zip(model_names, outputs):
-            model_specs.append((name, o, 'aod_model'))
-            if 'aod_model_simple' in o:
-                model_specs.append((f"{name} (SIMPLE)", o, 'aod_model_simple'))
-
         spatial_columns = [(viirs_label, outputs[0]['lon'], outputs[0]['lat'], outputs[0]['aod_viirs'])]
-        spatial_columns += [(name, o['lon'], o['lat'], o[field]) for name, o, field in model_specs]
-
+        spatial_columns += [(name, o['lon'], o['lat'], o['aod_model']) for name, o in zip(model_names, outputs)]
+        
         # Plot spatial_overlay
         for region in regions:
             rows = region_rows(region, map_regions)
@@ -579,15 +516,15 @@ if __name__ == "__main__":
 
 
         # Plot spatial_bias
-        bias_columns = [(name, o['lon'], o['lat'], o[field] - o['aod_viirs'])
-                         for name, o, field in model_specs]
+        bias_columns = [(name, o['lon'], o['lat'], o['aod_model'] - o['aod_viirs'])
+                         for name, o in zip(model_names, outputs)]
 
         for region in regions:
             rows = region_rows(region, map_regions)
 
-            M = [[get_metrics(o['lon'], o['lat'], o['aod_viirs'], o[field], row_ps, row_axl)
+            M = [[get_metrics(o['lon'], o['lat'], o['aod_viirs'], o['aod_model'], row_ps, row_axl)
                   for (_, row_ps, row_axl, _) in rows]
-                 for _, o, field in model_specs]
+                 for o in outputs]
 
             make_bias_figure(bias_columns, M, rows, lev_bias, cmap_bias, initial_time, end_time, viirs_label)
 

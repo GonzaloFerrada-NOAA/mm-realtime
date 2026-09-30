@@ -1,0 +1,16 @@
+plots:
+  plot_grp5:
+    type: 'taylor'
+    fig_kwargs:
+      figsize: [8,8]
+    default_plot_kwargs:
+      linewidth: 2.0
+      markersize: 10.
+    text_kwargs:
+      fontsize: 16.
+    domain_type: [@DOMAIN_TYPE@]
+    domain_name: [@DOMAIN_NAME@]
+    data: [@DATA@]
+    data_proc:
+      rem_obs_nan: True
+      set_axis: True # uses ty_scale from obs variables

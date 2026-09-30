@@ -1,0 +1,9 @@
+      OZONE:
+        unit_scale: 1 #Opt Scaling factor
+        unit_scale_method: '*' #Opt Multiply = '*' , Add = '+', subtract = '-', divide = '/'
+        nan_value: -1.0 # Opt Set this value to NaN
+        ylabel_plot: 'Ozone (ppbv)'
+        vmin_plot: 15.0 #Opt
+        vmax_plot: 55.0 #Opt
+        vdiff_plot: 20.0 #Opt
+        nlevels_plot: 21 #Opt

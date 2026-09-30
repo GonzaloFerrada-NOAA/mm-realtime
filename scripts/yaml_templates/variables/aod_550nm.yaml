@@ -1,0 +1,9 @@
+      aod_550nm:
+        unit_scale: 1
+        unit_scale_method: '*' # Multiply = '*' , Add = '+', subtract = '-', divide = '/'
+        nan_value: -1.0 # Set this value to NaN
+        ylabel_plot: 'Aeronet 550nm AOD'
+        vmin_plot: 0.01 #Opt
+        vmax_plot: 2.00 #Opt
+        vdiff_plot: 0.2 #Opt
+        nlevels_plot: 14 #Opt

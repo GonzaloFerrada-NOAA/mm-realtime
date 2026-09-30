@@ -1,0 +1,12 @@
+      PM10:
+        unit_scale: 1
+        unit_scale_method: '*' # Multiply = '*' , Add = '+', subtract = '-', divide = '/'
+        #obs_min: 0 # set all values less than this value to NaN
+        #obs_max: 100 # set all values greater than this value to NaN
+        nan_value: -1.0 # Set this value to NaN
+        ylabel_plot: 'PM10 (ug/m3)'
+        ty_scale: 2.0 #Opt
+        vmin_plot: 10.0 #Opt
+        vmax_plot: 1000.0 #Opt
+        vdiff_plot: 15.0 #Opt
+        nlevels_plot: 14 #Opt

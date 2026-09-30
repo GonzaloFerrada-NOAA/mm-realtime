@@ -35,6 +35,8 @@ export FILE_SNPP="${PATH_VIIRS_SNPP}/viirs_eps_npp_aod_0.050_deg_${YMD}_nrt.nc"
 export FILE_NOAA20="${PATH_VIIRS_NOAA20}/viirs_eps_noaa20_aod_0.050_deg_${YMD}_nrt.nc" 
 export FILE_NOAA21="${PATH_VIIRS_NOAA21}/viirs_eps_noaa21_aod_0.050_deg_${YMD}_nrt.nc"
 
+export LAMBERT_CSV_FILE="${SCRIPTS_DIR}/aux/lambert_map_settings_viirs.csv"
+
 # Check if VIIRS files exist, if not set their value to None:
 for f in FILE_NOAA20 FILE_NOAA21 FILE_SNPP; do
     [[ -s ${!f} ]] || printf -v "$f" '%s' "None"
@@ -61,22 +63,28 @@ for MODEL_NAME in "${MODEL_LIST[@]}"; do
         export FILE_OUT="${WORKDIR}/viirs_${MODEL_NAME}_verification_${YMD}${HH}.nc"
         FILES_AVAILABLE+=( "${FILE_OUT}" )
         
-        # Regrid each model output using bilinear interpolation to same VIIRS' data resolution (0.05 deg):
-        TMP_NC="${WORKDIR}/tmp_${MODEL_NAME}_${YMD}${HH}.nc"
-        
-        case "${MODEL_NAME}" in
-        RAP-Smoke)
-            ncks -O -v "AOD_550" "${FILE_MODEL_IN}" "${TMP_NC}"
-            ncrename -v AOD_550,AOD550 "${TMP_NC}"
-            ;;
-        *)
-            ncks -O -v "AOD550" "${FILE_MODEL_IN}" "${TMP_NC}"
-            ;;
-        esac
-        
-        # Bilinear interpolation is fine:
-        cdo remapbil,${CDO_REGRID_FILE} ${TMP_NC} ${FILE_MODEL}
-        rm -f ${TMP_NC}
+        # Regridding
+        if [[ ! -s ${FILE_MODEL} ]]; then
+            # Regrid each model output using bilinear interpolation to same VIIRS' data resolution (0.05 deg):
+            TMP_NC="${WORKDIR}/tmp_viirs_${MODEL_NAME}_${YMD}${HH}.nc"
+            
+            case "${MODEL_NAME}" in
+            RAP-Smoke)
+                ncks -O -v "AOD_550" "${FILE_MODEL_IN}" "${TMP_NC}"
+                ncrename -v AOD_550,AOD550 "${TMP_NC}"
+                ;;
+            MPAS-Aerosols)
+                ncks -O -v "AOD550,AOD550_SIMPLE" "${FILE_MODEL_IN}" "${TMP_NC}"
+                ;;
+            *)
+                ncks -O -v "AOD550" "${FILE_MODEL_IN}" "${TMP_NC}"
+                ;;
+            esac
+            
+            # Bilinear interpolation is fine:
+            cdo remapbil,${CDO_REGRID_FILE} ${TMP_NC} ${FILE_MODEL}
+            rm -f ${TMP_NC}
+        fi
         
         # Run python code:
         export MODEL_NAME
@@ -98,7 +106,7 @@ export opt_save_netcdf=False
 export opt_make_figure=True
 export MODEL_NAMES="${MODEL_LIST[*]}"
 export FILE_OUT="${FILES_AVAILABLE[*]}"
-export PATH_FIG="${MELODIES_MONET_DIR}/plot_output/${YMD}12/regional_smoke/aod_550nm/VIIRS"
+export PATH_FIG="${MELODIES_MONET_DIR}/plot_output/${YMD}12/${MODEL_TYPE}/aod_550nm/VIIRS"
 mkdir -p ${PATH_FIG}
 
 # Run python code:

@@ -1,0 +1,8 @@
+      NO2:
+        #obs_max: 1 # ppbv
+        nan_value: -1.0 # Set this value to NaN
+        ylabel_plot: 'NO2 (ppbv)'
+        vmin_plot: 0.0 #Opt
+        vmax_plot: 20.0 #Opt
+        vdiff_plot: 15.0 #Opt
+        nlevels_plot: 21 #Opt

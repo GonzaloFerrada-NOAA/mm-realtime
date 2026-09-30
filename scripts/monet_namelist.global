@@ -1,1 +1,2 @@
-old_or_linked/monet_namelist.global.v0
+# || Model Name || Model Type/monetio reader || Inits || Run Length ||  Relative Day to Obs (e.g., N, N-1) || Color Indicator  || Marker || Species & Mapping
+GEFS-Aerosols,hrrr,00,120,-2,green,x,-,PM2_5_DRY:PM2.5/AOD550:aod_550nm/PM10:PM10

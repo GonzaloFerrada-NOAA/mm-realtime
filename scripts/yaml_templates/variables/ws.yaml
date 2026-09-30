@@ -1,0 +1,3 @@
+      ws:
+        nan_value: -1.0
+        ylabel_plot: 'Wind Speed (m/s)'

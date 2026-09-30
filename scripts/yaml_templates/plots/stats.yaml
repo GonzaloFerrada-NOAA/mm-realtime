@@ -1,0 +1,16 @@
+stats:
+  # Stats require positive numbers: use Kelvin for temperature.
+  # Full list: ['STDO','STDP','MdnNB','NO','NOP','NP','MO','MP','MdnO','MdnP','RM','RMdn',
+  #             'MB','MdnB','NMB','NMdnB','FB','NME','R2','RMSE','IOA','AC']
+  stat_list: ['MB','MdnB','NMB','R2','RMSE','NOP']
+  round_output: 1 # defaults to 3 decimals
+  output_table: True # always writes .txt; also writes a table figure
+  output_table_kwargs:
+    figsize: [15, 4]
+    fontsize: 6.
+    xscale: 1.1
+    yscale: 1.1
+    edges: 'horizontal'
+  domain_type: [@DOMAIN_TYPE@]
+  domain_name: [@DOMAIN_NAME@]
+  data: [@DATA@]

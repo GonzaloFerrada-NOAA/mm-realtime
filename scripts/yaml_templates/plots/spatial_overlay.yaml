@@ -1,0 +1,14 @@
+plots:
+  plot_grp2:
+    type: 'spatial_overlay'
+    fig_kwargs:
+      figsize: [10, 5]
+      #states: True
+    text_kwargs:
+      fontsize: 16.
+    domain_type: [@DOMAIN_TYPE@]
+    domain_name: [@DOMAIN_NAME@]
+    data: [@DATA@]
+    data_proc:
+      rem_obs_nan: True
+      set_axis: True # uses vmin_plot/vmax_plot from obs variables

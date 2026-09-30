@@ -1,0 +1,9 @@
+      CO:
+        unit_scale: 1000. # Convert from ppmv to ppbv
+        unit_scale_method: '*' # Multiply = '*' , Add = '+', subtract = '-', divide = '/'
+        nan_value: -1.0 # Set this value to NaN
+        ylabel_plot: 'CO (ppbv)'
+        vmin_plot: 50.0 #Opt
+        vmax_plot: 750.0 #Opt
+        vdiff_plot: 400.0 #Opt
+        nlevels_plot: 15 #Opt

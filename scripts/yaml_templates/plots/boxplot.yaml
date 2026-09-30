@@ -1,0 +1,13 @@
+plots:
+  plot_grp4:
+    type: 'boxplot'
+    fig_kwargs:
+      figsize: [8, 6]
+    text_kwargs:
+      fontsize: 10.
+    domain_type: [@DOMAIN_TYPE@]
+    domain_name: [@DOMAIN_NAME@]
+    data: [@DATA@]
+    data_proc:
+      rem_obs_nan: True
+      set_axis: False

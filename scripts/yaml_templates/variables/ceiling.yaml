@@ -1,0 +1,4 @@
+      ceiling:
+        nan_value: -1.0
+        obs_max: 21999.99
+        ylabel_plot: 'Cloud Ceiling (m)'

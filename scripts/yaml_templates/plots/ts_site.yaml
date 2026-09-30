@@ -1,0 +1,18 @@
+plots:
+  plot_grp1:
+    type: 'timeseries'
+    fig_kwargs:
+      figsize: [12,6]
+    default_plot_kwargs: # Model kwargs overwrite these
+      linewidth: 3.0
+      markersize: 10.
+    text_kwargs:
+      fontsize: 18.
+    domain_type: [@DOMAIN_TYPE@]
+    domain_name: [@DOMAIN_NAME@]
+    data: [@DATA@]
+    data_proc:
+      rem_obs_nan: True # True: remove points where model OR obs is NaN
+      ts_select_time: 'time' # 'time' (UTC) or 'time_local'
+      ts_avg_window: 'H' # None or pandas resample rule ('H', 'D')
+      set_axis: False

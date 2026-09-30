@@ -1,0 +1,46 @@
+plots:
+  plot_grp7:
+    type: 'csi'
+    fig_kwargs:
+      figsize: [10, 5]
+    text_kwargs:
+      fontsize: 16
+    domain_type: [@DOMAIN_TYPE@]
+    domain_name: [@DOMAIN_NAME@]
+    threshold_list: @CSI_THRESHOLDS@
+    score_name: 'Critical Success Index' # 'Critical Success Index', 'False Alarm Rate' or 'Hit Rate'
+    model_name_list: [@MODEL_NAMES@]
+    data: [@DATA@]
+    data_proc:
+      rem_obs_nan: True
+      set_axis: True
+  plot_grp8:
+    type: 'csi'
+    fig_kwargs:
+      figsize: [10, 5]
+    text_kwargs:
+      fontsize: 16
+    domain_type: [@DOMAIN_TYPE@]
+    domain_name: [@DOMAIN_NAME@]
+    threshold_list: @CSI_THRESHOLDS@
+    score_name: 'Hit Rate' # 'Critical Success Index', 'False Alarm Rate' or 'Hit Rate'
+    model_name_list: [@MODEL_NAMES@]
+    data: [@DATA@]
+    data_proc:
+      rem_obs_nan: True
+      set_axis: True
+  plot_grp9:
+    type: 'csi'
+    fig_kwargs:
+      figsize: [10, 5]
+    text_kwargs:
+      fontsize: 16
+    domain_type: [@DOMAIN_TYPE@]
+    domain_name: [@DOMAIN_NAME@]
+    threshold_list: @CSI_THRESHOLDS@
+    score_name: 'False Alarm Rate' # 'Critical Success Index', 'False Alarm Rate' or 'Hit Rate'
+    model_name_list: [@MODEL_NAMES@]
+    data: [@DATA@]
+    data_proc:
+      rem_obs_nan: True
+      set_axis: True

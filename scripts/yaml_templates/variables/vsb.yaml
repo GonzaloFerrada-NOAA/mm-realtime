@@ -1,0 +1,6 @@
+      vsb:
+        nan_value: -1.0
+        obs_min: 0.01
+        unit_scale: 0.000625
+        unit_scale_method: '*'
+        ylabel_plot: 'Visibility (mi)'

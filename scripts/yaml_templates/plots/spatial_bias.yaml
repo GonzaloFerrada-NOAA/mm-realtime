@@ -1,0 +1,14 @@
+plots:
+  plot_grp3:
+    type: 'spatial_bias'
+    fig_kwargs:
+      states: True
+      figsize: [10, 5]
+    text_kwargs:
+      fontsize: 16.
+    domain_type: [@DOMAIN_TYPE@]
+    domain_name: [@DOMAIN_NAME@]
+    data: [@DATA@]
+    data_proc:
+      rem_obs_nan: True
+      set_axis: True # uses vdiff_plot from obs variables
