@@ -88,11 +88,27 @@ mdl_species_list = ["polp","polp_tree","polp_grass","polp_weed"]
 titles = ['Total','Tree','Grass','Weed']
 nspecies = len(obs_species_list)
 #
-polp_conv = 1.e9 / ( 4./3. * 3.14 * 25.**3. * 1200.)
+
+diam_polp = [ 35., 35., 20.]
+dens_polp = [ 1200., 1000.,  1300.]
+
+polp_conv_tree = 1.e9 / ( 4./3. * 3.14 * (diam_polp[1]/2).**3. * dens_polp[1])
+polp_conv_grass = 1.e9 / ( 4./3. * 3.14 * (diam_polp[2]/2).**3. * dens_polp[2])
+polp_conv_weed = 1.e9 / ( 4./3. * 3.14 * (diam_polp[3]/2).**3. * dens_polp[3])
 
 mdl_knt=0
 
 for ispec in obs_species_list:
+
+   if ispec == "polp":
+      polp_conv = polp_conv_tree
+   elif ispec == "polp_tree":
+      polp_conv = polp_conv_tree
+   elif ispec == "polp_grass":
+      polp_conv = polp_conv_grass
+   elif ispec == "polp_weed":
+      polp_conv = polp_conv_weed
+
    fig,axes = plt.subplots(1,3,figsize=(18, 6),subplot_kw={'projection': ccrs.PlateCarree()})
    fig.subplots_adjust(bottom=0.5, wspace=0.05)
    axes = axes.flatten()

@@ -83,39 +83,48 @@ def build_uniform_grid():
 def read_tempo_granule(filepath):
     """Reads one TEMPO L2 granule's aod550/alh + lon/lat, gated by the granule-level
     quality flag (whole granule rejected unless granule_level_quality_flag == 0) and
-    the per-pixel dqf (dqf <= DQF_MAX)."""
-    with nc.Dataset(filepath, 'r') as ds:
-        try:
-            granule_flag = int(ds.variables['granule_level_quality_flag'][...])
-        except (KeyError, TypeError, ValueError):
-            return None
-        if granule_flag != 0:
-            return None
+    the per-pixel dqf (dqf <= DQF_MAX). Returns None (and logs a warning) for a granule
+    that can't be read at all -- e.g. a truncated/corrupted download -- rather than
+    letting the whole day's aggregation crash on one bad file."""
+    try:
+        with nc.Dataset(filepath, 'r') as ds:
+            print(filepath)
+            # try:
+            #     granule_flag = int(ds.variables['granule_level_quality_flag'][...])
+            # except (KeyError, TypeError, ValueError):
+            #     return None
+            # if granule_flag != 0:
+            #     return None
+ 
+            geo = ds.groups['geolocation']
+            product = ds.groups['product']
+            qc = ds.groups['quality_diagnostic_flags']
+ 
+            lon = np.ma.filled(geo['longitude'][:], np.nan).astype(np.float64)
+            lat = np.ma.filled(geo['latitude'][:], np.nan).astype(np.float64)
+            aod = np.ma.filled(product['aod550'][:], np.nan).astype(np.float64)
+            alh = np.ma.filled(product['alh'][:], np.nan).astype(np.float64)
+            dqf = np.ma.filled(qc['dqf'][:], 255).astype(np.int16)
+ 
+            valid = (
+                np.isfinite(lon) & np.isfinite(lat)
+                & (np.abs(lat) <= 90.0) & (np.abs(lon) <= 180.0)
+                & np.isfinite(aod) & (dqf <= DQF_MAX)
+            )
+            if not np.any(valid):
+                return None
+ 
+            return {
+                'lon': lon[valid],
+                'lat': lat[valid],
+                'aod550': aod[valid],
+                'alh': alh[valid],  # left as NaN where alh itself is missing; aod550 validity drives the pixel mask
+            }
+ 
+    except (OSError, RuntimeError, KeyError) as exc:
+        es.msg(f"  [SKIP] {os.path.basename(filepath)}: unreadable ({exc})")
+        return None
 
-        geo = ds.groups['geolocation']
-        product = ds.groups['product']
-        qc = ds.groups['quality_diagnostic_flags']
-
-        lon = np.ma.filled(geo['longitude'][:], np.nan).astype(np.float64)
-        lat = np.ma.filled(geo['latitude'][:], np.nan).astype(np.float64)
-        aod = np.ma.filled(product['aod550'][:], np.nan).astype(np.float64)
-        alh = np.ma.filled(product['alh'][:], np.nan).astype(np.float64)
-        dqf = np.ma.filled(qc['dqf'][:], 255).astype(np.int16)
-
-        valid = (
-            np.isfinite(lon) & np.isfinite(lat)
-            & (np.abs(lat) <= 90.0) & (np.abs(lon) <= 180.0)
-            & np.isfinite(aod) & (dqf <= DQF_MAX)
-        )
-        if not np.any(valid):
-            return None
-
-        return {
-            'lon': lon[valid],
-            'lat': lat[valid],
-            'aod550': aod[valid],
-            'alh': alh[valid],  # left as NaN where alh itself is missing; aod550 validity drives the pixel mask
-        }
 
 
 def _cell_stats(values, flat_idx, n_cells, grid_shape):

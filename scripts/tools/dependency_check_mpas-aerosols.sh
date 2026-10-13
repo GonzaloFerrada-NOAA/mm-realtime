@@ -21,5 +21,4 @@ for (( DATEAUX=DATE1; DATEAUX<=DATE2; DATEAUX+=3600 )); do
         exit 1
     fi
 done
-echo "todo bien po"
 exit 0

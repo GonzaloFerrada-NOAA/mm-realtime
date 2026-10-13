@@ -1,6 +1,7 @@
 #!/bin/bash
 module load wgrib2
-module load nco
+module load nco 
+module load cdo eccodes/2.34.0
 source ${SCRIPTS_DIR}/tools/workflow_tools.sh
 # source tools/workflow_tools.sh
 
@@ -35,7 +36,7 @@ set -x
 # processORcat=0
 # RRFS_SD_DATADIR_GRIB2="/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2"
 
-# Test:
+
 FCST_LENGTH_HOURS=$((10#$FCST_LENGTH_HOURS))
 NGROUPS=$((10#$NGROUPS))
 GROUP=$((10#$GROUP))
@@ -69,6 +70,26 @@ if [[ ${processORcat} -eq 1 ]]; then
     
     echo "${final_fout} created!"
     echo "${final_fout2} created!"
+    
+    # Create AOD file for VIIRS/TEMPO AOD verification:
+    CDO_REGRID_FILE_VIIRS="${SCRIPTS_DIR}/aux/cdo_regrid_global_0p05.txt"
+    CDO_REGRID_FILE_TEMPO="${SCRIPTS_DIR}/aux/cdo_regrid_regional_0p1.txt"
+    AOD_FILE_VIIRS="${workdir}/aod550_${model}_${YYYYMMDD}${cycleHH}.0p05.nc"
+    AOD_FILE_TEMPO="${workdir}/aod550_${model}_${YYYYMMDD}${cycleHH}.0p1.nc"
+    AOD_FILE_TMP="${workdir}/tmp.aod550.${model}_${YYYYMMDD}${cycleHH}.nc"
+    
+    ncks -h -O -v "AOD550" "${final_fout}" "${AOD_FILE_TMP}"
+    cdo remapbil,${CDO_REGRID_FILE_VIIRS}  "${AOD_FILE_TMP}" "${AOD_FILE_VIIRS}"
+    cdo remapbil,${CDO_REGRID_FILE_TEMPO}  "${AOD_FILE_TMP}" "${AOD_FILE_TEMPO}"
+    
+    isfile "${AOD_FILE_VIIRS}"; isfile "${AOD_FILE_TEMPO}"
+    rm -f  "${AOD_FILE_TMP}"
+    
+    # Compress:
+    ncks -O -h -4 -L 3 "${AOD_FILE_VIIRS}" "${AOD_FILE_VIIRS}"
+    ncks -O -h -4 -L 3 "${AOD_FILE_TEMPO}" "${AOD_FILE_TEMPO}"
+    isfile "${AOD_FILE_VIIRS}"; isfile "${AOD_FILE_TEMPO}"
+        
     exit 0
 fi
 
@@ -151,8 +172,8 @@ for (( hh=LEAD_HH_START; hh<=LEAD_HH_END; hh+=MODEL_DT )); do
     ncks  -h -O -x -v hlevel                           "${fout}" "${fout}"
     
     # Compress:
-    echo "Compressing..."
-    ncks -O -h -4 -L 3 "${fout}" "${fout}"
+    # echo "Compressing..."
+    # ncks -O -h -4 -L 3 "${fout}" "${fout}"
     
     isfile "${fout}" # Check if file was created and its size is not 0
     

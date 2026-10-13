@@ -103,13 +103,49 @@ def viirs_file_date(filepath, fallback_time):
         return fallback_time.replace(hour=0, minute=0, second=0, microsecond=0)
     return datetime.strptime(match.group(1), "%Y%m%d")
 
+def _read_times(time_var):
+    """Converts a NetCDF time variable to an array of python datetimes using its own units/calendar."""
+    if not hasattr(time_var, 'units'):
+        raise ValueError(f"Time variable '{time_var.name}' has no 'units' attribute")
+    return np.array(
+        nc.num2date(
+            time_var[:],
+            units=time_var.units,
+            calendar=getattr(time_var, 'calendar', 'standard'),
+            only_use_cftime_datetimes=False,
+            only_use_python_datetimes=True
+        )
+    )
+
 def read_model_data(filepath, bounds):
-    """Reads model data from a NetCDF file, cropped to a (west, east, south, north) box in degrees."""
+    """Reads model data from a NetCDF file, cropped to a (west, east, south, north) box in degrees.
+
+    Time variable selection: 'time' is checked first, then the WRF/MPAS-native 'XTIME' and
+    'Time' as fallbacks. Once a model's aqm-construction step adds a proper 'time' (or
+    'Time') coordinate variable that a regridding tool can recognize as a real time axis,
+    such tools typically normalize it to 'time' in their own output regardless of the
+    original name -- so 'time' first is correct for a model fixed at the source, while
+    XTIME/Time remain as fallbacks for anything that hasn't been. The time values
+    themselves are parsed generically from the variable's own 'units'/'calendar'
+    attributes (via _read_times) rather than assumed to be raw Unix epoch seconds."""
     west, east, south, north = bounds
     with nc.Dataset(filepath, 'r') as ds:
-        time_vals = ds.variables['time'][:]
-        # Convert unix seconds to datetime
-        times = np.array([datetime.fromtimestamp(t) for t in time_vals])
+        if 'time' in ds.variables:
+            time_var = ds.variables['time']
+        elif 'XTIME' in ds.variables:
+            time_var = ds.variables['XTIME']
+        elif 'Time' in ds.variables:
+            time_var = ds.variables['Time']
+        else:
+            raise KeyError(f"Could not find 'time', 'XTIME', or 'Time' in {filepath}")
+
+        try:
+            times = _read_times(time_var)
+        except Exception as exc:
+            raise ValueError(
+                f"{filepath}: failed to parse '{time_var.name}' (units={getattr(time_var, 'units', '<none>')!r}, "
+                f"calendar={getattr(time_var, 'calendar', '<none>')!r}): {exc}"
+            ) from exc
 
         lon_all = ds.variables['lon'][:]
         lat_all = ds.variables['lat'][:]
@@ -118,19 +154,43 @@ def read_model_data(filepath, bounds):
 
         aod = ds.variables['AOD550'][:, lat_sl, lon_sl]
 
+        # A mismatched length or a degenerate (non-increasing / all-identical) time axis
+        # means the time variable that got picked doesn't actually describe this AOD
+        # field's time steps -- fail loudly here rather than silently producing a time
+        # axis that will just make every downstream time-window match fail or mismatch.
+        if len(times) != aod.shape[0]:
+            raise ValueError(
+                f"{filepath}: '{time_var.name}' has {len(times)} step(s) but AOD550 has "
+                f"{aod.shape[0]} -- time variable doesn't match the data it's supposed to describe."
+            )
+        if len(times) > 1 and not np.all(np.diff(times) > timedelta(0)):
+            raise ValueError(
+                f"{filepath}: '{time_var.name}' is not strictly increasing ({times[0]} .. {times[-1]}) "
+                "-- likely a placeholder/misparsed time axis rather than real model output times."
+            )
+
         # Some models report AOD as exactly zero everywhere at the first
         # time step (spin-up artifact). Left as-is, this drags the model
         # mean down and biases it low against VIIRS, so flag it as missing.
         if aod.shape[0] > 0 and np.nansum(aod[0]) == 0:
             es.msg("  First model time step has zero AOD everywhere, setting to NaN")
             aod[0] = np.nan
-
-        return {
+            
+        result = {
             'lon': lon_all[lon_sl],
             'lat': lat_all[lat_sl],
             'time': times,
             'aod': aod
         }
+
+        if 'AOD550_SIMPLE' in ds.variables:
+            aod_simple = ds.variables['AOD550_SIMPLE'][:]
+            if aod_simple.shape[0] > 0 and np.nansum(aod_simple[0]) == 0:
+                es.msg("  First model time step has zero AOD550_SIMPLE everywhere, setting to NaN")
+                aod_simple[0] = np.nan
+            result['aod_simple'] = aod_simple
+
+        return result
 
 def replace_bad_viirs_aod(aod):
     """Replaces invalid or negative AOD values with NaN."""
@@ -532,4 +592,3 @@ if __name__ == "__main__":
             plt.gcf().savefig(fig_out, bbox_inches='tight', dpi=200)
             plt.close('all')
             es.msg(f"{fig_out} saved!")
-

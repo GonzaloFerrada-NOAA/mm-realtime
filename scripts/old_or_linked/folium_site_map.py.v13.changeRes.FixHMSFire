@@ -60,6 +60,11 @@ if model_type ==  "regional_smoke":
     platform_list = ['airnow', 'openaq', 'airnow', 'openaq', 'aeronet','ish', 'NOAA HMS']
     platform_nice = ['EPA AirNOW', 'OpenAQ', 'EPA AirNOW', 'OpenAQ', 'AERONET', 'NOAA ISD', 'NOAA HMS']
     color_list    = ['purple', 'blue', 'red', 'green' , 'yellow', 'orange', 'black']
+if model_type ==  "regional_aerosols":
+    species_list  = ['PM2.5', 'PM2.5', 'PM10', 'PM10', 'aod_550nm','vsb', 'HMS']
+    platform_list = ['airnow', 'openaq', 'airnow', 'openaq', 'aeronet','ish', 'NOAA HMS']
+    platform_nice = ['EPA AirNOW', 'OpenAQ', 'EPA AirNOW', 'OpenAQ', 'AERONET', 'NOAA ISD', 'NOAA HMS']
+    color_list    = ['purple', 'blue', 'red', 'green' , 'yellow', 'orange', 'black']
 elif model_type == "regional_chemistry":
     species_list  = ['PM2.5', 'PM2.5', 'PM10', 'PM10', 'aod_550nm', 'OZONE', 'HMS']
     platform_list = ['airnow', 'openaq', 'airnow', 'openaq', 'aeronet','airnow', 'NOAA HMS']

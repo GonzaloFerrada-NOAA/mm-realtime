@@ -1,1 +1,0 @@
-old_or_linked/cut_and_send_hrrr-smoke.v0.sh

@@ -27,7 +27,7 @@ YMD=$( date -d "${INITIAL_TIME}" +%Y%m%d )
 HH=$( date -d "${INITIAL_TIME}" +%H )
 
 # local:
-CDO_REGRID_FILE="${SCRIPTS_DIR}/cdo_regrid_0p05.txt"
+CDO_REGRID_FILE="${SCRIPTS_DIR}/aux/cdo_regrid_global_0p05.txt"
 SCRIPT="${SCRIPTS_DIR}/viirs_l3_aod_verification.py"
 
 # VIIRS files:

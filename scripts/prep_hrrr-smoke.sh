@@ -9,6 +9,7 @@
 module load hpss
 module load wgrib2
 module load nco
+module load cdo eccodes/2.34.0
 # module load parallel
 
 source ${SCRIPTS_DIR}/tools/workflow_tools.sh
@@ -42,6 +43,7 @@ filename="${YYYY}${MM}${DD}${cycleHH}00.zip"
 
 mkdir -p "${workdir}"
 cd "${workdir}"
+rm -rf ${workdir}/*
 
 echo "Attempting to retrieve file: ${datadir}/${filename}"
 
@@ -83,7 +85,7 @@ process_file() {
         -s 'TMP_2maboveground=float(TMP_2maboveground-273.15)' \
         "${file}.nc" "${file}.nc"
         
-    ncks -O -h -4 -L 3 "${file}.nc" "${file}.nc"
+    # ncks -O -h -4 -L 3 "${file}.nc" "${file}.nc"
     
     rm -f "${file}"
 }
@@ -98,5 +100,26 @@ echo "Getting rid of non-saved files..."
 rm -f ${YY}*.nc
 
 isfile "${final_filename}"
+
+echo "Producing AOD files for TEMPO/VIIRS verification..."
+
+CDO_REGRID_FILE_VIIRS="${SCRIPTS_DIR}/aux/cdo_regrid_global_0p05.txt"
+CDO_REGRID_FILE_TEMPO="${SCRIPTS_DIR}/aux/cdo_regrid_regional_0p1.txt"
+AOD_FILE_VIIRS="${workdir}/aod550_${model}_${YYYYMMDD}${cycleHH}.0p05.nc"
+AOD_FILE_TEMPO="${workdir}/aod550_${model}_${YYYYMMDD}${cycleHH}.0p1.nc"
+AOD_FILE_TMP="${workdir}/tmp.aod550.${model}_${YYYYMMDD}${cycleHH}.nc"
+
+ncks -h -O -v "AOD550" "${final_filename}" "${AOD_FILE_TMP}"
+cdo remapbil,${CDO_REGRID_FILE_VIIRS}      "${AOD_FILE_TMP}" "${AOD_FILE_VIIRS}"
+cdo remapbil,${CDO_REGRID_FILE_TEMPO}      "${AOD_FILE_TMP}" "${AOD_FILE_TEMPO}"
+
+isfile "${AOD_FILE_VIIRS}"; isfile "${AOD_FILE_TEMPO}"
+rm -f  "${AOD_FILE_TMP}"
+
+# Compress:
+ncks -O -h -4 -L 3 "${AOD_FILE_VIIRS}" "${AOD_FILE_VIIRS}"
+ncks -O -h -4 -L 3 "${AOD_FILE_TEMPO}" "${AOD_FILE_TEMPO}"
+isfile "${AOD_FILE_VIIRS}"; isfile "${AOD_FILE_TEMPO}"
+
 echo "Finished processing cycle ${YYYYMMDD}${cycleHH}"
 exit 0

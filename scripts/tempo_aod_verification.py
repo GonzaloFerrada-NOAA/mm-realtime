@@ -97,8 +97,10 @@ def read_model_data(filepath):
             time_var = ds.variables['time']
         elif 'XTIME' in ds.variables:
             time_var = ds.variables['XTIME']
+        elif 'Time' in ds.variables:
+            time_var = ds.variables['Time']
         else:
-            raise KeyError(f"Could not find either 'time' or 'XTIME' in {filepath}")
+            raise KeyError(f"Could not find either 'time' or 'XTIME' or 'Time' in {filepath}")
 
         times = _read_times(time_var)
         lon = ds.variables['lon'][:]
