@@ -1,0 +1,6 @@
+
+obs:
+  aeronet: # obs label
+    filename: test5.nc
+    obs_type: pt_sfc
+    variables:

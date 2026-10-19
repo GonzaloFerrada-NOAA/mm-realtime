@@ -43,7 +43,8 @@ MODEL_OUTPUT_DIR=${MODEL_OUTPUT_DIR:-/scratch4/BMC/acomp/cheMPAS-Fire/realtime/m
 PYTHON="${CONDA_ENV}/bin/python"
 
 # PLOT_TYPES=( "ts_regional" "ts_site" "spatial_overlay" "spatial_bias" "boxplot" "taylor" "scorecard" "csi" "stats" ) # GAF
-PLOT_TYPES=( "ts_regional" "spatial_overlay" "spatial_bias" "boxplot" "taylor" "scorecard" "csi" "stats" )
+# PLOT_TYPES=( "ts_regional" "spatial_overlay" "spatial_bias" "boxplot" "taylor" "scorecard" "csi" "stats" )
+PLOT_TYPES=( "ts_site" )
 mdl_lw=1.5 # model line width in plots
 
 #------------------------------------------------------------------------------
@@ -86,7 +87,7 @@ for f in analysis.yaml obs/${platform}.yaml variables/${species}.yaml; do
 done
 
 case ${platform} in     # MONET driver script per platform
-    airnow)   monet_py=Monet-analysis-example-plots-wrf-rapchemtest.py ;;
+    airnow)   monet_py=Monet-analysis-example-plots-wrf-rapchemtest_dev.py ;;
     aeronet)  monet_py=Monet-analysis-example-plots-wrf-rapchemtest_aeronet.py ;;
     ish)      monet_py=Monet-analysis-example-plots-wrf-rapchemtest_ish.py ;;
     ish-lite) monet_py=Monet-analysis-example-plots-wrf-rapchemtest_ish-lite.py ;;
@@ -251,7 +252,8 @@ for plot_type in "${PLOT_TYPES[@]}"; do
     ln -sf ${YAML} control.yaml
 
     do_stats=0; [[ ${plot_type} == stats ]] && do_stats=1
-    ${PYTHON} ${scriptsdir}/${monet_py} ${do_stats}   # subshell exit status = this # GAF
+    echo "${PYTHON} ${scriptsdir}/${monet_py} ${do_stats} ${plot_type}"
+    ${PYTHON} ${scriptsdir}/${monet_py} ${do_stats} ${plot_type}  # subshell exit status = this # GAF
   )
   rc=$?
   if (( rc != 0 )); then
