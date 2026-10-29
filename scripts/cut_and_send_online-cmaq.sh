@@ -76,6 +76,7 @@ ncks -A -v tmp2m aqm.t${cycleHH}z.met_sfc.f0${i}.nc aqm.t${cycleHH}z.chem_sfc.f0
 ncks -O --mk_rec_dmn time aqm.t${cycleHH}z.chem_sfc.f0${i}.nc aqm.t${cycleHH}z.chem_sfc.f0${i}.nc
 # GAF calculating wind speed and direction
 ncap2 -O -s '
+tmp2m   = tmp2m - 273.15;
 wspd10m = sqrt(ugrd10m^2 + vgrd10m^2);
 wdir10m = atan2(-ugrd10m, -vgrd10m) * 180.0 / 3.14159265358979323846;
 where(wdir10m < 0) wdir10m = wdir10m + 360.0;

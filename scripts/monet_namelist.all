@@ -1,0 +1,8 @@
+# || Model Name || Model Type/monetio reader || Inits || Run Length ||  Relative Day to Obs (e.g., N, N-1) || Color Indicator  || Marker || Species & Mapping
+RRFS-SD,hrrr,00/12,72/72,-1/-2,red/red,x/x,-/--,TMP_2maboveground:TEMP/pm25:PM2.5/pm10:PM10/DPT_2maboveground:dew_pt_temp/WDIR_10maboveground:wdir/WIND_10maboveground:ws/APCP_surface:precip_1hr/TMP_2maboveground:temp/VIS_surface:vsb/HGT_cloudceiling:ceiling/AOD550:aod_550nm
+HRRR-Smoke,hrrr,00/12,49/49,-1/-2,blue/blue,./.,-/--,TMP_2maboveground:TEMP/PM2_5_DRY:PM2.5/AOD550:aod_550nm/DPT_2maboveground:dew_pt_temp/WDIR_10maboveground:wdir/WIND_10maboveground:ws/APCP_surface:precip_1hr/TMP_2maboveground:temp/VIS_surface:vsb/HGT_cloudceiling:ceiling
+UFS-AQM,rrfs,12,72,-2,lime,x,--,aod:aod_550nm/PM25_TOT:PM2.5/tmp2m:TEMP/tprcp:precip_1hr/no2:NO2/o3:OZONE
+FWx-nest,hrrr,00/12,24/24,-1/-2,orange/orange,x/x,-/--,AOD550:aod_550nm/PM2_5:PM2.5/T2:TEMP/TD2:dew_pt_temp/WDIR10:wdir/WIND10MEAN:ws/PRECIP_1HR:precip_1hr
+GEFS-Aerosols,hrrr,00/12,96/96,-1/-2,purple/purple,x/x,-/--,pm25:PM2.5/aod550:aod_550nm/pm10:PM10
+UFS-Chem,hrrr,00/00,96/96,-1/-2,pink/pink,x/x,-/--,pm25:PM2.5/aod550:aod_550nm/pm10:PM10
+MPAS-Aerosols,hrrr,00/00,72/72,-1/-2,red/red,x/x,-/--,AOD550:aod_550nm/PM2_5:PM2.5/PM10:PM10/T2:TEMP/TD2:dew_pt_temp/WDIR10:wdir/WIND10MEAN:ws/PRECIP_1HR:precip_1hr

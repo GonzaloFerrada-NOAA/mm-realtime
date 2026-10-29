@@ -12,8 +12,8 @@ TOTAL_MODELS=${#MODEL_LIST[@]}
 # Cycle time in UTC epoch seconds (e.g. 20260912 00 -> 2026-09-12 00:00 UTC)
 CYCLE_EPOCH=$( date -u -d "${YMD} ${HH}00" +%s )
 
-# activation_offset (48h) + how long we're willing to wait for all files (3h)
-ACTIVATION_OFFSET_HR=48
+# activation_offset (36h) + how long we're willing to wait for all files (3h)
+ACTIVATION_OFFSET_HR=36
 GRACE_PERIOD_HR=3
 DEADLINE_EPOCH=$((CYCLE_EPOCH + (ACTIVATION_OFFSET_HR + GRACE_PERIOD_HR) * 3600))
 

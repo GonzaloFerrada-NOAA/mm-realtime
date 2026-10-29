@@ -1,0 +1,265 @@
+# ==========================================================================
+# TEMPLATE: settings for generate_dashboard.py in the real-time system.
+# Lives in $SCRIPTS_DIR/yaml_templates/. mm_folium.sh fills in the
+# __PLACEHOLDERS__ for each cycle and model_type and writes the result to
+# $WORKDIR/folium/dashboard.yaml before running generate_dashboard.py.
+# ==========================================================================
+
+output_html: __OUTPUT_HTML__              # the single, self-contained web page
+
+# Forecast cycle (UTC) and the window shown in every time series
+cycle: "__CYCLE__"
+window_hours_before: 24
+window_hours_after: 24
+
+paths:
+  # MELODIES-MONET time-series CSVs: <species>/<platform>/plot_grp1.timeseries.*.csv
+  station_csvs: __PLOT_OUTPUT_DIR__/*/*/plot_grp1.timeseries.*.csv
+  # HMS fire text files, read for every day in the window
+  hms_fires: __HMS_TXT_DIR__/hms_fire{date:%Y%m%d}.txt
+
+# Workflow folder names -> names shown on the website
+platform_aliases:
+  airnow: AirNow
+  aeronet: AERONET
+  openaq: OpenAQ
+  ish: ISH
+  ish_lite: ISH-lite
+species_aliases:
+  PM2.5: PM2.5
+  PM10: PM10
+  TEMP: 2-m temperature
+  aod_550nm: AOD 550 nm
+  OZONE: Ozone
+  NO2: NO2
+  CO: CO
+  vsb: Visibility
+
+# --------------------------------------------------------------------------
+# Decimal places per variable: values are rounded to this when the html is
+# built (keeps it small), and tooltips, hover labels and CSV downloads use it.
+# Variables not listed use "default".
+# --------------------------------------------------------------------------
+decimals:
+  default: 2
+  FRP: 1
+  AOD 550 nm: 3
+  PM2.5: 2
+  PM10: 2
+  NO2: 1
+  Ozone: 1
+  CO: 0
+  2-m temperature: 1
+  Dew point temperature: 1
+  Wind direction: 0
+  Wind Speed: 1
+  1-hr accumulated precipitation: 2
+  Visibility: 1
+  Ceiling: 0
+
+# --------------------------------------------------------------------------
+# Cycle date picker (top of the left panel): opens the page of another day.
+#   url: path of another day's page, relative to this page (the server tree is
+#        .../<YYYYMMDD>00/full/<page>). {yyyymmdd} = cycle date, {page} = this
+#        page's file name, so each model_type links to its own page.
+#   first_date: earliest date that can be picked; future dates are always off.
+# Only dates whose page exists on the server are selectable (checked with one
+# HEAD request per day shown, no download); opened as a local file, other
+# dates are greyed out. Remove this section to show the date without the picker.
+# --------------------------------------------------------------------------
+date_navigation:
+  url: ../../{yyyymmdd}00/full/{page}
+  first_date: "2026-10-24"
+
+# --------------------------------------------------------------------------
+# Popup chart size (any CSS length: px, vw, vh)
+# --------------------------------------------------------------------------
+popup:
+  width: 36vw
+  height: 36vh
+  min_width: 480px
+  min_height: 360px
+
+# --------------------------------------------------------------------------
+# Map
+# --------------------------------------------------------------------------
+map:
+  center: [40.0, -98.0]
+  zoom: 5
+  # Panning limit [[south, west], [north, east]]; the map can't be dragged or zoomed
+  # out past these. Remove the line for no limit.
+  bounds: [[12, -180], [73, -40]]
+  # Dark / light mode (button in the left panel). Dark is the default.
+  # base = one of the base_layers names; boundaries = show the boundaries overlay.
+  themes:
+    dark:  {base: Satellite (Esri),   boundaries: true,  panel_bg: "#171717"}
+    light: {base: Topographic (Esri), boundaries: false, panel_bg: "#ebebeb"}
+  # Base maps shown in the layer control (one at a time). All are free with
+  # attribution. Keyed services (Thunderforest, MapTiler, Tracestrack) can be
+  # added the same way with "?apikey=..." in the URL.
+  base_layers:
+    - name: Satellite (Esri)
+      url: https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}
+      attribution: Tiles &copy; Esri
+      max_zoom: 19
+    - name: Topographic (Esri)
+      url: https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}
+      attribution: Tiles &copy; Esri
+      max_zoom: 19
+    - name: Light gray (Esri)
+      url: https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}
+      attribution: Tiles &copy; Esri
+      max_zoom: 16
+    - name: OpenStreetMap
+      url: https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      max_zoom: 19
+    - name: OSM Humanitarian
+      url: https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png
+      attribution: '&copy; OpenStreetMap contributors, tiles by HOT / OSM France'
+      max_zoom: 19
+    - name: CyclOSM
+      url: https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png
+      attribution: '&copy; OpenStreetMap contributors, CyclOSM'
+      max_zoom: 19
+    - name: OpenTopoMap
+      url: https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png
+      attribution: '&copy; OpenStreetMap contributors, SRTM | &copy; OpenTopoMap (CC-BY-SA)'
+      max_zoom: 17
+  # Transparent overlay with country/state boundaries and place names
+  boundaries:
+    name: Boundaries & labels
+    url: https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}
+    attribution: Boundaries &copy; Esri
+
+# --------------------------------------------------------------------------
+# Discrete colour scales for the station circles (48-h max observation).
+# Each bound is the LOWER edge of a bin: colors[i] applies to [bounds[i], bounds[i+1]).
+# Below the first bound -> first colour; >= last bound -> last colour.
+#
+# A variable listed under "variables" gets coloured circles; any other variable
+# keeps the default drop markers. Per variable:
+#   bounds: [...]            required, any number of levels
+#   colors: [...]            optional; one colour per bound. If omitted, the
+#                            first len(bounds) of default_colors are used.
+# --------------------------------------------------------------------------
+color_scales:
+  default_colors: ["#ADD8E6", "#59B61F", "#F6D348", "#EA8C33", "#DF4633", "#8B0000", "#B33FBA"]
+  variables:
+    AOD 550 nm:
+      bounds: [0, 0.1, 0.4, 0.6, 0.8, 1, 2]
+    PM2.5:
+      bounds: [0, 2, 10, 25, 50, 100, 200]
+    PM10:
+      bounds: [0, 20, 50, 100, 250, 500, 1000]
+    NO2:
+      bounds: [0, 2, 4, 10, 20, 40, 60]
+    Ozone:
+      bounds: [35, 45, 55, 65, 75, 85, 95]
+    CO:
+      bounds: [100, 200, 400, 600, 800, 1000, 2000]
+    2-m temperature:            # 13 levels, blue -> red
+      bounds: [-20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40]
+      colors: ["#E6E6FA", "#BBC3F0", "#5781F7", "#1692F5", "#23DDF5", "#2CCFA6", "#22E215",
+               "#A7FA0A", "#F1DE22", "#FC9E18", "#F96019", "#E61F5C", "#F76DD6"]
+    1-hr accumulated precipitation:   # 10 levels, white -> greens -> yellow/red
+      bounds: [0, 0.25, 0.5, 1, 2, 4, 6, 10, 15, 25]
+      colors: ["#FFFFFF", "#C7E9C0", "#A1D99B", "#74C476", "#31A354", "#006D2C",
+               "#FED976", "#FD8D3C", "#E31A1C", "#800026"]
+
+# --------------------------------------------------------------------------
+# Station markers
+# --------------------------------------------------------------------------
+stations:
+  marker_radius: 6               # px, circles coloured by the 48-h max observation
+  gap_minutes: 65                # break a line when two values are further apart (hourly data);
+                                 # models with output_hours N use (N - 1) * 60 + gap_minutes
+  no_data_color: "#9e9e9e"
+
+# --------------------------------------------------------------------------
+# HMS fires
+# --------------------------------------------------------------------------
+hms:
+  gap_minutes: 20                # break the FRP line when detections are further apart
+  frp_classes: [50, 500, 2000]   # MW: marker size class edges (48-h max FRP)
+  radii: [3, 5, 7, 9]            # px: half-size for each class (last = 3x the smallest)
+  satellites:                    # shape: square | circle | triangle
+    GOES-EAST: {shape: circle, color: "#00ff00"}
+    GOES-WEST: {shape: circle, color: "#00FFFF"}
+    SUOMI NPP: {shape: circle, color: "#9e9e9e"}
+    NOAA 20:   {shape: circle, color: "#FFA500"}
+    NOAA 21:   {shape: circle, color: "#ffff00"}
+  other_satellite: {shape: triangle, color: "#9370db"}
+
+# --------------------------------------------------------------------------
+# Platforms: button order = order here. "variables" are the buttons enabled
+# for that platform. Station CSVs must use the same platform name.
+# --------------------------------------------------------------------------
+platforms:
+  HMS fires:
+    type: fires
+    variables: [FRP]
+    default: FRP
+  AirNow:
+    variables: [PM2.5, PM10, Ozone, NO2, CO, 2-m temperature]
+    default: PM2.5
+  AERONET:
+    variables: [AOD 550 nm]
+    default: AOD 550 nm
+  OpenAQ:
+    variables: [PM2.5, PM10, Ozone, NO2, CO]
+    default: PM2.5
+  ISH-lite:
+    variables: [2-m temperature, Dew point temperature, Wind direction, Wind Speed, 1-hr accumulated precipitation]
+    default: 2-m temperature
+  ISH:
+    variables: [Visibility, Ceiling]
+    default: Visibility
+
+# Variable buttons (order shown) and their units
+variables:
+  FRP: MW
+  AOD 550 nm: unitless
+  PM2.5: µg/m³
+  PM10: µg/m³
+  NO2: ppb
+  Ozone: ppb
+  CO: ppb
+  2-m temperature: °C
+  Dew point temperature: °C
+  Wind direction: °
+  Wind Speed: m/s
+  1-hr accumulated precipitation: mm
+  Visibility: m
+  Ceiling: m
+
+# --------------------------------------------------------------------------
+# Models & initializations (left panel, below the variables). "id" = column name in the CSVs.
+# style: solid | dash | dot | dashdot
+# --------------------------------------------------------------------------
+# Name shown on the website for a model, when it differs from the workflow name.
+# Models not listed keep their workflow name.
+model_display_names:
+  MPAS-Aerosols: cheMPAS-Fire
+
+# Model runs are found automatically from the CSV columns (<MODEL>_<YYYYMMDD>-<HH>Z);
+# every run is on by default, and runs with no data at all this cycle are greyed out.
+# Here: order and colour of each model, its output frequency (hours between outputs,
+# used to decide where its lines break; default_output_hours if not given), and the
+# line styles given to its runs (newest first).
+# Models found in the CSVs but not listed are added at the end with fallback colours.
+models:
+  observation: {label: Observation, color: "#000000"}
+  default_output_hours: 1
+  groups:
+    RRFS-SD:       {color: "#4269D0"}
+    MPAS-Aerosols: {color: "#FF725C"}
+    FWx-nest:      {color: "#EFB118"}
+    HRRR-Smoke:    {color: "#6CC5B0"}
+    UFS-AQM:       {color: "#9c6b4e"}
+    GEFS-Aerosols: {color: "#a463f2", output_hours: 3}
+    UFS-Chem:      {color: "#ff89b7", output_hours: 6}
+    CAMS:          {color: "#3ca951"}
+    MPAS-dev2:     {color: "#97bbf5"}
+  line_styles: [solid, dash, dot, dashdot]
+  fallback_colors: ["#17becf", "#bcbd22", "#e377c2", "#7f7f7f", "#ff7f0e"]

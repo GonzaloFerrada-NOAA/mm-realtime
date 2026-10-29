@@ -95,11 +95,17 @@ fi
 
 # Determine the output hours to process:
 # this function outputs LEAD_HH_START and LEAD_HH_END
-get_group_leads "${FCST_LENGTH_HOURS}" "${MODEL_DT}" "${NGROUPS}" "${GROUP}"
+# get_group_leads "${FCST_LENGTH_HOURS}" "${MODEL_DT}" "${NGROUPS}" "${GROUP}"
+
+# Number of available forecast leads (hourly through 60, then every 3 hours)
+NLEADS=$(( FCST_LENGTH_HOURS <= 60 ? FCST_LENGTH_HOURS : 60 + (FCST_LENGTH_HOURS - 60)/3 ))
+get_group_leads "${NLEADS}" "${MODEL_DT}" "${NGROUPS}" "${GROUP}"
 
 # Process files:
-for (( hh=LEAD_HH_START; hh<=LEAD_HH_END; hh+=MODEL_DT )); do
+# for (( hh=LEAD_HH_START; hh<=LEAD_HH_END; hh+=MODEL_DT )); do
+for (( i=LEAD_HH_START; i<=LEAD_HH_END; i+=MODEL_DT )); do
 
+    hh=$(( i <= 60 ? i : 60 + (i-60)*3 ))
     printf -v HHH "%03d" "$hh"
     fin="${datadir}/rrfs.t${cycleHH}z.2dfld.3km.f${HHH}.na.grib2" 
     fout="${workdir}/frame_${HHH}_aqm_${model}_${YYYYMMDD}${cycleHH}.nc"

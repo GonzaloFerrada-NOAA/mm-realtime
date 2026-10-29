@@ -26,12 +26,14 @@
 <!ENTITY RRFS_SD_DATADIR_GRIB2 "/public/data/grids/rrfs_v1.0">
 <!-- <!ENTITY RRFS_SD_DATADIR_GRIB2 "/scratch3/BMC/acomp/Sudheer/Fire-nest/Retros/RRFS_A/RT/GRIB2/"> -->
 <!ENTITY MPAS_AER_DATADIR_NC "/home/Jordan.Schnell/mpas_aerosols_jet">
+<!ENTITY FWX_NEST_DATADIR_NC "/scratch3/BMC/wrfruc/mpas/fire/fwx1.25km/stmp">
 <!ENTITY NAQFC_DATADIR "/NCEPPROD/hpssprod/runhistory/5year/">
 <!ENTITY NAQFC_PARA6D_DIR "/NAGAPE/arl/5year/Patrick.C.Campbell/">
+<!ENTITY UFSCHEM_DATADIR "/scratch3/BMC/gsd-fv3/rtruns/UFS-Chem/FV3GFSrun/rt_hr3-chem">
 <!ENTITY MELODIES_MONET_DIR "/scratch4/BMC/acomp/cheMPAS-Fire/realtime/melodies-monet">
 <!ENTITY LOG_DIR "&MELODIES_MONET_DIR;/logs/">
 <!ENTITY PLOTDIR "&MELODIES_MONET_DIR;/plot_output/">
-<!ENTITY SCRIPTS_DIR "/scratch4/BMC/acomp/cheMPAS-Fire/realtime/melodies-monet/scripts/">
+<!ENTITY SCRIPTS_DIR "&MELODIES_MONET_DIR;/scripts/">
 <!ENTITY CONDA_ENV_STABLE "/scratch4/BMC/acomp/cheMPAS-Fire/envs/melodies-monet-nrt-vx">
 <!ENTITY HMS_DATADIR "/scratch4/BMC/public/data/grids/nesdis/">
 <!ENTITY PATH_VIIRS_L3 "/public/data/sat/nesdis/viirs_level3/aod/eps">
@@ -43,15 +45,12 @@
 
     <log><cyclestr>&LOG_DIR;/workflow_melodies-monet.@Y@m@d@H.log</cyclestr></log>
 
-    <cycledef activation_offset="48:00:00" group="00hr">00 00 * * * *</cycledef>
-    <cycledef activation_offset="48:00:00" group="06hr">00 06 * * * *</cycledef>
-    <cycledef activation_offset="48:00:00" group="12hr">00 12 * * * *</cycledef>
-    <cycledef activation_offset="48:00:00" group="18hr">00 18 * * * *</cycledef>
+    <cycledef activation_offset="36:00:00" group="00hr">00 00 * * * *</cycledef>
+    <cycledef activation_offset="36:00:00" group="12hr">00 12 * * * *</cycledef>
     <!-- Start of smoke pre-processing tasks -->
     
     <metatask name="mm_rrfs-sd">
         <var name="group">01 02 03 04 05 06</var>
-        <!-- <task name="mm_rrfs-sd_#group#" cycledefs="00hr,06hr,12hr,18hr" maxtries="1"> -->
         <task name="mm_rrfs-sd_#group#" cycledefs="00hr,12hr" maxtries="1">
             &JOIN_RESOURCES_SHORTEST;
             &RESERVATION;
@@ -67,7 +66,7 @@
             <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
             <envar><name>GROUP</name><value>#group#</value></envar>
             <envar><name>NGROUPS</name><value>6</value></envar>
-            <envar><name>FCST_LENGTH_HOURS</name><value>48</value></envar>
+            <envar><name>FCST_LENGTH_HOURS</name><value>72</value></envar>
             <envar><name>processORcat</name><value>0</value></envar>
             <envar><name>RRFS_SD_DATADIR_GRIB2</name><value>&RRFS_SD_DATADIR_GRIB2;</value></envar>
 
@@ -100,21 +99,7 @@
         </dependency>
     </task>    
 
-    <!-- <task name="mm_naaps" cycledefs="00hr,06hr,12hr,18hr" maxtries="1">
-        &JOIN_RESOURCES;
-        &RESERVATION_SEND;
-        <command>&SCRIPTS_DIR;/prep_naaps.sh</command>
-        <cores>&JOIN_PROC;</cores>
-        <jobname><cyclestr>mm_naaps_@Y@m@d@H</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_naaps_@Y@m@d@H.log</cyclestr></join>
-        
-        <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
-        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
-        <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
-        <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
-    </task> -->
-
-    <task name="mm_hrrr-smoke" cycledefs="00hr,06hr,12hr,18hr" maxtries="1">
+    <task name="mm_hrrr-smoke" cycledefs="00hr,12hr" maxtries="1">
         &JOIN_RESOURCES_LONG;
         &RESERVATION_SEND;
         <!-- <command>&SCRIPTS_DIR;/cut_and_send_hrrr-smoke.sh</command> -->
@@ -129,7 +114,7 @@
         <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
     </task>
 
-    <task name="mm_online-cmaq" cycledefs="06hr,12hr" maxtries="1">
+    <task name="mm_online-cmaq" cycledefs="12hr" maxtries="1">
         &JOIN_RESOURCES;
         &RESERVATION_SEND;
         <command>&SCRIPTS_DIR;/cut_and_send_online-cmaq.sh</command>
@@ -142,38 +127,9 @@
         <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
     </task>
 
-    <!-- <task name="mm_geos-cf" cycledefs="12hr" maxtries="1">
-        &JOIN_RESOURCES;
-        &RESERVATION_SEND;
-        <command>&SCRIPTS_DIR;/get_geos-cf.sh</command>
-        <cores>&JOIN_PROC;</cores>
-        <jobname><cyclestr>mm_geos-cf_@Y@m@d@H</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_geos-cf_@Y@m@d@H.log</cyclestr></join>
-        
-        <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
-        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
-        <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
-        <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
-    </task> -->
-
-    <!-- <task name="mm_rap-chem" cycledefs="06hr" maxtries="1">
-        &JOIN_RESOURCES_SHORT;
-        &RESERVATION;
-        <command>&SCRIPTS_DIR;/cut_and_send_rap-chem.sh</command>
-        <cores>&JOIN_PROC;</cores>
-        <jobname><cyclestr>mm_rap-chem_@Y@m@d@H</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_rap-chem_@Y@m@d@H.log</cyclestr></join>
-        
-        <envar><name>START_TIME</name><value><cyclestr offset="24:00:00">@Y@m@d</cyclestr></value></envar>
-        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
-        <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
-        <envar><name>cycleHH</name><value><cyclestr>06</cyclestr></value></envar>
-    </task> -->
-
     <task name="mm_mpas-aerosols" cycledefs="00hr" maxtries="1">
         &JOIN_RESOURCES_SHORTEST;
         &RESERVATION;
-        <!-- <command>&SCRIPTS_DIR;/cut_and_send_mpas-aerosols.sh</command> -->
         <command>&SCRIPTS_DIR;/prep_mpas-aerosols.sh</command>
         <cores>&JOIN_PROC;</cores>
         <jobname><cyclestr>mm_mpas_aero_@Y@m@d@H</cyclestr></jobname>
@@ -191,64 +147,64 @@
         </and>
         </dependency>
     </task>
+    
+    <task name="mm_fwx-nest" cycledefs="00hr,12hr" maxtries="1">
+        &JOIN_RESOURCES_SHORTEST;
+        &RESERVATION;
+        <command>&SCRIPTS_DIR;/prep_fwx-nest.sh</command>
+        <cores>&JOIN_PROC;</cores>
+        <jobname><cyclestr>mm_fwx-nest_@Y@m@d@H</cyclestr></jobname>
+        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_fwx-nest_@Y@m@d@H.log</cyclestr></join>
+        
+        <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
+        <envar><name>FWX_NEST_DATADIR_NC</name><value>&FWX_NEST_DATADIR_NC;</value></envar>
+        <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
+        <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
+        
+        <dependency>
+        <and>
+            <sh shell="/bin/bash"><cyclestr>&SCRIPTS_DIR;/tools/dependency_check_fwx-nest.sh @Y@m@d @H &FWX_NEST_DATADIR_NC;</cyclestr></sh>
+        </and>
+        </dependency>
+    </task>
 
-    <task name="mm_gefs-aerosols" cycledefs="00hr" maxtries="1">
+    <task name="mm_gefs-aerosols" cycledefs="00hr,12hr" maxtries="1">
         &JOIN_RESOURCES;
         &RESERVATION_SEND;
         <command>&SCRIPTS_DIR;/prep_gefs-aerosols.sh</command>
         <cores>&JOIN_PROC;</cores>
         <jobname><cyclestr>mm_gefs-aero_@Y@m@d@H</cyclestr></jobname>
         <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_gefs-aero_@Y@m@d@H.log</cyclestr></join>
-
-        <!-- <envar><name>START_TIME</name><value><cyclestr offset="-48:00:00">@Y@m@d</cyclestr></value></envar> -->
+        
         <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+        <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
         <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
         <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
-        <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
     </task>
-
-    <task name="mm_ncar-aq-watch" cycledefs="00hr" maxtries="1">
-        &JOIN_RESOURCES_SHORT;
+    
+    <task name="mm_ufs-chem" cycledefs="00hr" maxtries="1">
+        &JOIN_RESOURCES;
         &RESERVATION_SEND;
-        <command>&SCRIPTS_DIR;/get_ncar-aq-watch.sh</command>
+        <command>&SCRIPTS_DIR;/prep_ufs-chem.sh</command>
         <cores>&JOIN_PROC;</cores>
-        <jobname><cyclestr>mm_ncar-aq-watch_@Y@m@d@H</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_ncar-aq-watch_@Y@m@d@H.log</cyclestr></join>
-
-        <envar><name>START_TIME</name><value><cyclestr offset="-24:00:00">@Y@m@d</cyclestr></value></envar>
+        <jobname><cyclestr>mm_ufs-chem_@Y@m@d@H</cyclestr></jobname>
+        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_ufs-chem_@Y@m@d@H.log</cyclestr></join>
+        
+        <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+        <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
         <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
-        <envar><name>cycleHH</name><value><cyclestr>00</cyclestr></value></envar>
+        <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
+        <envar><name>UFSCHEM_DIR</name><value><cyclestr>&UFSCHEM_DATADIR;/gfs.@Y@m@d/@H/model_data/atmos/master</cyclestr></value></envar>
+        <dependency>
+            <and>
+                <datadep age="00:05:00"><cyclestr>&UFSCHEM_DATADIR;/gfs.@Y@m@d/@H/model_data/atmos/master/gfs.t@Hz.master.grb2f120</cyclestr></datadep>
+            </and>
+        </dependency>
     </task>
-
-    <!-- <task name="mm_ecmwf-cams" cycledefs="00hr" maxtries="1">
-        &JOIN_RESOURCES_SHORT;
-        &RESERVATION_SEND;
-        <command>&SCRIPTS_DIR;/get_ecmwf-cams.sh</command>
-        <cores>&JOIN_PROC;</cores>
-        <jobname><cyclestr>mm_ecmwf-cams_@Y@m@d@H</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_ecmwf-camw_@Y@m@d@H.log</cyclestr></join>
-
-        <envar><name>START_TIME</name><value><cyclestr offset="-24:00:00">@Y@m@d</cyclestr></value></envar>
-        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
-        <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
-    </task> -->
-
-    <!-- GAF 2026-09-22: RAQMS is no longer available in /public -->
-    <!-- <task name="mm_raqms" cycledefs="00hr" maxtries="1">
-        &JOIN_RESOURCES_SHORT;
-        &RESERVATION;
-        <command>&SCRIPTS_DIR;/get_raqms.sh</command>
-        <cores>&JOIN_PROC;</cores>
-        <jobname><cyclestr>mm_raqms_@Y@m@d@H</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_raqms_@Y@m@d@H.log</cyclestr></join>
-
-        <envar><name>START_TIME</name><value><cyclestr offset="-24:00:00">@Y@m@d</cyclestr></value></envar>
-        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
-        <envar><name>cycleHH</name><value><cyclestr>@H</cyclestr></value></envar>
-    </task> -->
 
     <metatask name="mm_get_obs">
-    <var name="obstype">airnow aeronet ish ish-lite hms tropomi viirs pollen_dot_com surfrad</var>
+    <var name="obstype">airnow aeronet hms pollen_dot_com</var>
         <task name="mm_get_obs_#obstype#" cycledefs="12hr" maxtries="2">
             &JOIN_RESOURCES_SHORT;
             &RESERVATION_SEND;
@@ -267,7 +223,6 @@
     </metatask>
 
     <metatask name="mm_viirs_aod">
-    <!-- <var name="model_type">regional_smoke regional_chemistry global regional_aerosols</var> -->
     <var name="model_type">regional_smoke regional_chemistry</var>
         <task name="mm_viirs_aod_#model_type#" cycledefs="00hr" maxtries="1">
             &JOIN_RESOURCES_SHORTEST;
@@ -326,7 +281,6 @@
     </task>
     
     <metatask name="mm_tempo_aod">
-    <!-- <var name="model_type">regional_smoke regional_chemistry global regional_aerosols</var> -->
     <var name="model_type">regional_smoke regional_chemistry</var>
         <task name="mm_tempo_aod_#model_type#" cycledefs="00hr" maxtries="1">
             &JOIN_RESOURCES_SHORTEST;
@@ -367,18 +321,12 @@
         <jobname><cyclestr>mm_run_@Y@m@d@H_pollen_mpas</cyclestr></jobname>
         <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_run_@Y@m@d@H_pollensense_mpas.log</cyclestr></join>
         
-        <envar><name>START_TIME</name>
-        <value><cyclestr>@Y@m@d</cyclestr></value></envar>
-        <envar><name>WORKDIR</name>
-        <value><cyclestr>&MELODIES_MONET_DIR;/run/@Y@m@d@H/regional_chemistry/pollen_PollenSense/spatial_bias/</cyclestr></value></envar>
-        <envar><name>OBS_DIR</name>
-        <value><cyclestr>&MELODIES_MONET_DIR;/obs/</cyclestr></value></envar>
-        <envar><name>PLOT_OUTPUT_DIR</name>
-        <value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/regional_chemistry/pollen/PollenSense/</cyclestr></value></envar>
-        <envar><name>SCRIPTS_DIR</name>
-        <value>&SCRIPTS_DIR;</value></envar>
-        <envar><name>MELODIES_MONET_DIR</name>
-        <value>&MELODIES_MONET_DIR;</value></envar>
+        <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+        <envar><name>WORKDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/run/@Y@m@d@H/regional_chemistry/pollen_PollenSense/spatial_bias/</cyclestr></value></envar>
+        <envar><name>OBS_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/obs/</cyclestr></value></envar>
+        <envar><name>PLOT_OUTPUT_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/regional_chemistry/pollen/PollenSense/</cyclestr></value></envar>
+        <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
+        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
         
         <dependency>
         <or>
@@ -396,21 +344,15 @@
         <jobname><cyclestr>mm_run_@Y@m@d@H_google_pollen_mpas</cyclestr></jobname>
         <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_run_@Y@m@d@H_google_pollen_mpas.log</cyclestr></join>
         
-        <envar><name>START_TIME</name>
-        <value><cyclestr>@Y@m@d</cyclestr></value></envar>
-        <envar><name>WORKDIR</name>
-        <value><cyclestr>&MELODIES_MONET_DIR;/run/@Y@m@d@H/regional_chemistry/pollen_Google/spatial_bias/</cyclestr></value></envar>
-        <envar><name>OBS_DIR</name>
-        <value><cyclestr>&MELODIES_MONET_DIR;/obs/</cyclestr></value></envar>
-        <envar><name>PLOT_OUTPUT_DIR</name>
-        <value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/regional_chemistry/pollen/Google/</cyclestr></value></envar>
-        <envar><name>SCRIPTS_DIR</name>
-        <value>&SCRIPTS_DIR;</value></envar>
-        <envar><name>MELODIES_MONET_DIR</name>
-        <value>&MELODIES_MONET_DIR;</value></envar>
+        <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+        <envar><name>WORKDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/run/@Y@m@d@H/regional_chemistry/pollen_Google/spatial_bias/</cyclestr></value></envar>
+        <envar><name>OBS_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/obs/</cyclestr></value></envar>
+        <envar><name>PLOT_OUTPUT_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/regional_chemistry/pollen/Google/</cyclestr></value></envar>
+        <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
+        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
         
         <dependency>
-        <taskdep task="mm_run_pollen_compare_mpas"/>
+            <taskdep task="mm_run_pollen_compare_mpas"/>
         </dependency>
     </task>
 
@@ -422,205 +364,181 @@
         <jobname><cyclestr>mm_run_@Y@m@d@H_pollenDotcom_mpas</cyclestr></jobname>
         <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_run_@Y@m@d@H_pollenDotcom_mpas.log</cyclestr></join>
         
-        <envar><name>START_TIME</name>
-        <value><cyclestr>@Y@m@d</cyclestr></value></envar>
-        <envar><name>WORKDIR</name>
-        <value><cyclestr>&MELODIES_MONET_DIR;/run/@Y@m@d@H/regional_chemistry/pollen_PollenDotCom/spatial_bias/</cyclestr></value></envar>
-        <envar><name>OBS_DIR</name>
-        <value><cyclestr>&MELODIES_MONET_DIR;/obs/</cyclestr></value></envar>
-        <envar><name>PLOT_OUTPUT_DIR</name>
-        <value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/regional_chemistry/pollen/PollenDotCom/</cyclestr></value></envar>
-        <envar><name>MELODIES_MONET_DIR</name>
-        <value>&MELODIES_MONET_DIR;</value></envar>
-        <envar><name>SCRIPTS_DIR</name>
-        <value>&SCRIPTS_DIR;</value></envar>
+        <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+        <envar><name>WORKDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/run/@Y@m@d@H/regional_chemistry/pollen_PollenDotCom/spatial_bias/</cyclestr></value></envar>
+        <envar><name>OBS_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/obs/</cyclestr></value></envar>
+        <envar><name>PLOT_OUTPUT_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/regional_chemistry/pollen/PollenDotCom/</cyclestr></value></envar>
+        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
+        <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
+        
         <dependency>
-        <taskdep task="mm_run_pollen_compare_mpas"/>
+            <taskdep task="mm_run_pollen_compare_mpas"/>
         </dependency>
     </task>
-
-    <metatask name="mm_run">
-    <var name="model_type">regional_smoke regional_chemistry global regional_aerosols</var>
-    <metatask name="mm_run_#model_type#">
-        <var name="species">PM2.5  PM10  OZONE  NO2  CO  TEMP
-                            PM2.5  PM10  OZONE  NO2  CO     
-                            temp  dew_pt_temp  wdir  ws  precip_1hr 
-                            vsb  ceiling 
-                            aod_550nm</var>
-        <var name="platform">airnow airnow airnow airnow airnow airnow
-                            openaq openaq openaq openaq openaq 
-                            ish-lite ish-lite ish-lite ish-lite ish-lite 
-                            ish ish 
-                            aeronet</var>
-        <metatask name="mm_run_#model_type#_#species#_#platform#">
-        <var name="plot_type">ts_regional ts_site spatial_overlay spatial_bias boxplot taylor scorecard csi stats</var>
-        <task name="mm_run_#model_type#_#species#_#platform#_#plot_type#" cycledefs="12hr" maxtries="1">
+    
+    <metatask name="mm_run_sites">
+        <var name="species">PM2.5   PM10   TEMP   OZONE  NO2    CO     aod_550nm</var>
+        <var name="platform">airnow airnow airnow airnow airnow airnow aeronet</var>
+        <task name="mm_run_sites_#species#_#platform#" cycledefs="12hr" maxtries="1">
             &JOIN_RESOURCES_MEDMEM;
             &RESERVATION_MEDMEM;
-            <command>&SCRIPTS_DIR;/mm_run.sh</command>
+            <command>&SCRIPTS_DIR;/mm_run_sites.sh</command>
             <cores>&JOIN_PROC;</cores>
-            <jobname><cyclestr>mm_run_@Y@m@d@H_#model_type#_#species#_#platform#_#plot_type#</cyclestr></jobname>
-            <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_run_@Y@m@d@H_#model_type#_#species#_#platform#_#plot_type#.log</cyclestr></join>
+            <jobname><cyclestr>mm_run_sites_@Y@m@d@H_#species#_#platform#</cyclestr></jobname>
+            <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_run_sites_@Y@m@d@H_#species#_#platform#.log</cyclestr></join>
 
             <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
             <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
-            <envar><name>WORKDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/run/@Y@m@d@H/#model_type#/#species#_#platform#/#plot_type#/</cyclestr></value></envar>
+            <envar><name>WORKDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/run/@Y@m@d@H/sites/#species#_#platform#/</cyclestr></value></envar>
             <envar><name>OBS_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/obs/@Y@m@d@H/</cyclestr></value></envar>
-            <envar><name>PLOT_OUTPUT_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/#model_type#/#species#/#platform#/</cyclestr></value></envar>
+            <envar><name>PLOT_OUTPUT_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/sites/#species#/#platform#/</cyclestr></value></envar>
+            <envar><name>MODEL_OUTPUT_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/model_output</cyclestr></value></envar>
             <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
-            <envar><name>model_type</name><value>#model_type#</value></envar>
             <envar><name>SPECIES_TO_VERIFY</name><value>#species#</value></envar>
             <envar><name>OBS_PLATFORM</name><value>#platform#</value></envar>
-            <envar><name>plot_type</name><value>#plot_type#</value></envar>
-            <envar><name>namelist</name><value>monet_namelist.#model_type#</value></envar>
+            <envar><name>NAMELIST</name><value>monet_namelist.all</value></envar>
             <envar><name>CONDA_ENV</name><value>&CONDA_ENV_STABLE;</value></envar>
 
             <dependency>
             <and>
             <taskdep task="mm_get_obs_#platform#"/>
-            <datadep>&SCRIPTS_DIR;/task_list_files/do_#model_type#_#species#_#platform#_#plot_type#.txt</datadep>
+            <or>
+                <sh shell="/bin/bash"><cyclestr>&SCRIPTS_DIR;/tools/dependency_check_run_sites.sh @Y@m@d @H &MELODIES_MONET_DIR;/model_output &SCRIPTS_DIR;/monet_namelist.all #species#</cyclestr></sh>
+            <timedep><cyclestr offset="42:00:00">@Y@m@d@H@M@S</cyclestr></timedep>  <!-- deadline passed -->
+            </or>
             </and>
             </dependency>
         </task>
-        </metatask>
     </metatask>
-    </metatask>
-
-    <metatask name="mm_folium">
-    <var name="model_type">regional_smoke regional_chemistry global regional_aerosols</var>
-        <task name="mm_folium_#model_type#" cycledefs="12hr" maxtries="2">
-        &JOIN_RESOURCES_SHORT;
-        &RESERVATION;
-        <command>&SCRIPTS_DIR;/mm_folium.sh</command>
+    
+    <metatask name="mm_run_plots">
+    <var name="model_type">regional_smoke regional_chemistry regional_aerosols global</var>
+    <metatask name="mm_run_plots_#model_type#">
+        <var name="platform">airnow aeronet</var>
+        <task name="mm_run_plots_#model_type#_#platform#" cycledefs="12hr" maxtries="1">
+        &JOIN_RESOURCES_MEDMEM;
+        &RESERVATION_MEDMEM;
+        <command>&SCRIPTS_DIR;/mm_run_plots.sh</command>
         <cores>&JOIN_PROC;</cores>
-        <jobname><cyclestr>mm_folium_@Y@m@d@H_#model_type#</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_folium_@Y@m@d@H_#model_type#.log</cyclestr></join>
+        <jobname><cyclestr>mm_run_plots_@Y@m@d@H_#model_type#_#platform#</cyclestr></jobname>
+        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_run_plots_@Y@m@d@H_#model_type#_#platform#.log</cyclestr></join>
 
         <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
         <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
-        <envar><name>model_type</name><value>#model_type#</value></envar>
-        <envar><name>WORKDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/@Y@m@d@H/run/#model_type#/</cyclestr></value></envar>
-        <envar><name>OBSDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/obs/@Y@m@d@H/</cyclestr></value></envar>
+        <envar><name>WORKDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/run/@Y@m@d@H/#model_type#/#platform#/</cyclestr></value></envar>
+        <envar><name>OBS_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/obs/@Y@m@d@H/</cyclestr></value></envar>
+        <envar><name>PLOT_OUTPUT_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/#model_type#/#platform#/</cyclestr></value></envar>
         <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
-        <envar><name>PLOT_OUTPUT_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/#model_type#/</cyclestr></value></envar>
-        <envar><name>remove_old_converted_images</name><value>1</value></envar>
+        <envar><name>model_type</name><value>#model_type#</value></envar>
+        <envar><name>OBS_PLATFORM</name><value>#platform#</value></envar>
+        <envar><name>NAMELIST</name><value>monet_namelist.#model_type#</value></envar>
         <envar><name>CONDA_ENV</name><value>&CONDA_ENV_STABLE;</value></envar>
 
         <dependency>
-            <or>
-            <sh><cyclestr>&SCRIPTS_DIR;/task_list_files/check_task_completion.sh @Y@m@d &SCRIPTS_DIR; &LOG_DIR; #model_type#</cyclestr></sh>
-            <timedep><cyclestr offset="60:00:00">@Y@m@d@H@M@S</cyclestr></timedep>  <!-- deadline passed -->
-            </or>
-        </dependency>
-        </task>
-    </metatask>
-
-    <metatask name="mm_build_plots">
-    <var name="model_type">regional_smoke regional_chemistry global regional_aerosols</var>
-        <task name="mm_build_plots_#model_type#" cycledefs="12hr" maxtries="1">
-        &JOIN_RESOURCES;
-        &RESERVATION;
-        <command>&SCRIPTS_DIR;/mm_build_monet_plots.sh</command>
-        <cores>&JOIN_PROC;</cores>
-        <jobname><cyclestr>mm_build-plots_@Y@m@d@H_#model_type#</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_build-plots_@Y@m@d@H_#model_type#.log</cyclestr></join>
-
-        <envar><name>model_type</name><value>#model_type#</value></envar>
-        <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
-        <envar><name>basedir</name><value>&MELODIES_MONET_DIR;/toweb/</value></envar>
-        <envar><name>plotdir</name><value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/#model_type#/</cyclestr></value></envar>
-        <envar><name>workdir</name><value><cyclestr>&MELODIES_MONET_DIR;/toweb/@Y@m@d00/all</cyclestr></value></envar>
-
-        <dependency>
-            <or>
-            <taskdep task="mm_folium_#model_type#"/>
-            <timedep><cyclestr offset="61:00:00">@Y@m@d@H@M@S</cyclestr></timedep>  <!-- deadline passed -->
-            </or>
-        </dependency>
-        </task>
-    </metatask>
-
-    <metatask name="mm_build_plots_update">
-    <var name="model_type">regional_smoke</var>
-        <task name="mm_build_plots_update_#model_type#" cycledefs="12hr" maxtries="1">
-        &JOIN_RESOURCES;
-        &RESERVATION;
-        <command>&SCRIPTS_DIR;/mm_build_monet_plots.sh</command>
-        <cores>&JOIN_PROC;</cores>
-        <jobname><cyclestr>mm_build-plots_@Y@m@d@H_#model_type#</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_build-plots_@Y@m@d@H_#model_type#.log</cyclestr></join>
-
-        <envar><name>model_type</name><value>#model_type#</value></envar>
-        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
-        <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
-
-        <dependency>
         <and>
-            <taskdep task="mm_folium_#model_type#"/>
+            <taskdep task="mm_get_obs_#platform#"/>
             <or>
-            <taskdep state="Succeeded" task="mm_run_hourly_#model_type#_PM25"/>
-            <taskdep state="Dead"      task="mm_run_hourly_#model_type#_PM25"/>
-            </or>
-            <or>
-            <taskdep state="Succeeded" task="mm_run_hourly_#model_type#_PM10"/>
-            <taskdep state="Dead"      task="mm_run_hourly_#model_type#_PM10"/>
-            </or>
-            <or>
-            <taskdep state="Succeeded" task="mm_run_hourly_#model_type#_AOD550"/>
-            <taskdep state="Dead"      task="mm_run_hourly_#model_type#_AOD550"/>
+            <sh shell="/bin/bash"><cyclestr>&SCRIPTS_DIR;/tools/dependency_check_run_sites.sh @Y@m@d @H &MELODIES_MONET_DIR;/model_output &SCRIPTS_DIR;/monet_namelist.#model_type#</cyclestr></sh>
+            <timedep><cyclestr offset="42:00:00">@Y@m@d@H@M@S</cyclestr></timedep>  <!-- deadline passed -->
             </or>
         </and>
         </dependency>
         </task>
     </metatask>
-  
-    <metatask name="mm_hpss_backup">
-    <var name="model_type">regional_smoke regional_chemistry global regional_aerosols</var>   
-        <task name="mm_hpss_backup_#model_type#" cycledefs="12hr" maxtries="2">
-        &RESERVATION_SEND;
-        &JOIN_RESOURCES_SHORT;
-        <command>&SCRIPTS_DIR;/backup_analysis_to_hpss.sh</command>
+    </metatask>
+    
+    <task name="mm_html" cycledefs="12hr" maxtries="2">
+        &JOIN_RESOURCES_SHORTEST;
+        &RESERVATION;
+        <command>&SCRIPTS_DIR;/mm_html.sh</command>
         <cores>&JOIN_PROC;</cores>
-        <jobname><cyclestr>mm_hpss_backup_@Y@m@d@H_#model_type#</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_hpss_backup_@Y@m@d@H_#model_type#.log</cyclestr></join>
+        <jobname><cyclestr>mm_html_@Y@m@d@H</cyclestr></jobname>
+        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_html_@Y@m@d@H.log</cyclestr></join>
 
-        <envar><name>model_type</name><value>#model_type#</value></envar>
-        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
-        <envar><name>DIRTOARCHIVE</name><value><cyclestr>&MELODIES_MONET_DIR;/toweb/@Y@m@d00/all</cyclestr></value></envar>
-        <envar><name>DIRTOARCHIVE2</name><value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/#model_type#</cyclestr></value></envar>
         <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
+        <envar><name>HMS_TXT_DIR</name><value>/public/data/grids/nesdis/hms_fire/text</value></envar>
+        <envar><name>WORKDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/run/@Y@m@d@H/html</cyclestr></value></envar>
+        <envar><name>OBSDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/obs/@Y@m@d@H</cyclestr></value></envar>
+        <envar><name>SCRIPTS_DIR</name><value>&SCRIPTS_DIR;</value></envar>
+        <envar><name>PLOT_OUTPUT_DIR</name><value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H/sites</cyclestr></value></envar>
+        <envar><name>CONDA_ENV</name><value>&CONDA_ENV_STABLE;</value></envar>
 
         <dependency>
-            <taskdep task="mm_build_plots_#model_type#"/>
+            <or>
+            <metataskdep metatask="mm_run_sites"/>
+            <timedep><cyclestr offset="44:00:00">@Y@m@d@H@M@S</cyclestr></timedep>
+            </or>
+        </dependency>
+    </task>
+    
+    <metatask name="mm_website">
+        <var name="model_type">regional_smoke regional_chemistry regional_aerosols global</var>
+        <task name="mm_website_#model_type#" cycledefs="12hr" maxtries="1">
+        &JOIN_RESOURCES_SHORTEST;
+        &RESERVATION;
+        <command>&SCRIPTS_DIR;/mm_website.sh</command>
+        <cores>&JOIN_PROC;</cores>
+        <jobname><cyclestr>mm_website_@Y@m@d@H_#model_type#</cyclestr></jobname>
+        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_website_@Y@m@d@H_#model_type#.log</cyclestr></join>
+
+        <envar><name>model_type</name><value>#model_type#</value></envar>
+        <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+        <envar><name>BASEDIR</name><value>&MELODIES_MONET_DIR;/toweb</value></envar>
+        <envar><name>PLOTDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/plot_output/@Y@m@d@H</cyclestr></value></envar>
+        <envar><name>WORKDIR</name><value><cyclestr>&MELODIES_MONET_DIR;/toweb/@Y@m@d00/all</cyclestr></value></envar>
+
+        <dependency>
+        <or>
+            <and>
+            <metataskdep metatask="mm_run_plots"/>
+            <taskdep task="mm_html"/>
+            </and>
+            <timedep><cyclestr offset="44:30:00">@Y@m@d@H@M@S</cyclestr></timedep>
+        </or>
         </dependency>
         </task>
     </metatask>
-
-    <metatask name="mm_clean">
-    <var name="model_type">regional_smoke regional_chemistry global regional_aerosols</var>
-        <task name="mm_clean_#model_type#" cycledefs="12hr" maxtries="2">
+  
+    <task name="mm_backup_hpss" cycledefs="12hr" maxtries="2">
         &RESERVATION_SEND;
         &JOIN_RESOURCES_SHORT;
-        <command>/misc/whome/role.rap-chem/scripts/melodies-monet/clean_model_data.sh</command>
+        <command>&SCRIPTS_DIR;/mm_backup_hpss.sh</command>
         <cores>&JOIN_PROC;</cores>
-        <jobname><cyclestr>mm_clean_@Y@m@d@H_#model_type#</cyclestr></jobname>
-        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_clean_@Y@m@d@H_#model_type#.log</cyclestr></join>
+        <jobname><cyclestr>mm_backup_hpss_@Y@m@d@H</cyclestr></jobname>
+        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_hpss_backup_@Y@m@d@H.log</cyclestr></join>
+        
+        <envar><name>START_TIME</name><value><cyclestr offset="-24:00:00">@Y@m@d</cyclestr></value></envar>
+        <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
+
+        <dependency>
+            <or>
+            <metataskdep metatask="mm_website"/>
+            <timedep><cyclestr offset="45:00:00">@Y@m@d@H@M@S</cyclestr></timedep>
+            </or>
+        </dependency>
+    </task>
+
+    <task name="mm_clean" cycledefs="12hr" maxtries="2">
+        &RESERVATION_SEND;
+        &JOIN_RESOURCES_SHORT;
+        <command>&SCRIPTS_DIR;/mm_clean.sh</command>
+        <cores>&JOIN_PROC;</cores>
+        <jobname><cyclestr>mm_clean_@Y@m@d@H</cyclestr></jobname>
+        <join><cyclestr>&LOG_DIR;/@Y@m@d@H/mm_clean_@Y@m@d@H.log</cyclestr></join>
 
         <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
         <envar><name>MELODIES_MONET_DIR</name><value>&MELODIES_MONET_DIR;</value></envar>
-        <envar><name>NUM_DAYS_TO_KEEP</name><value>&NUM_ANALYSIS_KEEP;</value></envar>
-        <envar><name>model_type</name><value>#model_type#</value></envar>
-        <envar><name>DELETE_MODELS</name><value>1</value></envar>
-        <envar><name>DELETE_RAW_PLOTS</name><value>1</value></envar>
-        <envar><name>DELETE_TOWEB_PLOTS</name><value>1</value></envar>
         <envar><name>MODEL_OUTPUT_DIR</name><value>&MELODIES_MONET_DIR;/model_output</value></envar>
         <envar><name>RAW_PLOT_DIR</name><value>&MELODIES_MONET_DIR;/plot_output</value></envar>
         <envar><name>TOWEB_DIR</name><value>&MELODIES_MONET_DIR;/toweb</value></envar>
+        <envar><name>OBS_DIR</name><value>&MELODIES_MONET_DIR;/obs</value></envar>
+        <envar><name>RUN_DIR</name><value>&MELODIES_MONET_DIR;/run</value></envar>
+        <envar><name>LOGS_DIR</name><value>&MELODIES_MONET_DIR;/logs</value></envar>
 
         <dependency>
-            <taskdep task="mm_hpss_backup_#model_type#"/>
+            <taskdep task="mm_backup_hpss"/>
         </dependency>
-        </task>
-    </metatask>
+    </task>
     
 </workflow> 

@@ -39,7 +39,7 @@ final_fout="${workdir}/aqm_${model}_${YYYYMMDD}${cycleHH}.nc"
 # Begin:
 files=$( find ${datadir} -name 'mpassit*.nc' | sort ) # list of files
 vars2="XLONG,XLAT,XTIME,AOD550,AOD550_SIMPLE"
-vars3="PM2_5,PM10,POLP_TREE,POLP_WEED,POLP_GRASS"
+vars3="PM2_5,PM10,POLP_TREE,POLP_WEED,POLP_GRASS,P,PB,T"
 # ,U10MEAN,V10MEAN,PREC_ACC_C,PREC_ACC_NC,Q2,PSFC,"
 for f in ${files[@]}; do
 
@@ -75,26 +75,53 @@ for f in ${files[@]}; do
     rm -f ${ftmp}
     
     
-    # lat and lon
-    # ncap2 -O -s 'latitude=XLAT' -s 'longitude=XLONG' ${fout} ${fout}
-    ncap2 -O -s 'latitude=XLAT(0,:,:);longitude=XLONG(0,:,:)' ${fout} ${fout}
-    ncap2 -O -s 'XLAT=XLAT(0,:,:);XLONG=XLONG(0,:,:)' ${fout} ${fout}
-    
-    # time:
-    # this is needed by the VIIRS and TEMPO comparison since the dimensions of AOD550 are
-    # (Time, south_north, west_east), and Time doesn't exist in the file...
-    ncap2 -O -s 'Time=abs(XTIME)' ${fout} ${fout}
-    ncap2 -O -s 'time=abs(XTIME)' ${fout} ${fout}
+    # lat/lon: 2-D (south_north, west_east) from first time slice; keep both naming styles like RRFS-SD
+    ncap2 -O -h -s 'latitude=XLAT(0,:,:);longitude=XLONG(0,:,:);lat=latitude;lon=longitude' ${fout} ${fout}
+
+    # time coordinate from XTIME (minutes since cycle start), on the existing record dim
+    ncap2 -O -h -s 'time=abs(XTIME)' ${fout} ${fout}
+
+    # drop WRF-style leftovers (-C needed since they're referenced in 'coordinates' attributes)
+    ncks -O -h -C -x -v XLAT,XLONG,XTIME ${fout} ${fout}
+
+    # remove the size-1 bottom_top dim: PM2_5(Time,bottom_top,..) -> PM2_5(Time,..)
+    # --no_cll_mth: don't add a 'cell_methods' attribute
+    ncwa -O -h --no_cll_mth -a bottom_top ${fout} ${fout}
     
     echo "========================================================================"
     
 done
 
-# concatenate all frames:
-# ncrcat -O -h -4 -L 3 ${workdir}/frame_*.nc ${final_fout}
-ncrcat -O -h ${workdir}/frame_*.nc ${final_fout}
+# concatenate all frames (netCDF3: safe for ncrename and readable by scipy/hrrr reader)
+ncrcat -O -h -3 ${workdir}/frame_*.nc ${final_fout}
 isfile "${final_fout}"
 rm -f ${workdir}/frame_*.nc
+
+# generic dimension names
+ncrename -O -h -d Time,time -d south_north,y -d west_east,x ${final_fout}
+
+# coordinates attribute for every data variable (bash array keeps the space in the value)
+datavars="AOD550 AOD550_SIMPLE PM2_5 PM10 polp_tree polp_weed polp_grass WIND10MEAN WDIR10 PRECIP_1HR T2 VIS TD2 P PB"
+crd_args=()
+for v in ${datavars}; do crd_args+=( -a "coordinates,${v},o,c,longitude latitude" ); done
+
+# ncatted applies the edits in order: delete first, then create
+ncatted -O -h \
+    -a ,global,d,, -a Conventions,global,c,c,"CF-1.0" \
+    -a FieldType,,d,, -a MemoryOrder,,d,, -a stagger,,d,, -a coordinates,,d,, \
+    "${crd_args[@]}" \
+    -a units,time,o,c,"minutes since ${YYYY}-${MM}-${DD} ${cycleHH}:00:00" \
+    -a description,time,d,, -a long_name,time,o,c,"time" \
+    -a description,latitude,d,,  -a long_name,latitude,o,c,"latitude"   -a units,latitude,o,c,"degrees_north" \
+    -a description,longitude,d,, -a long_name,longitude,o,c,"longitude" -a units,longitude,o,c,"degrees_east" \
+    -a description,lat,d,,       -a long_name,lat,o,c,"latitude"        -a units,lat,o,c,"degrees_north" \
+    -a description,lon,d,,       -a long_name,lon,o,c,"longitude"       -a units,lon,o,c,"degrees_east" \
+    -a units,T2,o,c,"C"   -a description,T2,o,c,"2-m temperature" \
+    -a units,VIS,o,c,"mi" \
+    -a units,WDIR10,o,c,"degree" -a description,WDIR10,o,c,"10 m wind direction (meteorological)" \
+    -a description,WIND10MEAN,o,c,"Mean 10 m wind speed since last output" \
+    -a description,PRECIP_1HR,o,c,"1-h total (convective + non-convective) precipitation" \
+    ${final_fout}
 
 echo "${final_fout} created!"
 
@@ -108,10 +135,10 @@ AOD_FILE_TEMPO="${workdir}/aod550_${model}_${YYYYMMDD}${cycleHH}.0p1.nc"
 AOD_FILE_TMP="${workdir}/tmp.aod550.${model}_${YYYYMMDD}${cycleHH}.nc"
 
 ncks -h -O -v AOD550,AOD550_SIMPLE      "${final_fout}"    "${AOD_FILE_TMP}"
-ncatted -h -a ,global,d,,               "${AOD_FILE_TMP}"
-ncks -h -3 -O                           "${AOD_FILE_TMP}"  "${AOD_FILE_TMP}"
-ncrename -h -d Time,time -v Time,time   "${AOD_FILE_TMP}"
-ncks -h -4 -O                           "${AOD_FILE_TMP}"  "${AOD_FILE_TMP}"
+# ncatted -h -a ,global,d,,               "${AOD_FILE_TMP}"
+# ncks -h -3 -O                           "${AOD_FILE_TMP}"  "${AOD_FILE_TMP}"
+# ncrename -h -d Time,time -v Time,time   "${AOD_FILE_TMP}"
+# ncks -h -4 -O                           "${AOD_FILE_TMP}"  "${AOD_FILE_TMP}"
 cdo remapbil,${CDO_REGRID_FILE_VIIRS}   "${AOD_FILE_TMP}" "${AOD_FILE_VIIRS}"
 cdo remapbil,${CDO_REGRID_FILE_TEMPO}   "${AOD_FILE_TMP}" "${AOD_FILE_TEMPO}"
 

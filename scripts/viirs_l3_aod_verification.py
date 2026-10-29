@@ -569,7 +569,7 @@ if __name__ == "__main__":
 
             make_spatial_figure(spatial_columns, rows, lev_aod, cmap_aod, initial_time, end_time, viirs_label)
 
-            fig_out = f"{PATH_FIG}/plot_grp2.spatial_overlay.aod_500nm.{stime1}.{stime2}.{region}.VIIRS_{ymd}-12Z.png"
+            fig_out = f"{PATH_FIG}/plot_grp2.spatial_overlay.aod_550nm.{stime1}.{stime2}.{region}.VIIRS_{ymd}-12Z.png"
             plt.gcf().savefig(fig_out, bbox_inches='tight', dpi=200)
             plt.close('all')
             es.msg(f"{fig_out} saved!")
@@ -588,7 +588,7 @@ if __name__ == "__main__":
 
             make_bias_figure(bias_columns, M, rows, lev_bias, cmap_bias, initial_time, end_time, viirs_label)
 
-            fig_out = f"{PATH_FIG}/plot_grp3.spatial_bias.aod_500nm.{stime1}.{stime2}.{region}.VIIRS_{ymd}-12Z.png"
+            fig_out = f"{PATH_FIG}/plot_grp3.spatial_bias.aod_550nm.{stime1}.{stime2}.{region}.VIIRS_{ymd}-12Z.png"
             plt.gcf().savefig(fig_out, bbox_inches='tight', dpi=200)
             plt.close('all')
             es.msg(f"{fig_out} saved!")

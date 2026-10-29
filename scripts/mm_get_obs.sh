@@ -64,99 +64,102 @@ cd ${workdir}
 # --------------  SURFRAD  --------------------------
 #--------------------------------------------------
 if [[ "${OBSTYPE}" == "surfrad" ]]; then
-baseurl=https://gml.noaa.gov/aftp/data/radiation/surfrad/realtime/
-declare -a sites=("bon" "dra" "fpk" "gwn" "psu" "red" "rut" "slv" "sxf" "tbl" "was")
-for isite in "${sites[@]}"
-do
-#https://gml.noaa.gov/aftp/data/radiation/surfrad/realtime/bon/bon25192.dat
-subdir=${isite}
-filename=${isite}${YYtoday}${jtoday}.dat
-rm -f ${filename}*
-wget ${baseurl}/${subdir}/${filename}
-done
+    baseurl=https://gml.noaa.gov/aftp/data/radiation/surfrad/realtime/
+    declare -a sites=("bon" "dra" "fpk" "gwn" "psu" "red" "rut" "slv" "sxf" "tbl" "was")
+    for isite in "${sites[@]}"
+    do
+        #https://gml.noaa.gov/aftp/data/radiation/surfrad/realtime/bon/bon25192.dat
+        subdir=${isite}
+        filename=${isite}${YYtoday}${jtoday}.dat
+        rm -f ${filename}*
+        wget ${baseurl}/${subdir}/${filename}
+    done
 fi
 
 #--------------------------------------------------
 # --------------  AERONET  --------------------------
 #--------------------------------------------------
 if [[ "${OBSTYPE}" == "aeronet" ]]; then
-todays_file="AERONET_L15_${YYYY_ytday}${MM_ytday}${DD_ytday}_${YYYY_tomorrow}${MM_tomorrow}${DD_tomorrow}.nc"
-rm -f ${todays_file}
-melodies-monet get-aeronet -s ${start_time_reformat} -e ${end_time_reformat} -n 12 --interp-to 0.55 --debug --verbose --no-compress
-if [[ -r ${todays_file} ]]; then
-  mv ${todays_file} test5.aeronet.${todays_date}.nc
-  cp ${scriptsdir}/make_westoreastof97_aeronet.ncl .
-  ncl make_westoreastof97_aeronet.ncl
-else
-  echo "test5.nc is missing for aeronet!"
-  exit 1
-fi
-exit 0
+    todays_file="AERONET_L15_${YYYY_ytday}${MM_ytday}${DD_ytday}_${YYYY_tomorrow}${MM_tomorrow}${DD_tomorrow}.nc"
+    rm -f ${todays_file}
+    melodies-monet get-aeronet -s ${start_time_reformat} -e ${end_time_reformat} -n 12 --interp-to 0.55 --debug --verbose --no-compress
+    if [[ -r ${todays_file} ]]; then
+        mv ${todays_file} test5.aeronet.${todays_date}.nc
+        cp ${scriptsdir}/make_westoreastof97_aeronet.ncl .
+        ncl make_westoreastof97_aeronet.ncl
+    else
+        echo "test5.nc is missing for aeronet!"
+        exit 1
+    fi
+    exit 0
 fi
 
 #--------------------------------------------------
 # --------------  AIRNOW  --------------------------
 #--------------------------------------------------
 if [[ "${OBSTYPE}" == "airnow" ]]; then
-todays_file="AirNow_${YYYY_ytday}${MM_ytday}${DD_ytday}_${YYYY_tomorrow}${MM_tomorrow}${DD_tomorrow}.nc"
-rm -f ${todays_file}
-melodies-monet get-airnow -s ${start_time_reformat} -e ${end_time_reformat} -n 12 --debug --verbose --no-compress
-if [[ -r ${todays_file} ]]; then
-  mv ${todays_file} test5.airnow.${todays_date}.nc   #moving the test5.nc generated from reformat to test5.nc.{todays_date}
-  cp ${scriptsdir}/make_westoreastof97_airnow.ncl .
-  ncl make_westoreastof97_airnow.ncl
-# Create baseline removal file
-  baselinesrcpath=${MELODIES_MONET_DIR}/src/MM_Huiying_BaselineRemoval/
-  locsetpath=${baselinesrcpath}/airnow_sites_epalist_20240716.csv
-  basefname=${baselinesrcpath}/IODA_hourlyPM25baseline_v2r1.nc
-  python ${scriptsdir}/MONETobs_debkg_v2.py ${workdir}/test5.airnow.${todays_date}.nc ${locsetpath} ${basefname}
-  module load nco
-#  ncrename -v PM2.5,PM2.5_BLremoved test5.airnow.${todays_date}_PM25blremoved_.nc
-#  ncks -A -v PM2.5_BLremoved test5.airnow.${todays_date}_PM25blremoved_.nc ${workdir}/test5.airnow.${todays_date}.nc 
-else
-  echo "test5.nc is missing for airnow!"
-  exit 1
-fi
-#
-if [[ -e cur_aqi_ozone.kml ]]; then
-   mv cur_aqi_ozone.kml cur_aqi_ozone.${todays_date}.kml
-   source ${scriptsdir}/mm_split_aqi_files.sh ${todays_date} ${workdir} ozone
-else
-  echo "Did not download ozone AQI data!"
-fi
-if [[ -e cur_aqi_pm25.kml ]]; then
-   mv cur_aqi_pm25.kml cur_aqi_pm25.${todays_date}.kml
-   source ${scriptsdir}/mm_split_aqi_files.sh ${todays_date} ${workdir} pm25
-else
-  echo "Did not download PM.25 AQI data!"
-fi
-if [[ -e cur_aqi_combined.kml ]]; then
-   mv cur_aqi_combined.kml cur_aqi_combined.${todays_date}.kml
-   source ${scriptsdir}/mm_split_aqi_files.sh ${todays_date} ${workdir} combined
-else
-  echo "Did not download combined AQI data!"
-fi
-#
-exit 0
+    todays_file="AirNow_${YYYY_ytday}${MM_ytday}${DD_ytday}_${YYYY_tomorrow}${MM_tomorrow}${DD_tomorrow}.nc"
+    rm -f ${todays_file}
+    melodies-monet get-airnow -s ${start_time_reformat} -e ${end_time_reformat} -n 12 --debug --verbose --no-compress
+    
+    if [[ -r ${todays_file} ]]; then
+        mv ${todays_file} test5.airnow.${todays_date}.nc   #moving the test5.nc generated from reformat to test5.nc.{todays_date}
+        cp ${scriptsdir}/make_westoreastof97_airnow.ncl .
+        ncl make_westoreastof97_airnow.ncl
+        
+        # Create baseline removal file
+        baselinesrcpath=${MELODIES_MONET_DIR}/src/MM_Huiying_BaselineRemoval/
+        locsetpath=${baselinesrcpath}/airnow_sites_epalist_20240716.csv
+        basefname=${baselinesrcpath}/IODA_hourlyPM25baseline_v2r1.nc
+        python ${scriptsdir}/MONETobs_debkg_v2.py ${workdir}/test5.airnow.${todays_date}.nc ${locsetpath} ${basefname}
+        module load nco
+        #  ncrename -v PM2.5,PM2.5_BLremoved test5.airnow.${todays_date}_PM25blremoved_.nc
+        #  ncks -A -v PM2.5_BLremoved test5.airnow.${todays_date}_PM25blremoved_.nc ${workdir}/test5.airnow.${todays_date}.nc 
+    else
+        echo "test5.nc is missing for airnow!"
+        exit 1
+    fi
+
+    if [[ -e cur_aqi_ozone.kml ]]; then
+        mv cur_aqi_ozone.kml cur_aqi_ozone.${todays_date}.kml
+        source ${scriptsdir}/mm_split_aqi_files.sh ${todays_date} ${workdir} ozone
+    else
+        echo "Did not download ozone AQI data!"
+    fi
+    
+    if [[ -e cur_aqi_pm25.kml ]]; then
+        mv cur_aqi_pm25.kml cur_aqi_pm25.${todays_date}.kml
+        source ${scriptsdir}/mm_split_aqi_files.sh ${todays_date} ${workdir} pm25
+    else
+        echo "Did not download PM.25 AQI data!"
+    fi
+    if [[ -e cur_aqi_combined.kml ]]; then
+        mv cur_aqi_combined.kml cur_aqi_combined.${todays_date}.kml
+        source ${scriptsdir}/mm_split_aqi_files.sh ${todays_date} ${workdir} combined
+    else
+        echo "Did not download combined AQI data!"
+    fi
+
+    exit 0
 fi
 
 #--------------------------------------------------
 # -------------ISH-LITE --------------------------
 #--------------------------------------------------
 if [[ "${OBSTYPE}" == "ish-lite" ]]; then
-rm -f test5.ish-lite*.nc
-melodies-monet get-ish-lite -s ${start_time_reformat} -e ${end_time_reformat} -n 12 --box 0 -179 90 -50 --debug --verbose --no-compress
-if [[ -e ISH-Lite_${YYYY_ytday}${MM_ytday}${DD_ytday}_${YYYY_tomorrow}${MM_tomorrow}${DD_tomorrow}.nc ]]; then
-   echo "obs file created for ISH-Lite"
-   echo "moving ISH-Lite_${YYYY_ytday}${MM_ytday}${DD_ytday}_${YYYY_tomorrow}${MM_tomorrow}${DD_tomorrow}.nc to test5.ish.${todays_date}.nc"
-   mv ISH-Lite_${YYYY_ytday}${MM_ytday}${DD_ytday}_${YYYY_tomorrow}${MM_tomorrow}${DD_tomorrow}.nc test5.ish-lite.${todays_date}.nc
-   cp ${scriptsdir}/make_westoreastof97_ish-lite.ncl .
-   ncl make_westoreastof97_ish-lite.ncl
-else
-   echo "test5 is missing for ISH-Lite!"
-   exit 1
-fi
-exit 0
+    rm -f test5.ish-lite*.nc
+    melodies-monet get-ish-lite -s ${start_time_reformat} -e ${end_time_reformat} -n 12 --box 0 -179 90 -50 --debug --verbose --no-compress
+    if [[ -e ISH-Lite_${YYYY_ytday}${MM_ytday}${DD_ytday}_${YYYY_tomorrow}${MM_tomorrow}${DD_tomorrow}.nc ]]; then
+        echo "obs file created for ISH-Lite"
+        echo "moving ISH-Lite_${YYYY_ytday}${MM_ytday}${DD_ytday}_${YYYY_tomorrow}${MM_tomorrow}${DD_tomorrow}.nc to test5.ish.${todays_date}.nc"
+        mv ISH-Lite_${YYYY_ytday}${MM_ytday}${DD_ytday}_${YYYY_tomorrow}${MM_tomorrow}${DD_tomorrow}.nc test5.ish-lite.${todays_date}.nc
+        cp ${scriptsdir}/make_westoreastof97_ish-lite.ncl .
+        ncl make_westoreastof97_ish-lite.ncl
+    else
+        echo "test5 is missing for ISH-Lite!"
+        exit 1
+    fi
+    exit 0
 fi
 #
 #

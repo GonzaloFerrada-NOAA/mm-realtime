@@ -1,5 +1,4 @@
 #!/bin/bash
-module load hpss
 module load wgrib2
 module load nco
 module load cdo eccodes/2.34.0
@@ -9,7 +8,7 @@ source ${SCRIPTS_DIR}/tools/workflow_tools.sh
 # source tools/workflow_tools.sh
 # START_TIME="20260926"
 # cycleHH="00"
-# MELODIES_MONET_DIR="/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/gefs"
+# MELODIES_MONET_DIR="/scratch3/BMC/acomp/Gonzalo.Ferrada/verif/tmp"
 
 
 # local function:
@@ -49,36 +48,34 @@ MM=$(   date -d "${START_TIME}" +%m )
 DD=$(   date -d "${START_TIME}" +%d )
 YYYYMMDD="${YYYY}${MM}${DD}"
 model="GEFS-Aerosols"
-final_filename="aqm_${model}_${YYYY}${MM}${DD}${cycleHH}.nc"
+MODEL_DT_HOURS=3
+FINAL_OUTPUT="aqm_${model}_${YYYY}${MM}${DD}${cycleHH}.nc"
 REF_DATE_STR="${YYYY}-${MM}-${DD} ${cycleHH}:00:00"
 
-datadir="/NCEPPROD/hpssprod/runhistory/rh${YYYY}/${YYYY}${MM}/${YYYY}${MM}${DD}"
-echo "Location of data on HPSS: ${datadir}"
-
+# Directories:
 workdir="${MELODIES_MONET_DIR}/model_output/${model}/${YYYYMMDD}${cycleHH}"
 mkdir -p ${workdir}
 cd ${workdir}
+rm -f gefs.chem*
 
-filename="com_gefs_v12.3_gefs.${YYYYMMDD}_${cycleHH}.chem_pgrb2ap25.tar"
-echo "Attepting to retrieve file: ${datadir}/${filename}"
-htar -xf "${datadir}/${filename}"
+# Download AWS files:
+AWSLINK="https://noaa-gefs-pds.s3.amazonaws.com/gefs.${YYYYMMDD}/${cycleHH}/chem/pgrb2ap25"
+lead_times=( $(seq 0 "${MODEL_DT_HOURS}" "96") )
 
-# Begin processing:
-mv chem/pgrb2ap25/*.grib2 .
-rm -rf *.idx chem
-
-mapfile -t files < <(find . -type f -name '*.grib2' -print | sort)
-H=0
-for file in "${files[@]}"; do
-
-    echo "=============================================================================="
-    echo "Extracting GRIB2 variables from ${file}"
-    frame="${file}.nc"
-    rm -f ${frame}
+for H in "${lead_times[@]}"; do
     
-    extract_grib "${file}" "${frame}" "AOTK_entireatmosphere"   "AOD550"        ":AOTK:" "Total aerosol:aerosol_size <2e-05:aerosol_wavelength >=5.45e-07,<=5.65e-07"
-    extract_grib "${file}" "${frame}" "PMTF_surface"            "PM2_5_DRY"     ":PMTF:" "Total aerosol:aerosol_size <2.5e-06"
-    extract_grib "${file}" "${frame}" "PMTC_surface"            "PM10"          ":PMTC:" "Total aerosol:aerosol_size <1e-05"
+    printf -v HHH "%03d" "$H"
+    file="gefs.chem.t${cycleHH}z.a2d_0p25.f${HHH}.grib2"
+    
+    # Download the file:
+    wget ${AWSLINK}/${file}
+    
+    # Extract data and convert to netcdf:
+    frame="${file}.nc"; rm -f ${frame}
+    
+    extract_grib "${file}" "${frame}" "AOTK_entireatmosphere"   "aod550"  ":AOTK:" "Total aerosol:aerosol_size <2e-05:aerosol_wavelength >=5.45e-07,<=5.65e-07"
+    extract_grib "${file}" "${frame}" "PMTF_surface"            "pm25"    ":PMTF:" "Total aerosol:aerosol_size <2.5e-06"
+    extract_grib "${file}" "${frame}" "PMTC_surface"            "pm10"    ":PMTC:" "Total aerosol:aerosol_size <1e-05"
     
     # Overwrite time with the lead-time integer, relative to START_DATE:
     ncap2 -h -O -s "time[\$time]=int(${H})" "${frame}" "${frame}"
@@ -91,18 +88,27 @@ for file in "${files[@]}"; do
                     -a time_step,time,d,, \
                     -a time_step_setting,time,d,, \
                     "${frame}"
-    # ncks -O -d latitude,450,600 -d longitude,900,1250 ${file}.nc ${file}.nc
-    H=$(( H + 3 )) # hardcoded
+    
     rm -f ${file}
+    
 done
 
+echo "Concatenating into ${FINAL_OUTPUT} ..."
 ncrcat -O -h *.nc combined.nc
-cdo -s sellonlatbox,-180.0,180.0,-90.0,90.0 combined.nc ${final_filename}
-rm -f combined.nc
+cdo -s sellonlatbox,-180.0,180.0,-90.0,90.0 combined.nc ${FINAL_OUTPUT}
+
+echo "Renaming lat and lon..."
+ncrename -h -d latitude,lat  "${FINAL_OUTPUT}"
+ncrename -h -d longitude,lon "${FINAL_OUTPUT}"
+ncrename -h -v latitude,lat  "${FINAL_OUTPUT}"
+ncrename -h -v longitude,lon "${FINAL_OUTPUT}"
+
+echo "Subsetting to second quadrant..."
+ncks -O -d lon,-180.,0. -d lat,0.,90. ${FINAL_OUTPUT} ${FINAL_OUTPUT}
 
 # Remove everything else
-rm -f *.grib2 *.grib2.nc *.tar
+rm -f *.grib2 *.grib2.nc combined.nc
 
-isfile ${final_filename}
+isfile ${FINAL_OUTPUT}
 
 exit 0
